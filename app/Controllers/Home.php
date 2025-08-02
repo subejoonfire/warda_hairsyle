@@ -21,9 +21,30 @@ class Home extends BaseController
 
     public function index()
     {
+        // For testing purposes, create dummy data
         $data = [
-            'hairstyles' => $this->hairstyleModel->getActiveHairstyles(),
-            'categories' => $this->hairstyleModel->getCategories(),
+            'hairstyles' => [
+                [
+                    'id' => 1,
+                    'name' => 'Undercut',
+                    'description' => 'Style rambut modern dengan bagian bawah dipotong pendek',
+                    'price' => 50000,
+                    'image' => null,
+                    'category' => 'Modern'
+                ],
+                [
+                    'id' => 2,
+                    'name' => 'Pompadour',
+                    'description' => 'Style rambut klasik dengan volume di bagian atas',
+                    'price' => 60000,
+                    'image' => null,
+                    'category' => 'Klasik'
+                ]
+            ],
+            'categories' => [
+                ['category' => 'Modern'],
+                ['category' => 'Klasik']
+            ],
         ];
         return view('home/index', $data);
     }
