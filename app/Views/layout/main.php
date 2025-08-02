@@ -54,7 +54,7 @@
                     
                     <?php if (session()->get('user_id')): ?>
                         <?php if (session()->get('user_role') === 'admin'): ?>
-                            <a href="/admin/dashboard" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">Admin</a>
+                            <a href="/admin/dashboard" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">Dashboard</a>
                             <a href="/admin/chats" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
                                 Chat
                                 <?php if (isset($admin_unread_chats) && $admin_unread_chats > 0): ?>
@@ -114,7 +114,7 @@
                     <?php if (session()->get('user_id')): ?>
                         <?php if (session()->get('user_role') === 'admin'): ?>
                             <a href="/admin/dashboard" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-200">
-                                <i class="fas fa-tachometer-alt mr-2"></i>Admin
+                                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
                             </a>
                             <a href="/admin/chats" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-200">
                                 <i class="fas fa-comments mr-2"></i>Chat

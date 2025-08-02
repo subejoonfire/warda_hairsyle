@@ -8,12 +8,12 @@
         <div class="p-3 sm:p-4 md:p-6 border-b border-gray-200">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div class="mb-2 md:mb-0">
-                    <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">Chat dengan Admin</h1>
-                    <p class="text-xs sm:text-sm md:text-base text-gray-600">Konsultasi atau tanya jawab dengan tim admin kami</p>
+                    <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">Chat dengan Tim</h1>
+                    <p class="text-xs sm:text-sm md:text-base text-gray-600">Konsultasi atau tanya jawab dengan tim kami</p>
                 </div>
                 <div class="flex items-center space-x-2">
                     <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
-                    <span class="text-xs sm:text-sm text-gray-600">Admin Online</span>
+                    <span class="text-xs sm:text-sm text-gray-600">Tim Online</span>
                 </div>
             </div>
         </div>
