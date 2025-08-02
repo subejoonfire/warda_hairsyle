@@ -3,20 +3,30 @@
 namespace App\Services;
 
 use App\Models\HairstyleModel;
+use App\Models\QuickMessageModel;
 
 class AutoReplyService
 {
     protected $hairstyleModel;
+    protected $quickMessageModel;
 
     public function __construct()
     {
         $this->hairstyleModel = new HairstyleModel();
+        $this->quickMessageModel = new QuickMessageModel();
     }
 
     public function generateAutoReply($message)
     {
         $message = strtolower(trim($message));
         
+        // First, try to find quick message from database
+        $quickMessage = $this->quickMessageModel->findQuickMessage($message);
+        if ($quickMessage) {
+            return $quickMessage['response'];
+        }
+        
+        // Fallback to hardcoded responses
         // List hairstyle
         if (strpos($message, 'list') !== false && strpos($message, 'hairstyle') !== false) {
             return $this->getHairstyleList();

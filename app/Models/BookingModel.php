@@ -103,10 +103,14 @@ class BookingModel extends Model
 
     public function getTodayBookings()
     {
+        // Set timezone to Makassar (WITA)
+        date_default_timezone_set('Asia/Makassar');
+        $today = date('Y-m-d');
+        
         return $this->select('bookings.*, hairstyles.name as hairstyle_name, users.name as customer_name, users.whatsapp as customer_whatsapp')
                    ->join('hairstyles', 'hairstyles.id = bookings.hairstyle_id')
                    ->join('users', 'users.id = bookings.user_id')
-                   ->where('bookings.booking_date', date('Y-m-d'))
+                   ->where('bookings.booking_date', $today)
                    ->orderBy('bookings.booking_time', 'ASC')
                    ->findAll();
     }

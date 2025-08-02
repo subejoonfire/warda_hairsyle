@@ -31,12 +31,18 @@ class Admin extends BaseController
             return redirect()->to('/auth/login');
         }
 
+        // Set timezone to Makassar
+        date_default_timezone_set('Asia/Makassar');
+
         $data = [
             'total_customers' => $this->userModel->where('role', 'customer')->countAllResults(),
             'total_bookings' => $this->bookingModel->countAllResults(),
             'pending_bookings' => $this->bookingModel->where('status', 'pending')->countAllResults(),
             'today_bookings' => $this->bookingModel->getTodayBookings(),
             'recent_bookings' => $this->bookingModel->getBookingsByStatus('pending'),
+            'recent_chats' => $this->chatModel->getRecentChatsForAdmin(),
+            'current_time' => date('Y-m-d H:i:s'),
+            'current_date' => date('Y-m-d'),
         ];
 
         return view('admin/dashboard', $data);

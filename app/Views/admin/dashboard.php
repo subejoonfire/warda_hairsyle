@@ -98,7 +98,13 @@
     <!-- Today's Bookings -->
     <div class="bg-white rounded-lg shadow-lg">
         <div class="p-6 border-b border-gray-200">
-            <h2 class="text-2xl font-bold text-gray-800">Booking Hari Ini</h2>
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Booking Hari Ini</h2>
+                <div class="text-sm text-gray-500">
+                    <i class="fas fa-clock mr-1"></i>
+                    Waktu Makassar: <?= date('d/m/Y H:i', strtotime($current_time)) ?> WITA
+                </div>
+            </div>
         </div>
         
         <?php if (empty($today_bookings)): ?>
@@ -267,6 +273,78 @@
                                     <button onclick="updateStatus(<?= $booking['id'] ?>, 'cancelled')" class="text-red-600 hover:text-red-800">
                                         Batalkan
                                     </button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- Recent Chats -->
+    <div class="bg-white rounded-lg shadow-lg">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Chat Terbaru</h2>
+                <a href="/admin/chats" class="text-accent hover:text-yellow-600 text-sm">
+                    Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+        
+        <?php if (empty($recent_chats)): ?>
+            <div class="p-8 text-center">
+                <div class="text-gray-400 mb-4">
+                    <i class="fas fa-comments text-6xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum ada chat</h3>
+                <p class="text-gray-500">Customer belum mengirim pesan</p>
+            </div>
+        <?php else: ?>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Customer
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Pesan Terakhir
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Waktu
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Aksi
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php foreach (array_slice($recent_chats, 0, 5) as $chat): ?>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        <?= $chat['customer_name'] ?>
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        <?= $chat['customer_whatsapp'] ?>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900 max-w-xs truncate">
+                                        <?= htmlspecialchars($chat['message']) ?>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-500">
+                                        <?= date('d/m/Y H:i', strtotime($chat['created_at'])) ?>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="/admin/chats?customer=<?= $chat['user_id'] ?>" class="text-accent hover:text-yellow-600">
+                                        Balas
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

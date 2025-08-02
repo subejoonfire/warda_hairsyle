@@ -249,6 +249,24 @@ class Home extends BaseController
                 foreach ($admins as $admin) {
                     $whatsappService->sendNewChatNotification($admin['whatsapp'], $user['name'], $message);
                 }
+            } else {
+                // Check if message is not a quick message, then notify admin
+                $quickMessageModel = new \App\Models\QuickMessageModel();
+                $quickMessage = $quickMessageModel->findQuickMessage($message);
+                
+                if (!$quickMessage) {
+                    // Send notification to admin for non-quick messages
+                    $whatsappService = new \App\Services\WhatsAppService();
+                    $userModel = new \App\Models\UserModel();
+                    $user = $userModel->find($userId);
+
+                    $adminModel = new \App\Models\UserModel();
+                    $admins = $adminModel->getAdmins();
+
+                    foreach ($admins as $admin) {
+                        $whatsappService->sendNewChatNotification($admin['whatsapp'], $user['name'], $message);
+                    }
+                }
             }
 
             return $this->response->setJSON(['success' => true, 'message' => 'Pesan terkirim']);
