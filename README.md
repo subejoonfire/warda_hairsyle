@@ -112,7 +112,6 @@ php setup.php
 
 **Catatan**: 
 - Pastikan MySQL server sudah berjalan dan kredensial database di file `.env` sudah benar
-- Jika sebelumnya menggunakan SQLite, jalankan: `php migrate_to_mysql.php`
 
 ### 5. Setup Upload Directory
 ```bash
@@ -210,7 +209,6 @@ Untuk bantuan dan pertanyaan:
 
 ## 📚 Dokumentasi Tambahan
 
-- [Setup MySQL](MYSQL_SETUP.md) - Panduan lengkap setup MySQL
 - [Troubleshooting](README.md#-troubleshooting) - Solusi masalah umum
 
 ## 📄 License

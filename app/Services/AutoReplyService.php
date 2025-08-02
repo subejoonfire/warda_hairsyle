@@ -26,6 +26,7 @@ class AutoReplyService
             return $quickMessage['response'];
         }
         
+        // If not found in database, use hardcoded responses
         // Check for exact matches first
         $exactMatches = [
             'list hairstyle' => 'getHairstyleList',

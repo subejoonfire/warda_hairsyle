@@ -15,8 +15,7 @@ $paths = new Config\Paths();
 $db = \Config\Database::connect();
 
 echo "🚀 Memulai setup database MySQL...\n";
-echo "📋 Pastikan MySQL server sudah berjalan dan database sudah dibuat\n";
-echo "📋 Jika belum, jalankan: mysql -u root -p < setup_mysql.sql\n\n";
+echo "📋 Pastikan MySQL server sudah berjalan dan database sudah dibuat\n\n";
 
 // Run migrations
 echo "📦 Menjalankan migrations...\n";
@@ -41,6 +40,7 @@ $seeder->setNamespace('App\Database\Seeds');
 try {
     $seeder->call('InitialDataSeeder');
     echo "✅ Seeders berhasil dijalankan\n";
+    echo "📋 Data quick messages telah ditambahkan\n";
 } catch (Exception $e) {
     echo "❌ Error menjalankan seeders: " . $e->getMessage() . "\n";
     exit(1);
@@ -56,3 +56,4 @@ echo "   - fonnte.device_id = YOUR_DEVICE_ID\n";
 echo "\n🌐 Jalankan server dengan: php spark serve\n";
 echo "\n📊 Database yang digunakan: MySQL\n";
 echo "📁 Database name: wardati_hairstyle_db\n";
+echo "🎯 Quick messages sudah siap digunakan\n";
