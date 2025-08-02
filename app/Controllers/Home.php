@@ -35,7 +35,7 @@ class Home extends BaseController
         }
 
         $userId = session()->get('user_id');
-        
+
         $data = [
             'user' => [
                 'name' => session()->get('user_name'),
@@ -98,7 +98,7 @@ class Home extends BaseController
             return redirect()->to('/auth/login');
         }
 
-        if ($this->request->getMethod() !== 'post') {
+        if ($this->request->getMethod() !== 'POST') {
             return redirect()->to('/booking');
         }
 
@@ -157,7 +157,7 @@ class Home extends BaseController
         $userModel = new \App\Models\UserModel();
         $user = $userModel->find(session()->get('user_id'));
 
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $data = [
                 'name' => $this->request->getPost('name'),
                 'address' => $this->request->getPost('address'),
@@ -207,10 +207,10 @@ class Home extends BaseController
             $whatsappService = new \App\Services\WhatsAppService();
             $userModel = new \App\Models\UserModel();
             $user = $userModel->find($userId);
-            
+
             $adminModel = new \App\Models\UserModel();
             $admins = $adminModel->getAdmins();
-            
+
             foreach ($admins as $admin) {
                 $whatsappService->sendNewChatNotification($admin['whatsapp'], $user['name'], $message);
             }

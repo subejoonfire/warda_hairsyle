@@ -30,7 +30,7 @@ class Auth extends BaseController
             return redirect()->to('/dashboard');
         }
 
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $whatsapp = $this->request->getPost('whatsapp');
             $password = $this->request->getPost('password');
 
@@ -74,7 +74,7 @@ class Auth extends BaseController
             return redirect()->to('/dashboard');
         }
 
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $data = [
                 'name' => $this->request->getPost('name'),
                 'whatsapp' => $this->request->getPost('whatsapp'),
@@ -94,10 +94,10 @@ class Auth extends BaseController
 
             if ($userId) {
                 $verificationCode = $this->userModel->createVerificationCode($userId);
-                
+
                 // Send verification code via WhatsApp
                 $result = $this->whatsappService->sendVerificationCode($data['whatsapp'], $verificationCode);
-                
+
                 if ($result['success']) {
                     session()->setFlashdata('success', 'Registrasi berhasil! Kode verifikasi telah dikirim ke WhatsApp Anda');
                     return redirect()->to('/auth/verify/' . $userId);
@@ -131,7 +131,7 @@ class Auth extends BaseController
             return redirect()->to('/auth/login');
         }
 
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $code = $this->request->getPost('verification_code');
 
             if ($this->userModel->verifyCode($userId, $code)) {

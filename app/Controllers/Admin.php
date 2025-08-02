@@ -61,7 +61,7 @@ class Admin extends BaseController
             return redirect()->to('/auth/login');
         }
 
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $data = [
                 'name' => $this->request->getPost('name'),
                 'description' => $this->request->getPost('description'),
@@ -102,7 +102,7 @@ class Admin extends BaseController
             return redirect()->to('/admin/hairstyles');
         }
 
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $data = [
                 'name' => $this->request->getPost('name'),
                 'description' => $this->request->getPost('description'),
@@ -155,26 +155,26 @@ class Admin extends BaseController
         $status = $this->request->getGet('status');
         $date = $this->request->getGet('date');
         $search = $this->request->getGet('search');
-        
+
         $query = $this->bookingModel->select('bookings.*, hairstyles.name as hairstyle_name, users.name as customer_name, users.whatsapp as customer_whatsapp')
-                                   ->join('hairstyles', 'hairstyles.id = bookings.hairstyle_id')
-                                   ->join('users', 'users.id = bookings.user_id');
-        
+            ->join('hairstyles', 'hairstyles.id = bookings.hairstyle_id')
+            ->join('users', 'users.id = bookings.user_id');
+
         if ($status) {
             $query->where('bookings.status', $status);
         }
-        
+
         if ($date) {
             $query->where('DATE(bookings.booking_date)', $date);
         }
-        
+
         if ($search) {
             $query->groupStart()
-                  ->like('users.name', $search)
-                  ->orLike('users.whatsapp', $search)
-                  ->groupEnd();
+                ->like('users.name', $search)
+                ->orLike('users.whatsapp', $search)
+                ->groupEnd();
         }
-        
+
         $bookings = $query->orderBy('bookings.created_at', 'DESC')->findAll();
 
         $data = [
@@ -233,16 +233,16 @@ class Admin extends BaseController
         }
 
         $search = $this->request->getGet('search');
-        
+
         $query = $this->userModel->where('role', 'customer');
-        
+
         if ($search) {
             $query->groupStart()
-                  ->like('name', $search)
-                  ->orLike('whatsapp', $search)
-                  ->groupEnd();
+                ->like('name', $search)
+                ->orLike('whatsapp', $search)
+                ->groupEnd();
         }
-        
+
         $customers = $query->findAll();
 
         $data = [
@@ -260,28 +260,28 @@ class Admin extends BaseController
         }
 
         $customerId = $this->request->getGet('customer');
-        
+
         // Get all customers with unread count
         $customers = $this->userModel->where('role', 'customer')->findAll();
         foreach ($customers as &$customer) {
             $customer['unread_count'] = $this->chatModel->where('user_id', $customer['id'])
-                                                       ->where('sender_type', 'customer')
-                                                       ->where('is_read', 0)
-                                                       ->countAllResults();
+                ->where('sender_type', 'customer')
+                ->where('is_read', 0)
+                ->countAllResults();
         }
-        
+
         $selectedCustomer = null;
         $messages = [];
-        
+
         if ($customerId) {
             $selectedCustomer = $this->userModel->find($customerId);
             if ($selectedCustomer) {
                 $messages = $this->chatModel->getUserChats($customerId);
                 // Mark messages as read
                 $this->chatModel->where('user_id', $customerId)
-                               ->where('sender_type', 'customer')
-                               ->set(['is_read' => 1])
-                               ->update();
+                    ->where('sender_type', 'customer')
+                    ->set(['is_read' => 1])
+                    ->update();
             }
         }
 
