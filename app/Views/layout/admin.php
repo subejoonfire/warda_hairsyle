@@ -89,6 +89,9 @@
                             <a href="/admin/quick-messages" class="nav-link <?= strpos(current_url(), '/admin/quick-messages') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200">
                                 <i class="fas fa-reply-all mr-2"></i>Quick Messages
                             </a>
+                            <a href="/admin/admins" class="nav-link <?= strpos(current_url(), '/admin/admins') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                                <i class="fas fa-user-shield mr-2"></i>Admin Management
+                            </a>
                         </div>
                     </div>
 
@@ -143,6 +146,9 @@
                     </a>
                     <a href="/admin/quick-messages" class="nav-link <?= strpos(current_url(), '/admin/quick-messages') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
                         <i class="fas fa-reply-all mr-2"></i>Quick Messages
+                    </a>
+                    <a href="/admin/admins" class="nav-link <?= strpos(current_url(), '/admin/admins') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
+                        <i class="fas fa-user-shield mr-2"></i>Admin Management
                     </a>
                     <div class="border-t border-gray-700 pt-4">
                         <div class="flex items-center px-3 py-2">
