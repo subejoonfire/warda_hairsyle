@@ -50,5 +50,4 @@ echo "Admin WhatsApp: 6281234567890\n";
 echo "Admin Password: admin123\n";
 echo "\n🔧 Jangan lupa untuk mengatur konfigurasi Fonnte di file .env\n";
 echo "   - fonnte.api_key = YOUR_FONNTE_API_KEY\n";
-echo "   - fonnte.device_id = YOUR_DEVICE_ID\n";
 echo "\n🌐 Jalankan server dengan: php spark serve\n";

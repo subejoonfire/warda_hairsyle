@@ -7,13 +7,11 @@ use CodeIgniter\Config\BaseConfig;
 class WhatsAppService
 {
     private $apiKey;
-    private $deviceId;
     private $baseUrl;
 
     public function __construct()
     {
         $this->apiKey = env('fonnte.api_key');
-        $this->deviceId = env('fonnte.device_id');
         $this->baseUrl = env('fonnte.base_url');
     }
 
@@ -21,10 +19,15 @@ class WhatsAppService
     {
         $url = $this->baseUrl;
         
+        // Format nomor telepon untuk Fonnte (tanpa +62, hanya angka)
+        $target = preg_replace('/[^0-9]/', '', $phoneNumber);
+        if (substr($target, 0, 2) === '62') {
+            $target = substr($target, 2);
+        }
+        
         $data = [
-            'target' => $phoneNumber,
+            'target' => $target,
             'message' => $message,
-            'countryCode' => '62',
         ];
 
         $headers = [
@@ -65,7 +68,7 @@ class WhatsAppService
         $message .= "Kode verifikasi Anda adalah: *{$code}*\n\n";
         $message .= "Kode ini berlaku selama 10 menit.\n";
         $message .= "Jangan bagikan kode ini kepada siapapun.\n\n";
-        $message .= "Terima kasih telah menggunakan layanan kami!";
+        $message .= "Terima kasih,\nWardati Hairstyle";
 
         return $this->sendMessage($phoneNumber, $message);
     }
