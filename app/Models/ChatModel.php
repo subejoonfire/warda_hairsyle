@@ -49,12 +49,19 @@ class ChatModel extends Model
 
     public function getUserChats($userId, $limit = 50)
     {
-        return $this->select('chats.*, users.name as sender_name')
-                   ->join('users', 'users.id = CASE WHEN chats.sender_type = "admin" THEN chats.admin_id ELSE chats.user_id END')
-                   ->where('chats.user_id', $userId)
-                   ->orderBy('chats.created_at', 'ASC')
-                   ->limit($limit)
-                   ->findAll();
+        $builder = $this->db->table('chats');
+        $builder->select('chats.*, 
+                         CASE 
+                             WHEN chats.sender_type = "admin" THEN admin_users.name 
+                             ELSE customer_users.name 
+                         END as sender_name');
+        $builder->join('users as customer_users', 'customer_users.id = chats.user_id', 'left');
+        $builder->join('users as admin_users', 'admin_users.id = chats.admin_id', 'left');
+        $builder->where('chats.user_id', $userId);
+        $builder->orderBy('chats.created_at', 'ASC');
+        $builder->limit($limit);
+        
+        return $builder->get()->getResultArray();
     }
 
     public function getUnreadChats($userId)

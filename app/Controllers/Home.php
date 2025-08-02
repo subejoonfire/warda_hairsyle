@@ -140,6 +140,29 @@ class Home extends BaseController
         $bookingId = $this->bookingModel->insert($data);
 
         if ($bookingId) {
+            // Send notification to admin
+            $whatsappService = new \App\Services\WhatsAppService();
+            $userModel = new \App\Models\UserModel();
+            $user = $userModel->find(session()->get('user_id'));
+            
+            $adminModel = new \App\Models\UserModel();
+            $admins = $adminModel->getAdmins();
+
+            $bookingData = [
+                'customer_name' => $user['name'],
+                'customer_whatsapp' => $user['whatsapp'],
+                'hairstyle_name' => $hairstyle['name'],
+                'booking_date' => $bookingDate,
+                'booking_time' => $bookingTime,
+                'service_type' => $serviceType,
+                'total_price' => $totalPrice,
+                'address' => $address
+            ];
+
+            foreach ($admins as $admin) {
+                $whatsappService->sendNewBookingNotification($admin['whatsapp'], $bookingData);
+            }
+
             session()->setFlashdata('success', 'Booking berhasil dibuat! Admin akan menghubungi Anda segera');
             return redirect()->to('/dashboard');
         } else {
