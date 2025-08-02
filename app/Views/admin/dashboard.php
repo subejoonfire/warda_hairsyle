@@ -18,7 +18,7 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         <div class="bg-white p-6 rounded-lg shadow-lg">
             <div class="flex items-center">
                 <div class="bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center">

@@ -3,17 +3,17 @@
 <?= $this->section('content') ?>
 
 <div class="max-w-4xl mx-auto">
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Booking Layanan</h1>
-        <p class="text-gray-600">Pilih hairstyle dan jadwal yang sesuai untuk Anda</p>
+    <div class="mb-6 md:mb-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Booking Layanan</h1>
+        <p class="text-sm md:text-base text-gray-600">Pilih hairstyle dan jadwal yang sesuai untuk Anda</p>
     </div>
 
     <form action="/booking" method="POST" class="space-y-8">
         <!-- Hairstyle Selection -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-semibold mb-4">Pilih Hairstyle</h2>
+        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
+            <h2 class="text-lg md:text-xl font-semibold mb-4">Pilih Hairstyle</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <?php foreach ($hairstyles as $hairstyle): ?>
                     <div class="border-2 rounded-lg p-4 cursor-pointer hover:border-accent transition-colors hairstyle-option <?= ($selected_hairstyle && $selected_hairstyle['id'] == $hairstyle['id']) ? 'border-accent bg-yellow-50' : 'border-gray-200' ?>" 
                          data-id="<?= $hairstyle['id'] ?>" 
@@ -37,10 +37,10 @@
         </div>
 
         <!-- Booking Details -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-semibold mb-4">Detail Booking</h2>
+        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
+            <h2 class="text-lg md:text-xl font-semibold mb-4">Detail Booking</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                     <label for="booking_date" class="block text-sm font-medium text-gray-700 mb-2">
                         Tanggal Booking *
@@ -75,8 +75,8 @@
         </div>
 
         <!-- Service Type -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-semibold mb-4">Tipe Layanan</h2>
+        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
+            <h2 class="text-lg md:text-xl font-semibold mb-4">Tipe Layanan</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="border-2 rounded-lg p-4 cursor-pointer hover:border-accent transition-colors service-option border-accent bg-yellow-50" data-type="salon">

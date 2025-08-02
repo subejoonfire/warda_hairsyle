@@ -5,14 +5,14 @@
 <div class="space-y-8">
     <!-- Welcome Section -->
     <div class="bg-gradient-to-r from-primary to-secondary text-white rounded-lg p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-3xl font-bold mb-2">Selamat datang, <?= $user['name'] ?>!</h1>
-                <p class="text-gray-200">Kelola booking dan lihat riwayat layanan Anda</p>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="mb-4 md:mb-0">
+                <h1 class="text-2xl md:text-3xl font-bold mb-2">Selamat datang, <?= $user['name'] ?>!</h1>
+                <p class="text-gray-200 text-sm md:text-base">Kelola booking dan lihat riwayat layanan Anda</p>
             </div>
-            <div class="text-right">
+            <div class="text-left md:text-right">
                 <p class="text-sm text-gray-300">WhatsApp</p>
-                <p class="font-semibold"><?= $user['whatsapp'] ?></p>
+                <p class="font-semibold text-sm md:text-base"><?= $user['whatsapp'] ?></p>
             </div>
         </div>
     </div>
@@ -67,7 +67,8 @@
                 </a>
             </div>
         <?php else: ?>
-            <div class="overflow-x-auto">
+            <!-- Desktop Table -->
+            <div class="hidden md:block overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -135,6 +136,49 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Cards -->
+            <div class="md:hidden space-y-4">
+                <?php foreach ($recent_bookings as $booking): ?>
+                    <?php
+                    $statusColors = [
+                        'pending' => 'bg-yellow-100 text-yellow-800',
+                        'confirmed' => 'bg-blue-100 text-blue-800',
+                        'completed' => 'bg-green-100 text-green-800',
+                        'cancelled' => 'bg-red-100 text-red-800'
+                    ];
+                    $statusText = [
+                        'pending' => 'Menunggu',
+                        'confirmed' => 'Dikonfirmasi',
+                        'completed' => 'Selesai',
+                        'cancelled' => 'Dibatalkan'
+                    ];
+                    ?>
+                    <div class="bg-white p-4 rounded-lg shadow border">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-semibold text-gray-900"><?= $booking['hairstyle_name'] ?></h3>
+                                <p class="text-sm text-gray-500">
+                                    <?= date('d/m/Y', strtotime($booking['booking_date'])) ?> • <?= $booking['booking_time'] ?>
+                                </p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <?= $statusColors[$booking['status']] ?>">
+                                <?= $statusText[$booking['status']] ?>
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <?= $booking['service_type'] === 'home' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' ?>">
+                                    <?= $booking['service_type'] === 'home' ? 'Home Service' : 'Salon' ?>
+                                </span>
+                                <span class="text-sm font-medium text-gray-900">
+                                    Rp <?= number_format($booking['total_price'], 0, ',', '.') ?>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         <?php endif; ?>
     </div>
