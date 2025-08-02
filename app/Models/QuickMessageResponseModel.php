@@ -91,7 +91,7 @@ class QuickMessageResponseModel extends Model
             [
                 'quick_message_id' => 5, // layanan
                 'response_type' => 'static',
-                'response_content' => "Layanan Wardati Hairstyle\n\nPotong Rambut:\n- Potong Pria (Semua Gaya)\n- Potong Wanita (Semua Gaya)\n- Potong Anak-anak\n- Potong Rambut Panjang\n\nStyling & Makeup:\n- Styling Rambut\n- Makeup Natural\n- Makeup Glamour\n- Makeup Wedding\n\nPerawatan Rambut:\n- Hair Treatment\n- Hair Coloring\n- Hair Smoothing\n- Hair Rebonding\n\nLayanan Tambahan:\n- Home Service\n- Express Service\n- Wedding Package\n- Family Package\n\nUntuk melihat harga, ketik: harga hairstyle\nUntuk booking, ketik: booking",
+                'response_content' => "Layanan Wardati Hairstyle\n\nPotong Rambut:\n- Potong Pria (Semua Gaya)\n- Potong Wanita (Semua Gaya)\n- Potong Anak-anak\n- Potong Rambut Panjang\n\nStyling & Makeup:\n- Styling Rambut\n- Makeup Natural\n- Makeup Glamour\n- Makeup Wedding\n\nPerawatan Rambut:\n- Hair Treatment\n- Hair Coloring\n- Hair Smoothing\n- Hair Rebonding\n\nUntuk melihat harga, ketik: harga hairstyle\nUntuk booking, ketik: booking",
                 'is_active' => true
             ],
             [

@@ -414,17 +414,6 @@ class Home extends BaseController
             $response .= "\n";
         }
         
-        $response .= "Layanan Tambahan:\n";
-        $response .= "- Home Service: +Rp 25.000\n";
-        $response .= "- Express Service: +Rp 15.000\n";
-        $response .= "- Hair Treatment: +Rp 30.000\n";
-        $response .= "- Coloring: +Rp 50.000\n\n";
-        
-        $response .= "Paket Promo:\n";
-        $response .= "- Paket Wedding: Potong + Styling + Makeup\n";
-        $response .= "- Paket Family: 3-5 orang (Diskon 20%)\n";
-        $response .= "- Paket Student: Potong + Styling (Diskon 15%)\n\n";
-        
         $response .= "Untuk booking, ketik: booking\n";
         $response .= "Untuk melihat daftar lengkap, ketik: list hairstyle";
         
