@@ -94,7 +94,6 @@ database.default.password =
 
 # Fonnte WhatsApp API
 fonnte.api_key = "YOUR_FONNTE_API_KEY"
-fonnte.device_id = "YOUR_DEVICE_ID"
 fonnte.base_url = "https://api.fonnte.com/send"
 ```
 
@@ -188,7 +187,7 @@ Website sudah responsive untuk:
 
 ### Error WhatsApp API
 - Cek kredensial Fonnte di `.env`
-- Pastikan device Fonnte terhubung
+- Pastikan API key Fonnte valid
 - Cek balance Fonnte account
 
 ### Error Upload Image

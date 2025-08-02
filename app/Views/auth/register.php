@@ -20,6 +20,7 @@
         </div>
         
         <form class="mt-8 space-y-6" action="/auth/register" method="POST">
+            <?= csrf_field() ?>
             <div class="rounded-md shadow-sm -space-y-px">
                 <div>
                     <label for="name" class="sr-only">Nama Lengkap</label>
