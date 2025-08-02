@@ -212,8 +212,8 @@ document.querySelectorAll('.quick-message').forEach(button => {
     });
 });
 
-// Auto-refresh chat every 3 seconds
-setInterval(function() {
+// Function to check for new messages
+function checkNewMessages() {
     fetch('/get-chats')
     .then(response => response.json())
     .then(data => {
@@ -232,7 +232,30 @@ setInterval(function() {
     .catch(error => {
         console.error('Error refreshing chat:', error);
     });
-}, 3000);
+}
+
+// Check for new messages when user is active
+let isUserActive = true;
+let lastActivity = Date.now();
+
+// Track user activity
+document.addEventListener('mousemove', () => {
+    isUserActive = true;
+    lastActivity = Date.now();
+});
+
+document.addEventListener('keypress', () => {
+    isUserActive = true;
+    lastActivity = Date.now();
+});
+
+// Check for new messages only when user is active
+setInterval(() => {
+    const now = Date.now();
+    if (isUserActive && (now - lastActivity) < 30000) { // 30 seconds
+        checkNewMessages();
+    }
+}, 5000); // Check every 5 seconds
 
 // Initial scroll to bottom
 scrollToBottom();

@@ -20,11 +20,20 @@ class AutoReplyService
     {
         $message = strtolower(trim($message));
         
+        // Debug: Log the incoming message
+        log_message('debug', 'Incoming message: ' . $message);
+        
         // First, try to find quick message from database
         $quickMessage = $this->quickMessageModel->findQuickMessage($message);
+        
+        // Debug: Log the quick message found
+        log_message('debug', 'Quick message found: ' . json_encode($quickMessage));
+        
         if ($quickMessage) {
             // Generate response based on keyword
-            return $this->generateResponseFromKeyword($quickMessage['keyword']);
+            $response = $this->generateResponseFromKeyword($quickMessage['keyword']);
+            log_message('debug', 'Generated response: ' . $response);
+            return $response;
         }
         
         // If not found in database, use hardcoded responses
@@ -119,7 +128,18 @@ class AutoReplyService
             case 'foto hairstyle':
                 return $this->getHairstylePhotos();
             default:
-                return $this->getDefaultResponse();
+                // Fallback response for unknown keywords
+                return "Halo! 👋 Terima kasih telah menghubungi Wardati Hairstyle.\n\n" .
+                       "Untuk informasi lebih lanjut, silakan ketik salah satu kata kunci berikut:\n\n" .
+                       "• *list hairstyle* - Daftar hairstyle\n" .
+                       "• *harga hairstyle* - Harga layanan\n" .
+                       "• *jam buka* - Jam operasional\n" .
+                       "• *lokasi* - Lokasi salon\n" .
+                       "• *layanan* - Jenis layanan\n" .
+                       "• *kontak* - Informasi kontak\n" .
+                       "• *booking* - Cara booking\n" .
+                       "• *menu* - Menu bantuan lengkap\n\n" .
+                       "Untuk pertanyaan khusus, admin akan merespon dalam waktu singkat.";
         }
     }
 
@@ -129,10 +149,14 @@ class AutoReplyService
         
         $response = "💇‍♀️ *Daftar Hairstyle Wardati*\n\n";
         
-        foreach ($hairstyles as $hairstyle) {
-            $response .= "• *{$hairstyle['name']}*\n";
-            $response .= "  💰 Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n";
-            $response .= "  📝 {$hairstyle['description']}\n\n";
+        if (empty($hairstyles)) {
+            $response .= "❌ Tidak ada hairstyle yang tersedia saat ini\n\n";
+        } else {
+            foreach ($hairstyles as $hairstyle) {
+                $response .= "• *{$hairstyle['name']}*\n";
+                $response .= "  💰 Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n";
+                $response .= "  📝 {$hairstyle['description']}\n\n";
+            }
         }
         
         $response .= "Untuk melihat foto, ketik: *foto hairstyle*\n";
@@ -166,9 +190,14 @@ class AutoReplyService
         
         $response = "💰 *Harga Hairstyle Wardati*\n\n";
         
-        foreach ($hairstyles as $hairstyle) {
-            $response .= "• *{$hairstyle['name']}*\n";
-            $response .= "  💰 Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n\n";
+        if (empty($hairstyles)) {
+            $response .= "❌ Tidak ada hairstyle yang tersedia saat ini\n\n";
+        } else {
+            foreach ($hairstyles as $hairstyle) {
+                $response .= "• *{$hairstyle['name']}*\n";
+                $response .= "  💰 Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n";
+                $response .= "  📝 {$hairstyle['description']}\n\n";
+            }
         }
         
         $response .= "💡 *Layanan Tambahan:*\n";
