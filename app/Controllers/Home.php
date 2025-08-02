@@ -323,18 +323,20 @@ class Home extends BaseController
 
         $userId = session()->get('user_id');
         
-        // Get quick message text based on ID
-        $quickMessageText = $this->getQuickMessageText($quickMessageId);
-        if (!$quickMessageText) {
+        // Get quick message from database
+        $quickMessageModel = new \App\Models\QuickMessageModel();
+        $quickMessage = $quickMessageModel->find($quickMessageId);
+        
+        if (!$quickMessage) {
             return $this->response->setJSON(['success' => false, 'message' => 'Quick message tidak ditemukan']);
         }
 
         // Send customer message
-        $chatId = $this->chatModel->sendCustomerMessage($userId, $quickMessageText);
+        $chatId = $this->chatModel->sendCustomerMessage($userId, $quickMessage['keyword']);
 
         if ($chatId) {
             // Generate auto-reply based on quick message ID
-            $autoReply = $this->getAutoReplyByQuickMessageId($quickMessageId);
+            $autoReply = $this->getAutoReplyFromDatabase($quickMessageId);
             
             // Send auto-reply as admin message
             $adminId = 1; // Default admin ID
@@ -346,36 +348,85 @@ class Home extends BaseController
         }
     }
 
-    private function getQuickMessageText($id)
+    private function getAutoReplyFromDatabase($quickMessageId)
     {
-        $quickMessages = [
-            1 => 'list hairstyle',
-            2 => 'harga hairstyle',
-            3 => 'jam buka',
-            4 => 'lokasi',
-            5 => 'layanan',
-            6 => 'kontak',
-            7 => 'booking',
-            8 => 'menu'
-        ];
-
-        return $quickMessages[$id] ?? null;
+        // Get response based on quick message ID
+        switch ($quickMessageId) {
+            case 1: // list hairstyle
+                return $this->getHairstyleListFromDatabase();
+            case 2: // harga hairstyle
+                return $this->getHairstylePricesFromDatabase();
+            case 3: // jam buka
+                return $this->getOpeningHours();
+            case 4: // lokasi
+                return $this->getLocation();
+            case 5: // layanan
+                return $this->getServices();
+            case 6: // kontak
+                return $this->getContactInfo();
+            case 7: // booking
+                return $this->getBookingInfo();
+            case 8: // menu
+                return $this->getMainMenu();
+            default:
+                return $this->getDefaultResponse();
+        }
     }
 
-    private function getAutoReplyByQuickMessageId($id)
+    private function getHairstyleListFromDatabase()
     {
-        $responses = [
-            1 => $this->getHairstyleList(),
-            2 => $this->getHairstylePrices(),
-            3 => $this->getOpeningHours(),
-            4 => $this->getLocation(),
-            5 => $this->getServices(),
-            6 => $this->getContactInfo(),
-            7 => $this->getBookingInfo(),
-            8 => $this->getMainMenu()
-        ];
+        $hairstyles = $this->hairstyleModel->getActiveHairstyles();
+        
+        $response = "💇‍♀️ *Daftar Hairstyle Wardati*\n\n";
+        
+        if (empty($hairstyles)) {
+            $response .= "❌ Tidak ada hairstyle yang tersedia saat ini\n\n";
+        } else {
+            $response .= "📋 *Hairstyle Tersedia:*\n";
+            foreach ($hairstyles as $hairstyle) {
+                $response .= "• *{$hairstyle['name']}* - Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n";
+                $response .= "  {$hairstyle['description']}\n\n";
+            }
+        }
+        
+        $response .= "Untuk melihat foto, ketik: *foto hairstyle*\n";
+        $response .= "Untuk melihat harga, ketik: *harga hairstyle*\n";
+        $response .= "Untuk booking, ketik: *booking*";
+        
+        return $response;
+    }
 
-        return $responses[$id] ?? $this->getDefaultResponse();
+    private function getHairstylePricesFromDatabase()
+    {
+        $hairstyles = $this->hairstyleModel->getActiveHairstyles();
+        
+        $response = "💰 *Harga Hairstyle Wardati*\n\n";
+        
+        if (empty($hairstyles)) {
+            $response .= "❌ Tidak ada hairstyle yang tersedia saat ini\n\n";
+        } else {
+            $response .= "💇‍♀️ *Layanan Utama:*\n";
+            foreach ($hairstyles as $hairstyle) {
+                $response .= "• *{$hairstyle['name']}*: Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n";
+            }
+            $response .= "\n";
+        }
+        
+        $response .= "💡 *Layanan Tambahan:*\n";
+        $response .= "• Home Service: +Rp 25.000\n";
+        $response .= "• Express Service: +Rp 15.000\n";
+        $response .= "• Hair Treatment: +Rp 30.000\n";
+        $response .= "• Coloring: +Rp 50.000\n\n";
+        
+        $response .= "🎁 *Paket Promo:*\n";
+        $response .= "• Paket Wedding: Potong + Styling + Makeup\n";
+        $response .= "• Paket Family: 3-5 orang (Diskon 20%)\n";
+        $response .= "• Paket Student: Potong + Styling (Diskon 15%)\n\n";
+        
+        $response .= "Untuk booking, ketik: *booking*\n";
+        $response .= "Untuk melihat daftar lengkap, ketik: *list hairstyle*";
+        
+        return $response;
     }
 
     private function generateAutoReply($message)
