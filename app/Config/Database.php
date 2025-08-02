@@ -25,12 +25,12 @@ class Database extends Config
      * The default database connection.
      */
     public array $default = [
-        'DSN'      => 'sqlite:' . APPPATH . 'Database/wardati_hairstyle.db',
-        'hostname' => '',
-        'username' => '',
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
         'password' => '',
-        'database' => '',
-        'DBDriver' => 'PDO',
+        'database' => 'wardati_hairstyle_db',
+        'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
         'DBDebug'  => (ENVIRONMENT !== 'production'),

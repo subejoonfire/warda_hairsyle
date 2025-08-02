@@ -65,8 +65,10 @@ class CreateUsersTable extends Migration
         ]);
 
         $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('whatsapp', 'unique_whatsapp');
         $this->forge->createTable('users');
+        
+        // Add unique constraint after table creation
+        $this->db->query('ALTER TABLE users ADD UNIQUE KEY unique_whatsapp (whatsapp)');
     }
 
     public function down()
