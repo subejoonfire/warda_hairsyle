@@ -2,27 +2,16 @@
 
 namespace App\Services;
 
-use App\Models\HairstyleModel;
-use App\Models\QuickMessageModel;
-
 class AutoReplyService
 {
-    protected $hairstyleModel;
-    protected $quickMessageModel;
-
     public function __construct()
     {
-        $this->hairstyleModel = new HairstyleModel();
-        $this->quickMessageModel = new QuickMessageModel();
+        // No dependencies needed for static responses
     }
 
     public function generateAutoReply($message)
     {
         $message = strtolower(trim($message));
-        
-        // Debug: Log incoming message
-        log_message('debug', '=== AUTO REPLY DEBUG ===');
-        log_message('debug', 'Incoming message: ' . $message);
         
         // Check for exact matches first
         $exactMatches = [
@@ -39,10 +28,7 @@ class AutoReplyService
         
         foreach ($exactMatches as $keyword => $method) {
             if ($message === $keyword) {
-                log_message('debug', 'Found match: ' . $keyword . ' -> ' . $method);
-                $response = $this->$method();
-                log_message('debug', 'Generated response: ' . $response);
-                return $response;
+                return $this->$method();
             }
         }
         
@@ -100,28 +86,26 @@ class AutoReplyService
 
     private function getHairstyleList()
     {
-        // Get hairstyles from database
-        $hairstyles = $this->hairstyleModel->getActiveHairstyles();
-        
-        log_message('debug', 'getHairstyleList - Found hairstyles: ' . json_encode($hairstyles));
-        
         $response = "💇‍♀️ *Daftar Hairstyle Wardati*\n\n";
         
-        if (empty($hairstyles)) {
-            $response .= "❌ Tidak ada hairstyle yang tersedia saat ini\n\n";
-        } else {
-            $response .= "📋 *Hairstyle Tersedia:*\n";
-            foreach ($hairstyles as $hairstyle) {
-                $response .= "• *{$hairstyle['name']}* - Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n";
-                $response .= "  {$hairstyle['description']}\n\n";
-            }
-        }
+        $response .= "📋 *Hairstyle Tersedia:*\n";
+        $response .= "• *Pompadour Classic* - Rp 75.000\n";
+        $response .= "  Gaya rambut klasik dengan volume tinggi di bagian depan\n\n";
+        $response .= "• *Undercut Modern* - Rp 85.000\n";
+        $response .= "  Gaya rambut modern dengan bagian samping yang dipotong pendek\n\n";
+        $response .= "• *Fade Style* - Rp 90.000\n";
+        $response .= "  Gaya rambut dengan gradasi dari pendek ke panjang\n\n";
+        $response .= "• *Quiff Style* - Rp 80.000\n";
+        $response .= "  Gaya rambut dengan bagian depan yang diangkat dan disisir ke belakang\n\n";
+        $response .= "• *Buzz Cut* - Rp 60.000\n";
+        $response .= "  Potongan rambut pendek dan rapi untuk tampilan bersih\n\n";
+        $response .= "• *Side Part* - Rp 70.000\n";
+        $response .= "  Gaya rambut dengan belahan samping yang elegan\n\n";
         
         $response .= "Untuk melihat foto, ketik: *foto hairstyle*\n";
         $response .= "Untuk melihat harga, ketik: *harga hairstyle*\n";
         $response .= "Untuk booking, ketik: *booking*\n";
         
-        log_message('debug', 'getHairstyleList - Final response: ' . $response);
         return $response;
     }
 
@@ -150,22 +134,15 @@ class AutoReplyService
 
     private function getHairstylePrices()
     {
-        // Get hairstyles from database
-        $hairstyles = $this->hairstyleModel->getActiveHairstyles();
-        
-        log_message('debug', 'getHairstylePrices - Found hairstyles: ' . json_encode($hairstyles));
-        
         $response = "💰 *Harga Hairstyle Wardati*\n\n";
         
-        if (empty($hairstyles)) {
-            $response .= "❌ Tidak ada hairstyle yang tersedia saat ini\n\n";
-        } else {
-            $response .= "💇‍♀️ *Layanan Utama:*\n";
-            foreach ($hairstyles as $hairstyle) {
-                $response .= "• *{$hairstyle['name']}*: Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n";
-            }
-            $response .= "\n";
-        }
+        $response .= "💇‍♀️ *Layanan Utama:*\n";
+        $response .= "• *Pompadour Classic*: Rp 75.000\n";
+        $response .= "• *Undercut Modern*: Rp 85.000\n";
+        $response .= "• *Fade Style*: Rp 90.000\n";
+        $response .= "• *Quiff Style*: Rp 80.000\n";
+        $response .= "• *Buzz Cut*: Rp 60.000\n";
+        $response .= "• *Side Part*: Rp 70.000\n\n";
         
         $response .= "💡 *Layanan Tambahan:*\n";
         $response .= "• Home Service: +Rp 25.000\n";
@@ -181,7 +158,6 @@ class AutoReplyService
         $response .= "Untuk booking, ketik: *booking*\n";
         $response .= "Untuk melihat daftar lengkap, ketik: *list hairstyle*\n";
         
-        log_message('debug', 'getHairstylePrices - Final response: ' . $response);
         return $response;
     }
 
