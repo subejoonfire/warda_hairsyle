@@ -6,7 +6,7 @@
 <section class="bg-gradient-to-r from-primary to-secondary text-white py-20">
     <div class="text-center">
         <h1 class="text-4xl md:text-6xl font-bold mb-6">
-            Barbershop Terbaik
+            Wardati Hairstyle
         </h1>
         <p class="text-xl md:text-2xl mb-8 text-gray-200">
             Dapatkan tampilan rambut terbaik dengan layanan profesional kami
@@ -132,7 +132,7 @@
 <!-- Why Choose Us -->
 <section class="py-16 bg-primary text-white">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold mb-4">Mengapa Memilih Kami?</h2>
+        <h2 class="text-3xl font-bold mb-4">Mengapa Memilih Wardati Hairstyle?</h2>
         <p class="text-gray-300 text-lg">Keunggulan yang membuat kami berbeda</p>
     </div>
     

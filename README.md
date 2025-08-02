@@ -1,6 +1,6 @@
-# 🪒 Barbershop Website
+# 🪒 Wardati Hairstyle Website
 
-Website barbershop lengkap dengan sistem booking, chat, dan integrasi WhatsApp menggunakan CodeIgniter 4 dan Tailwind CSS.
+Website Wardati Hairstyle lengkap dengan sistem booking, chat, dan integrasi WhatsApp menggunakan CodeIgniter 4 dan Tailwind CSS.
 
 ## ✨ Fitur Utama
 
@@ -71,7 +71,7 @@ Website barbershop lengkap dengan sistem booking, chat, dan integrasi WhatsApp m
 ### 1. Clone Repository
 ```bash
 git clone <repository-url>
-cd barbershop-website
+cd wardati-hairstyle-website
 ```
 
 ### 2. Install Dependencies
@@ -88,7 +88,7 @@ Edit file `.env` dan sesuaikan konfigurasi:
 ```env
 # Database
 database.default.hostname = localhost
-database.default.database = barbershop_db
+database.default.database = wardati_hairstyle_db
 database.default.username = root
 database.default.password = 
 
@@ -102,7 +102,7 @@ fonnte.base_url = "https://api.fonnte.com/send"
 ```bash
 # Buat database MySQL
 mysql -u root -p
-CREATE DATABASE barbershop_db;
+CREATE DATABASE wardati_hairstyle_db;
 exit;
 
 # Jalankan setup script
@@ -184,7 +184,7 @@ Website sudah responsive untuk:
 ### Error Database Connection
 - Pastikan MySQL berjalan
 - Cek konfigurasi database di `.env`
-- Pastikan database `barbershop_db` sudah dibuat
+- Pastikan database `wardati_hairstyle_db` sudah dibuat
 
 ### Error WhatsApp API
 - Cek kredensial Fonnte di `.env`
@@ -199,7 +199,7 @@ Website sudah responsive untuk:
 ## 📞 Support
 
 Untuk bantuan dan pertanyaan:
-- Email: support@barbershop.com
+- Email: support@wardatihairstyle.com
 - WhatsApp: +62 812-3456-7890
 
 ## 📄 License

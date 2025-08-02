@@ -10,7 +10,7 @@ class InitialDataSeeder extends Seeder
     {
         // Create admin user
         $this->db->table('users')->insert([
-            'name' => 'Admin Barbershop',
+            'name' => 'Admin Wardati Hairstyle',
             'whatsapp' => '6281234567890',
             'password' => password_hash('admin123', PASSWORD_DEFAULT),
             'role' => 'admin',

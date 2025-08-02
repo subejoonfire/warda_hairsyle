@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Barbershop' ?></title>
+    <title><?= $title ?? 'Wardati Hairstyle' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
@@ -28,7 +28,7 @@
                 <div class="flex items-center">
                     <a href="/" class="flex-shrink-0 flex items-center">
                         <i class="fas fa-cut text-accent text-2xl mr-2"></i>
-                        <span class="text-white font-bold text-xl">Barbershop</span>
+                        <span class="text-white font-bold text-xl">Wardati Hairstyle</span>
                     </a>
                 </div>
                 
@@ -111,7 +111,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Barbershop</h3>
+                    <h3 class="text-lg font-semibold mb-4">Wardati Hairstyle</h3>
                     <p class="text-gray-300">Layanan cukur rambut terbaik dengan kualitas profesional dan harga terjangkau.</p>
                 </div>
                 <div>
@@ -132,7 +132,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-                <p>&copy; 2024 Barbershop. All rights reserved.</p>
+                <p>&copy; 2024 Wardati Hairstyle. All rights reserved.</p>
             </div>
         </div>
     </footer>

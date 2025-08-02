@@ -61,7 +61,7 @@ class WhatsAppService
 
     public function sendVerificationCode($phoneNumber, $code)
     {
-        $message = "🔐 *Kode Verifikasi Barbershop*\n\n";
+        $message = "🔐 *Kode Verifikasi Wardati Hairstyle*\n\n";
         $message .= "Kode verifikasi Anda adalah: *{$code}*\n\n";
         $message .= "Kode ini berlaku selama 10 menit.\n";
         $message .= "Jangan bagikan kode ini kepada siapapun.\n\n";
@@ -72,7 +72,7 @@ class WhatsAppService
 
     public function sendBookingConfirmation($phoneNumber, $bookingData)
     {
-        $message = "✅ *Konfirmasi Booking Barbershop*\n\n";
+        $message = "✅ *Konfirmasi Booking Wardati Hairstyle*\n\n";
         $message .= "Halo {$bookingData['customer_name']},\n\n";
         $message .= "Booking Anda telah dikonfirmasi:\n";
         $message .= "• Hairstyle: {$bookingData['hairstyle_name']}\n";
