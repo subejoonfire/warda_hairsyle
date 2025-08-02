@@ -1,9 +1,8 @@
-<?= $this->extend('layout/main') ?>
+<?= $this->extend('layout/admin') ?>
 
 <?= $this->section('content') ?>
 
-<div class="bg-gray-50 min-h-screen py-4 sm:py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="bg-gray-50 min-h-screen">
         <!-- Header -->
         <div class="mb-6 sm:mb-8">
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Kelola Chat Customer</h1>
@@ -151,7 +150,6 @@
             </div>
         </div>
     </div>
-</div>
 
 <script>
 function selectCustomer(customerId) {
