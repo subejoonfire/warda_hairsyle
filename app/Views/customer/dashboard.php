@@ -31,8 +31,8 @@
             <div class="bg-primary text-white w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <i class="fas fa-cut text-lg sm:text-2xl"></i>
             </div>
-            <h3 class="text-base sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2">Lihat Hairstyles</h3>
-            <p class="text-xs sm:text-sm md:text-base text-gray-600">Jelajahi berbagai pilihan hairstyle</p>
+                            <h3 class="text-base sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2">Lihat Hair Models</h3>
+                <p class="text-xs sm:text-sm md:text-base text-gray-600">Jelajahi berbagai pilihan hair model</p>
         </a>
 
         <a href="/chat" class="bg-white p-4 sm:p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-center relative">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Wardati Hairstyle' ?></title>
+    <title><?= $title ?? 'Warda_hairstyle' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
@@ -43,14 +43,14 @@
                 <div class="flex items-center">
                     <a href="/" class="flex-shrink-0 flex items-center">
                         <i class="fas fa-cut text-accent text-2xl mr-2"></i>
-                        <span class="text-white font-bold text-xl">Wardati Hairstyle</span>
+                        <span class="text-white font-bold text-xl">Warda_hairstyle</span>
                     </a>
                 </div>
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-4">
                     <a href="/" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">Beranda</a>
-                    <a href="/hairstyles" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">Hairstyles</a>
+                                            <a href="/hairstyles" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">Hair Models</a>
                     
                     <?php if (session()->get('user_id')): ?>
                         <?php if (session()->get('user_role') === 'admin'): ?>
@@ -109,7 +109,7 @@
                         <i class="fas fa-home mr-2"></i>Beranda
                     </a>
                     <a href="/hairstyles" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-200">
-                        <i class="fas fa-cut mr-2"></i>Hairstyles
+                        <i class="fas fa-cut mr-2"></i>Hair Models
                     </a>
                     
                     <?php if (session()->get('user_id')): ?>
@@ -207,7 +207,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Wardati Hairstyle</h3>
+                    <h3 class="text-lg font-semibold mb-4">Warda_hairstyle</h3>
                     <p class="text-gray-300 text-sm">Layanan cukur rambut terbaik dengan kualitas profesional dan harga terjangkau.</p>
                 </div>
                 <div>
@@ -228,7 +228,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-                <p class="text-sm">&copy; 2024 Wardati Hairstyle. All rights reserved.</p>
+                <p class="text-sm">&copy; 2024 Warda_hairstyle. All rights reserved.</p>
             </div>
         </div>
     </footer>
