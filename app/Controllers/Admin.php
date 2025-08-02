@@ -153,20 +153,35 @@ class Admin extends BaseController
         }
 
         $status = $this->request->getGet('status');
+        $date = $this->request->getGet('date');
+        $search = $this->request->getGet('search');
+        
+        $query = $this->bookingModel->select('bookings.*, hairstyles.name as hairstyle_name, users.name as customer_name, users.whatsapp as customer_whatsapp')
+                                   ->join('hairstyles', 'hairstyles.id = bookings.hairstyle_id')
+                                   ->join('users', 'users.id = bookings.user_id');
         
         if ($status) {
-            $bookings = $this->bookingModel->getBookingsByStatus($status);
-        } else {
-            $bookings = $this->bookingModel->select('bookings.*, hairstyles.name as hairstyle_name, users.name as customer_name, users.whatsapp as customer_whatsapp')
-                                         ->join('hairstyles', 'hairstyles.id = bookings.hairstyle_id')
-                                         ->join('users', 'users.id = bookings.user_id')
-                                         ->orderBy('bookings.created_at', 'DESC')
-                                         ->findAll();
+            $query->where('bookings.status', $status);
         }
+        
+        if ($date) {
+            $query->where('DATE(bookings.booking_date)', $date);
+        }
+        
+        if ($search) {
+            $query->groupStart()
+                  ->like('users.name', $search)
+                  ->orLike('users.whatsapp', $search)
+                  ->groupEnd();
+        }
+        
+        $bookings = $query->orderBy('bookings.created_at', 'DESC')->findAll();
 
         $data = [
             'bookings' => $bookings,
-            'selected_status' => $status,
+            'status' => $status,
+            'date' => $date,
+            'search' => $search,
         ];
 
         return view('admin/bookings', $data);
@@ -217,8 +232,22 @@ class Admin extends BaseController
             return redirect()->to('/auth/login');
         }
 
+        $search = $this->request->getGet('search');
+        
+        $query = $this->userModel->where('role', 'customer');
+        
+        if ($search) {
+            $query->groupStart()
+                  ->like('name', $search)
+                  ->orLike('whatsapp', $search)
+                  ->groupEnd();
+        }
+        
+        $customers = $query->findAll();
+
         $data = [
-            'customers' => $this->userModel->getCustomers(),
+            'customers' => $customers,
+            'search' => $search,
         ];
 
         return view('admin/customers', $data);
@@ -232,20 +261,34 @@ class Admin extends BaseController
 
         $customerId = $this->request->getGet('customer');
         
+        // Get all customers with unread count
+        $customers = $this->userModel->where('role', 'customer')->findAll();
+        foreach ($customers as &$customer) {
+            $customer['unread_count'] = $this->chatModel->where('user_id', $customer['id'])
+                                                       ->where('sender_type', 'customer')
+                                                       ->where('is_read', 0)
+                                                       ->countAllResults();
+        }
+        
+        $selectedCustomer = null;
+        $messages = [];
+        
         if ($customerId) {
-            $chats = $this->chatModel->getUserChats($customerId);
-            $customer = $this->userModel->find($customerId);
-        } else {
-            $chats = [];
-            $customer = null;
+            $selectedCustomer = $this->userModel->find($customerId);
+            if ($selectedCustomer) {
+                $messages = $this->chatModel->getUserChats($customerId);
+                // Mark messages as read
+                $this->chatModel->where('user_id', $customerId)
+                               ->where('sender_type', 'customer')
+                               ->set(['is_read' => 1])
+                               ->update();
+            }
         }
 
-        $recentChats = $this->chatModel->getRecentChatsForAdmin();
-
         $data = [
-            'chats' => $chats,
-            'customer' => $customer,
-            'recent_chats' => $recentChats,
+            'customers' => $customers,
+            'selected_customer' => $selectedCustomer,
+            'messages' => $messages,
         ];
 
         return view('admin/chats', $data);
