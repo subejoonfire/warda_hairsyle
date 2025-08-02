@@ -95,7 +95,7 @@
                     </a>
                     <a href="/admin/hairstyles" class="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-secondary rounded-lg transition duration-200 <?= current_url() == base_url('admin/hairstyles') ? 'bg-secondary text-white' : '' ?>">
                         <i class="fas fa-cut mr-3"></i>
-                        <span>Hairstyles</span>
+                        <span>Hair Model</span>
                     </a>
                     <a href="/admin/bookings" class="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-secondary rounded-lg transition duration-200 <?= current_url() == base_url('admin/bookings') ? 'bg-secondary text-white' : '' ?>">
                         <i class="fas fa-calendar-alt mr-3"></i>
