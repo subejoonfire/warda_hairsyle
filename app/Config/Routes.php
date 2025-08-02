@@ -72,4 +72,20 @@ $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->get('quick-messages/preview/(:num)', 'Admin\QuickMessageController::preview/$1');
     $routes->post('quick-messages/test-response', 'Admin\QuickMessageController::testResponse');
     $routes->get('quick-messages/response-sources', 'Admin\QuickMessageController::getResponseSources');
+
+    // Hairstyles management
+    $routes->get('hairstyles', 'Admin\HairstyleController::index');
+    $routes->get('hairstyles/create', 'Admin\HairstyleController::create');
+    $routes->post('hairstyles/create', 'Admin\HairstyleController::create');
+    $routes->get('hairstyles/edit/(:num)', 'Admin\HairstyleController::edit/$1');
+    $routes->post('hairstyles/edit/(:num)', 'Admin\HairstyleController::edit/$1');
+    $routes->get('hairstyles/delete/(:num)', 'Admin\HairstyleController::delete/$1');
+    $routes->post('hairstyles/toggle-status/(:num)', 'Admin\HairstyleController::toggleStatus/$1');
+    $routes->get('hairstyles/view/(:num)', 'Admin\HairstyleController::view/$1');
+    $routes->get('hairstyles/categories', 'Admin\HairstyleController::categories');
+    $routes->get('hairstyles/categories/create', 'Admin\HairstyleController::createCategory');
+    $routes->post('hairstyles/categories/create', 'Admin\HairstyleController::createCategory');
+    $routes->get('hairstyles/categories/edit/(:num)', 'Admin\HairstyleController::editCategory/$1');
+    $routes->post('hairstyles/categories/edit/(:num)', 'Admin\HairstyleController::editCategory/$1');
+    $routes->get('hairstyles/categories/delete/(:num)', 'Admin\HairstyleController::deleteCategory/$1');
 });

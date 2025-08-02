@@ -44,107 +44,113 @@
     <div id="notificationContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
 
     <!-- Admin Layout -->
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div id="sidebar" class="sidebar bg-primary text-white w-64 min-h-screen flex flex-col">
-            <!-- Logo -->
-            <div class="p-4 border-b border-gray-600">
-                <div class="flex items-center">
-                    <i class="fas fa-cut text-accent text-2xl mr-2"></i>
-                    <span class="text-white font-bold text-xl">Wardati Admin</span>
-                </div>
-            </div>
-
-            <!-- Navigation -->
-            <nav class="flex-1 p-4">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="/admin/dashboard" class="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                            <i class="fas fa-tachometer-alt mr-3"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/hairstyles" class="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                            <i class="fas fa-cut mr-3"></i>
-                            Hairstyles
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/bookings" class="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                            <i class="fas fa-calendar-alt mr-3"></i>
-                            Bookings
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/customers" class="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                            <i class="fas fa-users mr-3"></i>
-                            Customers
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/chats" class="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                            <i class="fas fa-comments mr-3"></i>
-                            Chats
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/admin/quick-messages" class="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition duration-200">
-                            <i class="fas fa-reply-all mr-3"></i>
-                            Quick Messages
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- User Info -->
-            <div class="p-4 border-t border-gray-600">
-                <div class="flex items-center">
-                    <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
-                        <i class="fas fa-user text-white"></i>
-                    </div>
-                    <div class="ml-3">
-                        <p class="text-sm font-medium text-white"><?= session()->get('user_name') ?></p>
-                        <p class="text-xs text-gray-400">Admin</p>
-                    </div>
-                </div>
-                <a href="/auth/logout" class="block mt-3 text-sm text-gray-400 hover:text-white transition duration-200">
-                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                </a>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Top Bar -->
-            <header class="bg-white shadow-sm border-b border-gray-200">
-                <div class="flex items-center justify-between px-6 py-4">
+    <div class="min-h-screen bg-gray-50">
+        <!-- Top Navigation -->
+        <nav class="bg-primary text-white shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo and Brand -->
                     <div class="flex items-center">
-                        <button id="sidebarToggle" class="text-gray-500 hover:text-gray-700 mr-4">
-                            <i class="fas fa-bars text-xl"></i>
-                        </button>
-                        <h1 class="text-xl font-semibold text-gray-800"><?= $title ?? 'Admin Dashboard' ?></h1>
+                        <i class="fas fa-cut text-accent text-2xl mr-3"></i>
+                        <span class="text-white font-bold text-xl">Wardati Admin</span>
                     </div>
+
+                    <!-- Navigation Links -->
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="/admin/dashboard" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                            </a>
+                            <a href="/admin/hairstyles" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                                <i class="fas fa-cut mr-2"></i>Hairstyles
+                            </a>
+                            <a href="/admin/bookings" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                                <i class="fas fa-calendar-alt mr-2"></i>Bookings
+                            </a>
+                            <a href="/admin/customers" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                                <i class="fas fa-users mr-2"></i>Customers
+                            </a>
+                            <a href="/admin/chats" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                                <i class="fas fa-comments mr-2"></i>Chats
+                            </a>
+                            <a href="/admin/quick-messages" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                                <i class="fas fa-reply-all mr-2"></i>Quick Messages
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- User Menu -->
                     <div class="flex items-center space-x-4">
-                        <div class="text-sm text-gray-600">
+                        <div class="text-sm text-gray-300">
                             <i class="fas fa-clock mr-1"></i>
                             <span id="currentTime"></span>
                         </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white"><?= session()->get('user_name') ?></p>
+                                <p class="text-xs text-gray-400">Admin</p>
+                            </div>
+                        </div>
+                        <a href="/auth/logout" class="text-gray-300 hover:text-white text-sm transition duration-200">
+                            <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                        </a>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button id="mobileMenuButton" class="text-gray-300 hover:text-white">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
                     </div>
                 </div>
-            </header>
+            </div>
 
-            <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto p-6">
-                <?= $this->renderSection('content') ?>
-            </main>
-        </div>
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="md:hidden hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
+                    <a href="/admin/dashboard" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                        <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                    </a>
+                    <a href="/admin/hairstyles" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                        <i class="fas fa-cut mr-2"></i>Hairstyles
+                    </a>
+                    <a href="/admin/bookings" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                        <i class="fas fa-calendar-alt mr-2"></i>Bookings
+                    </a>
+                    <a href="/admin/customers" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                        <i class="fas fa-users mr-2"></i>Customers
+                    </a>
+                    <a href="/admin/chats" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                        <i class="fas fa-comments mr-2"></i>Chats
+                    </a>
+                    <a href="/admin/quick-messages" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                        <i class="fas fa-reply-all mr-2"></i>Quick Messages
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <h1 class="text-2xl font-bold text-gray-900"><?= $title ?? 'Admin Dashboard' ?></h1>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <?= $this->renderSection('content') ?>
+        </main>
     </div>
 
     <script>
-        // Sidebar toggle
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
         });
 
         // Current time
