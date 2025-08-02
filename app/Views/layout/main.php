@@ -40,6 +40,12 @@
                     <?php if (session()->get('user_id')): ?>
                         <?php if (session()->get('user_role') === 'admin'): ?>
                             <a href="/admin/dashboard" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Admin</a>
+                            <a href="/admin/chats" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                                Chat
+                                <?php if (isset($admin_unread_chats) && $admin_unread_chats > 0): ?>
+                                    <span class="bg-red-500 text-white text-xs rounded-full px-2 py-1 ml-1"><?= $admin_unread_chats ?></span>
+                                <?php endif; ?>
+                            </a>
                         <?php else: ?>
                             <a href="/dashboard" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
                             <a href="/booking" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Booking</a>
@@ -89,6 +95,12 @@
                     <?php if (session()->get('user_id')): ?>
                         <?php if (session()->get('user_role') === 'admin'): ?>
                             <a href="/admin/dashboard" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Admin</a>
+                            <a href="/admin/chats" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                                Chat
+                                <?php if (isset($admin_unread_chats) && $admin_unread_chats > 0): ?>
+                                    <span class="bg-red-500 text-white text-xs rounded-full px-2 py-1 ml-1"><?= $admin_unread_chats ?></span>
+                                <?php endif; ?>
+                            </a>
                         <?php else: ?>
                             <a href="/dashboard" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
                             <a href="/booking" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Booking</a>

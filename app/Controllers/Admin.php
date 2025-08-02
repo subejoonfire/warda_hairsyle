@@ -25,6 +25,11 @@ class Admin extends BaseController
         $this->whatsappService = new WhatsAppService();
     }
 
+    private function getAdminUnreadChats()
+    {
+        return $this->chatModel->where('sender_type', 'customer')->where('is_read', 0)->countAllResults();
+    }
+
     public function dashboard()
     {
         if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
@@ -43,6 +48,7 @@ class Admin extends BaseController
             'recent_chats' => $this->chatModel->getRecentChatsForAdmin(),
             'current_time' => date('Y-m-d H:i:s'),
             'current_date' => date('Y-m-d'),
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
         ];
 
         return view('admin/dashboard', $data);
@@ -56,6 +62,7 @@ class Admin extends BaseController
 
         $data = [
             'hairstyles' => $this->hairstyleModel->findAll(),
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
         ];
 
         return view('admin/hairstyles', $data);
@@ -93,7 +100,9 @@ class Admin extends BaseController
             }
         }
 
-        return view('admin/hairstyle_form');
+        return view('admin/hairstyle_form', [
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
+        ]);
     }
 
     public function editHairstyle($id)
@@ -134,7 +143,10 @@ class Admin extends BaseController
             }
         }
 
-        return view('admin/hairstyle_form', ['hairstyle' => $hairstyle]);
+        return view('admin/hairstyle_form', [
+            'hairstyle' => $hairstyle,
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
+        ]);
     }
 
     public function deleteHairstyle($id)
@@ -188,6 +200,7 @@ class Admin extends BaseController
             'status' => $status,
             'date' => $date,
             'search' => $search,
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
         ];
 
         return view('admin/bookings', $data);
@@ -205,7 +218,10 @@ class Admin extends BaseController
             return redirect()->to('/admin/bookings');
         }
 
-        return view('admin/booking_detail', ['booking' => $booking]);
+        return view('admin/booking_detail', [
+            'booking' => $booking,
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
+        ]);
     }
 
     public function updateBookingStatus()
@@ -254,6 +270,7 @@ class Admin extends BaseController
         $data = [
             'customers' => $customers,
             'search' => $search,
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
         ];
 
         return view('admin/customers', $data);
@@ -295,6 +312,7 @@ class Admin extends BaseController
             'customers' => $customers,
             'selected_customer' => $selectedCustomer,
             'messages' => $messages,
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
         ];
 
         return view('admin/chats', $data);
@@ -309,21 +327,38 @@ class Admin extends BaseController
         $userId = $this->request->getPost('user_id');
         $message = $this->request->getPost('message');
 
+        if (empty($userId)) {
+            return $this->response->setJSON(['success' => false, 'message' => 'User ID tidak boleh kosong']);
+        }
+
         if (empty($message)) {
             return $this->response->setJSON(['success' => false, 'message' => 'Pesan tidak boleh kosong']);
         }
 
         $adminId = session()->get('user_id');
-        $chatId = $this->chatModel->sendAdminMessage($userId, $adminId, $message);
+        
+        try {
+            $chatId = $this->chatModel->sendAdminMessage($userId, $adminId, $message);
 
-        if ($chatId) {
-            // Send WhatsApp notification to customer
-            $user = $this->userModel->find($userId);
-            $this->whatsappService->sendMessage($user['whatsapp'], "💬 *Pesan dari Admin*\n\n{$message}");
+            if ($chatId) {
+                // Send WhatsApp notification to customer
+                $user = $this->userModel->find($userId);
+                if ($user) {
+                    try {
+                        $this->whatsappService->sendMessage($user['whatsapp'], "💬 *Pesan dari Admin*\n\n{$message}");
+                    } catch (Exception $e) {
+                        // Log WhatsApp error but don't fail the chat
+                        log_message('error', 'WhatsApp service error: ' . $e->getMessage());
+                    }
+                }
 
-            return $this->response->setJSON(['success' => true, 'message' => 'Pesan terkirim']);
-        } else {
-            return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengirim pesan']);
+                return $this->response->setJSON(['success' => true, 'message' => 'Pesan terkirim']);
+            } else {
+                return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengirim pesan']);
+            }
+        } catch (Exception $e) {
+            log_message('error', 'Chat error: ' . $e->getMessage());
+            return $this->response->setJSON(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
     }
 

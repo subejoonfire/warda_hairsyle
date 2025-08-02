@@ -120,7 +120,7 @@
                         <!-- Chat Input -->
                         <div class="p-4 border-t">
                             <form id="chatForm" class="flex space-x-2">
-                                <input type="hidden" name="customer_id" value="<?= $selected_customer['id'] ?>">
+                                <input type="hidden" name="user_id" value="<?= $selected_customer['id'] ?>">
                                 <input type="text" name="message" id="messageInput" 
                                        class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                        placeholder="Ketik pesan..." required>
@@ -165,23 +165,27 @@ document.getElementById('chatForm')?.addEventListener('submit', function(e) {
     const formData = new FormData(this);
     const messageInput = document.getElementById('messageInput');
     
-    fetch('/admin/chats/send', {
+    fetch('/admin/send-admin-message', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log('Response status:', response.status);
+        return response.json();
+    })
     .then(data => {
+        console.log('Response data:', data);
         if (data.success) {
             messageInput.value = '';
             // Reload the page to show new message
             window.location.reload();
         } else {
-            alert('Gagal mengirim pesan: ' + data.error);
+            alert('Gagal mengirim pesan: ' + (data.message || 'Unknown error'));
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Terjadi kesalahan saat mengirim pesan');
+        alert('Terjadi kesalahan saat mengirim pesan: ' + error.message);
     });
 });
 
