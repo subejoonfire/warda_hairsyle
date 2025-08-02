@@ -226,22 +226,56 @@ class Home extends BaseController
         $chatId = $this->chatModel->sendCustomerMessage($userId, $message);
 
         if ($chatId) {
-            // Send notification to admin
-            $whatsappService = new \App\Services\WhatsAppService();
-            $userModel = new \App\Models\UserModel();
-            $user = $userModel->find($userId);
+            // Generate auto-reply
+            $autoReplyService = new \App\Services\AutoReplyService();
+            $autoReply = $autoReplyService->generateAutoReply($message);
+            
+            // Send auto-reply as admin message
+            $adminId = 1; // Default admin ID
+            $this->chatModel->sendAdminMessage($userId, $adminId, $autoReply);
 
-            $adminModel = new \App\Models\UserModel();
-            $admins = $adminModel->getAdmins();
+            // Check if message needs admin attention (for complex queries)
+            $needsAdmin = $this->needsAdminAttention($message);
+            
+            if ($needsAdmin) {
+                // Send notification to admin for complex queries
+                $whatsappService = new \App\Services\WhatsAppService();
+                $userModel = new \App\Models\UserModel();
+                $user = $userModel->find($userId);
 
-            foreach ($admins as $admin) {
-                $whatsappService->sendNewChatNotification($admin['whatsapp'], $user['name'], $message);
+                $adminModel = new \App\Models\UserModel();
+                $admins = $adminModel->getAdmins();
+
+                foreach ($admins as $admin) {
+                    $whatsappService->sendNewChatNotification($admin['whatsapp'], $user['name'], $message);
+                }
             }
 
             return $this->response->setJSON(['success' => true, 'message' => 'Pesan terkirim']);
         } else {
             return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengirim pesan']);
         }
+    }
+
+    private function needsAdminAttention($message)
+    {
+        $message = strtolower(trim($message));
+        
+        // Keywords that need admin attention
+        $adminKeywords = [
+            'komplain', 'complaint', 'saran', 'suggestion', 'masalah', 'problem',
+            'refund', 'pengembalian', 'cancel', 'batal', 'reschedule', 'ubah jadwal',
+            'urgent', 'mendesak', 'emergency', 'darurat', 'custom', 'khusus',
+            'booking', 'pesan', 'order', 'reservasi', 'janji'
+        ];
+        
+        foreach ($adminKeywords as $keyword) {
+            if (strpos($message, $keyword) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     public function getChats()
