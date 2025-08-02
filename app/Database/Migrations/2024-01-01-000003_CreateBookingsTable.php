@@ -33,7 +33,7 @@ class CreateBookingsTable extends Migration
             ],
             'service_type' => [
                 'type' => 'ENUM',
-                'constraint' => ['home', 'salon'],
+                'constraint' => ['salon', 'cornrow', 'boxbraid', 'home'],
                 'default' => 'salon',
             ],
             'address' => [
