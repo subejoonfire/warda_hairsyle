@@ -8,12 +8,12 @@
         <div class="p-3 sm:p-4 md:p-6 border-b border-gray-200">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div class="mb-2 md:mb-0">
-                    <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">Chat dengan Admin</h1>
-                    <p class="text-xs sm:text-sm md:text-base text-gray-600">Konsultasi atau tanya jawab dengan tim admin kami</p>
+                    <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">Chat dengan Tim</h1>
+                    <p class="text-xs sm:text-sm md:text-base text-gray-600">Konsultasi atau tanya jawab dengan tim kami</p>
                 </div>
                 <div class="flex items-center space-x-2">
                     <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
-                    <span class="text-xs sm:text-sm text-gray-600">Admin Online</span>
+                    <span class="text-xs sm:text-sm text-gray-600">Tim Online</span>
                 </div>
             </div>
         </div>
@@ -26,7 +26,13 @@
                         <i class="fas fa-comments text-3xl sm:text-4xl"></i>
                     </div>
                     <h3 class="text-base sm:text-lg font-semibold text-gray-600 mb-2">Belum ada pesan</h3>
-                    <p class="text-xs sm:text-sm text-gray-500">Mulai percakapan dengan admin untuk konsultasi atau tanya jawab</p>
+                    <p class="text-xs sm:text-sm text-gray-500 mb-4">Mulai percakapan dengan admin untuk konsultasi atau tanya jawab</p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <p class="text-xs text-blue-700">
+                            <i class="fas fa-lightbulb mr-1"></i>
+                            <strong>Tips:</strong> Gunakan tombol pesan cepat di bawah untuk mendapatkan respon instan dari sistem
+                        </p>
+                    </div>
                 </div>
             <?php else: ?>
                 <?php foreach ($chats as $chat): ?>
@@ -65,20 +71,37 @@
 
     <!-- Quick Messages -->
     <div class="mt-4 sm:mt-6 bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
-        <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Pesan Cepat</h3>
+        <div class="flex items-center justify-between mb-3 sm:mb-4">
+            <h3 class="text-base sm:text-lg font-semibold">Pesan Cepat</h3>
+            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                <i class="fas fa-bolt mr-1"></i>Respon Instan
+            </span>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "Saya ingin konsultasi tentang hairstyle yang cocok"
-            </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "Berapa lama waktu yang dibutuhkan untuk cukur rambut?"
-            </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "Apakah tersedia layanan home service?"
-            </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "Saya ingin mengubah jadwal booking"
-            </button>
+            <a href="/send-quick-message/1" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
+                list hairstyle
+            </a>
+            <a href="/send-quick-message/2" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
+                harga hairstyle
+            </a>
+            <a href="/send-quick-message/3" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
+                jam buka
+            </a>
+            <a href="/send-quick-message/4" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
+                lokasi
+            </a>
+            <a href="/send-quick-message/5" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
+                layanan
+            </a>
+            <a href="/send-quick-message/6" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
+                kontak
+            </a>
+            <a href="/send-quick-message/7" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
+                booking
+            </a>
+            <a href="/send-quick-message/8" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
+                menu
+            </a>
         </div>
     </div>
 </div>
@@ -131,9 +154,15 @@ function addMessage(message, senderType) {
     
     const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     
+    // Format message for better display
+    let formattedMessage = message
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
+        .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic text
+        .replace(/\n/g, '<br>'); // Line breaks
+    
     messageDiv.innerHTML = `
         <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${senderType === 'customer' ? 'bg-accent text-white' : 'bg-gray-100 text-gray-800'}">
-            <div class="text-xs sm:text-sm">${message.replace(/\n/g, '<br>')}</div>
+            <div class="text-xs sm:text-sm">${formattedMessage}</div>
             <div class="text-xs mt-1 ${senderType === 'customer' ? 'text-yellow-100' : 'text-gray-500'}">${time}</div>
         </div>
     `;
@@ -142,17 +171,10 @@ function addMessage(message, senderType) {
     scrollToBottom();
 }
 
-// Quick messages
-document.querySelectorAll('.quick-message').forEach(button => {
-    button.addEventListener('click', function() {
-        const message = this.textContent.replace(/"/g, '');
-        messageInput.value = message;
-        messageInput.focus();
-    });
-});
+// Quick messages - direct links, no JavaScript needed
 
-// Auto-refresh chat every 5 seconds
-setInterval(function() {
+// Function to check for new messages
+function checkNewMessages() {
     fetch('/get-chats')
     .then(response => response.json())
     .then(data => {
@@ -171,7 +193,23 @@ setInterval(function() {
     .catch(error => {
         console.error('Error refreshing chat:', error);
     });
-}, 5000);
+}
+
+// Manual refresh button
+function refreshChat() {
+    checkNewMessages();
+}
+
+// Add refresh button to chat header
+const chatHeader = document.querySelector('.chat-header');
+if (chatHeader) {
+    const refreshBtn = document.createElement('button');
+    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+    refreshBtn.className = 'text-gray-500 hover:text-gray-700 transition-colors';
+    refreshBtn.title = 'Refresh Chat';
+    refreshBtn.onclick = refreshChat;
+    chatHeader.appendChild(refreshBtn);
+}
 
 // Initial scroll to bottom
 scrollToBottom();

@@ -72,5 +72,74 @@ class InitialDataSeeder extends Seeder
         ];
 
         $this->db->table('hairstyles')->insertBatch($hairstyles);
+
+        // Create default quick messages (only keywords and descriptions)
+        $quickMessages = [
+            [
+                'keyword' => 'list hairstyle',
+                'description' => 'Daftar hairstyle yang tersedia',
+                'is_active' => true,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'keyword' => 'harga hairstyle',
+                'description' => 'Informasi harga layanan',
+                'is_active' => true,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'keyword' => 'jam buka',
+                'description' => 'Jam operasional salon',
+                'is_active' => true,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'keyword' => 'lokasi',
+                'description' => 'Lokasi salon dan home service',
+                'is_active' => true,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'keyword' => 'layanan',
+                'description' => 'Jenis layanan yang tersedia',
+                'is_active' => true,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'keyword' => 'kontak',
+                'description' => 'Informasi kontak lengkap',
+                'is_active' => true,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'keyword' => 'booking',
+                'description' => 'Cara melakukan booking',
+                'is_active' => true,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'keyword' => 'menu',
+                'description' => 'Menu bantuan lengkap',
+                'is_active' => true,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'keyword' => 'foto hairstyle',
+                'description' => 'Link foto hairstyle',
+                'is_active' => true,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]
+        ];
+
+        $this->db->table('quick_messages')->insertBatch($quickMessages);
     }
 }

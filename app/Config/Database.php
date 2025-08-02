@@ -50,12 +50,12 @@ class Database extends Config
      */
     public array $tests = [
         'DSN'      => '',
-        'hostname' => '127.0.0.1',
-        'username' => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
         'password' => '',
-        'database' => ':memory:',
-        'DBDriver' => 'SQLite3',
-        'DBPrefix' => 'db_',
+        'database' => 'wardati_hairstyle_test',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => 'test_',
         'pConnect' => false,
         'DBDebug'  => true,
         'charset'  => 'utf8',

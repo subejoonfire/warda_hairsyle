@@ -11,7 +11,7 @@
                 <p class="text-xs sm:text-sm md:text-base text-gray-200">Kelola layanan, booking, dan customer</p>
             </div>
             <div class="text-left md:text-right">
-                <p class="text-xs sm:text-sm text-gray-300">Admin</p>
+                <p class="text-xs sm:text-sm text-gray-300">Dashboard</p>
                 <p class="font-semibold text-sm md:text-base"><?= session()->get('user_name') ?></p>
             </div>
         </div>

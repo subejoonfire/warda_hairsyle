@@ -84,29 +84,21 @@ composer install
 cp .env.example .env
 ```
 
-Edit file `.env` dan sesuaikan konfigurasi:
+Edit file `.env` dan sesuaikan konfigurasi database MySQL:
 ```env
-# Database
+# Database Configuration
 database.default.hostname = localhost
-database.default.database = wardati_hairstyle_db
+database.default.database = wardati_hairstyle
 database.default.username = root
-database.default.password = 
+database.default.password = your_mysql_password
 
 # Fonnte WhatsApp API
 fonnte.api_key = "YOUR_FONNTE_API_KEY"
 fonnte.base_url = "https://api.fonnte.com/send"
+fonnte.device_id = "YOUR_DEVICE_ID"
 ```
 
-### 4. Setup Database
-```bash
-# Buat database MySQL
-mysql -u root -p
-CREATE DATABASE wardati_hairstyle_db;
-exit;
 
-# Jalankan setup script
-php setup.php
-```
 
 ### 5. Setup Upload Directory
 ```bash
@@ -145,6 +137,7 @@ Website akan berjalan di `http://localhost:8080`
 - `hairstyles` - Katalog hairstyle
 - `bookings` - Data booking customer
 - `chats` - Riwayat chat customer-admin
+- `quick_messages` - Pesan cepat untuk chat
 
 ## 🎨 Customization
 
@@ -181,9 +174,13 @@ Website sudah responsive untuk:
 ## 🚨 Troubleshooting
 
 ### Error Database Connection
-- Pastikan MySQL berjalan
-- Cek konfigurasi database di `.env`
-- Pastikan database `wardati_hairstyle_db` sudah dibuat
+- Pastikan MySQL server berjalan
+- Cek kredensial database di file `.env`
+- Pastikan database `wardati_hairstyle` sudah dibuat
+- Jalankan `php setup_database.php` untuk setup database
+- Pastikan user MySQL memiliki akses ke database
+
+
 
 ### Error WhatsApp API
 - Cek kredensial Fonnte di `.env`
@@ -200,6 +197,10 @@ Website sudah responsive untuk:
 Untuk bantuan dan pertanyaan:
 - Email: support@wardatihairstyle.com
 - WhatsApp: +62 812-3456-7890
+
+## 📚 Dokumentasi Tambahan
+
+- [Troubleshooting](README.md#-troubleshooting) - Solusi masalah umum
 
 ## 📄 License
 

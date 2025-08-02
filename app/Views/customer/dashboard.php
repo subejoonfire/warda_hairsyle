@@ -44,8 +44,8 @@
                     <?= $unread_chats ?>
                 </span>
             <?php endif; ?>
-            <h3 class="text-base sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2">Chat dengan Admin</h3>
-            <p class="text-xs sm:text-sm md:text-base text-gray-600">Konsultasi atau tanya jawab dengan admin</p>
+            <h3 class="text-base sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2">Chat dengan Tim</h3>
+            <p class="text-xs sm:text-sm md:text-base text-gray-600">Konsultasi atau tanya jawab dengan tim kami</p>
         </a>
     </div>
 

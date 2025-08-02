@@ -6,7 +6,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="mb-6 sm:mb-8">
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Kelola Chat</h1>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Kelola Chat Customer</h1>
             <p class="text-gray-600 text-sm sm:text-base">Lihat dan balas pesan dari customer</p>
         </div>
 
