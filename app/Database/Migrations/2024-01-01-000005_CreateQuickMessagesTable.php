@@ -19,8 +19,10 @@ class CreateQuickMessagesTable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 100,
             ],
-            'response' => [
-                'type' => 'TEXT',
+            'description' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true,
             ],
             'is_active' => [
                 'type' => 'BOOLEAN',

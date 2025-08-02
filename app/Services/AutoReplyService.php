@@ -23,7 +23,8 @@ class AutoReplyService
         // First, try to find quick message from database
         $quickMessage = $this->quickMessageModel->findQuickMessage($message);
         if ($quickMessage) {
-            return $quickMessage['response'];
+            // Generate response based on keyword
+            return $this->generateResponseFromKeyword($quickMessage['keyword']);
         }
         
         // If not found in database, use hardcoded responses
@@ -94,6 +95,32 @@ class AutoReplyService
         
         // Default response
         return $this->getDefaultResponse();
+    }
+
+    private function generateResponseFromKeyword($keyword)
+    {
+        switch ($keyword) {
+            case 'list hairstyle':
+                return $this->getHairstyleList();
+            case 'harga hairstyle':
+                return $this->getHairstylePrices();
+            case 'jam buka':
+                return $this->getOpeningHours();
+            case 'lokasi':
+                return $this->getLocation();
+            case 'layanan':
+                return $this->getServices();
+            case 'kontak':
+                return $this->getContactInfo();
+            case 'booking':
+                return $this->getBookingInfo();
+            case 'menu':
+                return $this->getMainMenu();
+            case 'foto hairstyle':
+                return $this->getHairstylePhotos();
+            default:
+                return $this->getDefaultResponse();
+        }
     }
 
     private function getHairstyleList()
