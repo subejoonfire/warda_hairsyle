@@ -2,33 +2,33 @@
 
 <?= $this->section('content') ?>
 
-<div class="max-w-4xl mx-auto">
-    <div class="mb-6 md:mb-8">
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Booking Layanan</h1>
-        <p class="text-sm md:text-base text-gray-600">Pilih hairstyle dan jadwal yang sesuai untuk Anda</p>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-4 sm:mb-6 md:mb-8">
+        <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2">Booking Layanan</h1>
+        <p class="text-xs sm:text-sm md:text-base text-gray-600">Pilih hairstyle dan jadwal yang sesuai untuk Anda</p>
     </div>
 
-    <form action="/booking" method="POST" class="space-y-8">
+    <form action="/booking" method="POST" class="space-y-4 sm:space-y-6 md:space-y-8">
         <!-- Hairstyle Selection -->
-        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
-            <h2 class="text-lg md:text-xl font-semibold mb-4">Pilih Hairstyle</h2>
+        <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
+            <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Pilih Hairstyle</h2>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 <?php foreach ($hairstyles as $hairstyle): ?>
-                    <div class="border-2 rounded-lg p-4 cursor-pointer hover:border-accent transition-colors hairstyle-option <?= ($selected_hairstyle && $selected_hairstyle['id'] == $hairstyle['id']) ? 'border-accent bg-yellow-50' : 'border-gray-200' ?>" 
+                    <div class="border-2 rounded-lg p-3 sm:p-4 cursor-pointer hover:border-accent transition-colors hairstyle-option <?= ($selected_hairstyle && $selected_hairstyle['id'] == $hairstyle['id']) ? 'border-accent bg-yellow-50' : 'border-gray-200' ?>" 
                          data-id="<?= $hairstyle['id'] ?>" 
                          data-price="<?= $hairstyle['price'] ?>"
                          data-name="<?= $hairstyle['name'] ?>">
-                        <div class="h-32 bg-gray-200 rounded-lg mb-3 flex items-center justify-center">
+                        <div class="h-24 sm:h-32 bg-gray-200 rounded-lg mb-2 sm:mb-3 flex items-center justify-center">
                             <?php if ($hairstyle['image']): ?>
                                 <img src="/<?= $hairstyle['image'] ?>" alt="<?= $hairstyle['name'] ?>" class="w-full h-full object-cover rounded-lg">
                             <?php else: ?>
-                                <i class="fas fa-cut text-4xl text-gray-400"></i>
+                                <i class="fas fa-cut text-2xl sm:text-4xl text-gray-400"></i>
                             <?php endif; ?>
                         </div>
-                        <h3 class="font-semibold text-gray-800 mb-1"><?= $hairstyle['name'] ?></h3>
-                        <p class="text-sm text-gray-600 mb-2"><?= $hairstyle['description'] ?></p>
-                        <p class="text-lg font-bold text-accent">Rp <?= number_format($hairstyle['price'], 0, ',', '.') ?></p>
+                        <h3 class="font-semibold text-gray-800 mb-1 text-sm sm:text-base"><?= $hairstyle['name'] ?></h3>
+                        <p class="text-xs sm:text-sm text-gray-600 mb-2 line-clamp-2"><?= $hairstyle['description'] ?></p>
+                        <p class="text-sm sm:text-lg font-bold text-accent">Rp <?= number_format($hairstyle['price'], 0, ',', '.') ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -37,17 +37,17 @@
         </div>
 
         <!-- Booking Details -->
-        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
-            <h2 class="text-lg md:text-xl font-semibold mb-4">Detail Booking</h2>
+        <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
+            <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Detail Booking</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                 <div>
                     <label for="booking_date" class="block text-sm font-medium text-gray-700 mb-2">
                         Tanggal Booking *
                     </label>
                     <input type="date" id="booking_date" name="booking_date" required
                            min="<?= date('Y-m-d') ?>"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-accent focus:border-accent">
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-accent focus:border-accent text-sm">
                 </div>
                 
                 <div>
@@ -55,7 +55,7 @@
                         Waktu Booking *
                     </label>
                     <select id="booking_time" name="booking_time" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-accent focus:border-accent">
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-accent focus:border-accent text-sm">
                         <option value="">Pilih waktu</option>
                         <option value="08:00">08:00</option>
                         <option value="09:00">09:00</option>
@@ -75,28 +75,28 @@
         </div>
 
         <!-- Service Type -->
-        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
-            <h2 class="text-lg md:text-xl font-semibold mb-4">Tipe Layanan</h2>
+        <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
+            <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Tipe Layanan</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="border-2 rounded-lg p-4 cursor-pointer hover:border-accent transition-colors service-option border-accent bg-yellow-50" data-type="salon">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                <div class="border-2 rounded-lg p-3 sm:p-4 cursor-pointer hover:border-accent transition-colors service-option border-accent bg-yellow-50" data-type="salon">
                     <div class="flex items-center">
                         <input type="radio" name="service_type" value="salon" checked class="mr-3">
                         <div>
-                            <h3 class="font-semibold text-gray-800">Salon</h3>
-                            <p class="text-sm text-gray-600">Datang ke tempat kami</p>
-                            <p class="text-sm text-gray-500">Biaya tambahan: Rp 0</p>
+                            <h3 class="font-semibold text-gray-800 text-sm sm:text-base">Salon</h3>
+                            <p class="text-xs sm:text-sm text-gray-600">Datang ke tempat kami</p>
+                            <p class="text-xs sm:text-sm text-gray-500">Biaya tambahan: Rp 0</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="border-2 rounded-lg p-4 cursor-pointer hover:border-accent transition-colors service-option border-gray-200" data-type="home">
+                <div class="border-2 rounded-lg p-3 sm:p-4 cursor-pointer hover:border-accent transition-colors service-option border-gray-200" data-type="home">
                     <div class="flex items-center">
                         <input type="radio" name="service_type" value="home" class="mr-3">
                         <div>
-                            <h3 class="font-semibold text-gray-800">Home Service</h3>
-                            <p class="text-sm text-gray-600">Kami datang ke rumah Anda</p>
-                            <p class="text-sm text-gray-500">Biaya tambahan: Rp 25.000</p>
+                            <h3 class="font-semibold text-gray-800 text-sm sm:text-base">Home Service</h3>
+                            <p class="text-xs sm:text-sm text-gray-600">Kami datang ke rumah Anda</p>
+                            <p class="text-xs sm:text-sm text-gray-500">Biaya tambahan: Rp 25.000</p>
                         </div>
                     </div>
                 </div>
@@ -104,48 +104,48 @@
         </div>
 
         <!-- Address for Home Service -->
-        <div id="address-section" class="bg-white rounded-lg shadow-lg p-6 hidden">
-            <h2 class="text-xl font-semibold mb-4">Alamat Home Service</h2>
+        <div id="address-section" class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6 hidden">
+            <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Alamat Home Service</h2>
             
             <div>
                 <label for="address" class="block text-sm font-medium text-gray-700 mb-2">
                     Alamat Lengkap *
                 </label>
                 <textarea id="address" name="address" rows="3"
-                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-accent focus:border-accent"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-accent focus:border-accent text-sm"
                           placeholder="Masukkan alamat lengkap untuk home service"></textarea>
             </div>
         </div>
 
         <!-- Notes -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-semibold mb-4">Catatan Tambahan</h2>
+        <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
+            <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Catatan Tambahan</h2>
             
             <div>
                 <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">
                     Catatan (Opsional)
                 </label>
                 <textarea id="notes" name="notes" rows="3"
-                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-accent focus:border-accent"
+                          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-accent focus:border-accent text-sm"
                           placeholder="Tambahkan catatan khusus atau permintaan"></textarea>
             </div>
         </div>
 
         <!-- Price Summary -->
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-semibold mb-4">Ringkasan Harga</h2>
+        <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
+            <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Ringkasan Harga</h2>
             
-            <div class="space-y-3">
+            <div class="space-y-2 sm:space-y-3">
                 <div class="flex justify-between">
-                    <span class="text-gray-600">Harga Hairstyle:</span>
-                    <span id="hairstyle-price">Rp 0</span>
+                    <span class="text-xs sm:text-sm text-gray-600">Harga Hairstyle:</span>
+                    <span id="hairstyle-price" class="text-xs sm:text-sm">Rp 0</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-gray-600">Biaya Home Service:</span>
-                    <span id="home-service-fee">Rp 0</span>
+                    <span class="text-xs sm:text-sm text-gray-600">Biaya Home Service:</span>
+                    <span id="home-service-fee" class="text-xs sm:text-sm">Rp 0</span>
                 </div>
                 <hr class="border-gray-200">
-                <div class="flex justify-between font-semibold text-lg">
+                <div class="flex justify-between font-semibold text-base sm:text-lg">
                     <span>Total:</span>
                     <span id="total-price" class="text-accent">Rp 0</span>
                 </div>
@@ -155,7 +155,7 @@
         <!-- Submit Button -->
         <div class="flex justify-end">
             <button type="submit" 
-                    class="bg-accent text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-yellow-600 transition duration-300">
+                    class="bg-accent text-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-lg text-sm sm:text-base md:text-lg font-semibold hover:bg-yellow-600 transition duration-300 w-full sm:w-auto">
                 <i class="fas fa-calendar-check mr-2"></i>
                 Buat Booking
             </button>
@@ -245,5 +245,14 @@ function updatePrice() {
 // Initialize price on page load
 updatePrice();
 </script>
+
+<style>
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>
 
 <?= $this->endSection() ?>
