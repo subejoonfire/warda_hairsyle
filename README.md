@@ -98,15 +98,7 @@ fonnte.base_url = "https://api.fonnte.com/send"
 fonnte.device_id = "YOUR_DEVICE_ID"
 ```
 
-### 4. Setup Database
-```bash
-php setup_database.php
-```
 
-Script ini akan:
-- Membuat database `wardati_hairstyle` jika belum ada
-- Membuat tabel `quick_message_responses` 
-- Menambahkan data response untuk quick messages
 
 ### 5. Setup Upload Directory
 ```bash
@@ -146,7 +138,6 @@ Website akan berjalan di `http://localhost:8080`
 - `bookings` - Data booking customer
 - `chats` - Riwayat chat customer-admin
 - `quick_messages` - Pesan cepat untuk chat
-- `quick_message_responses` - Response untuk pesan cepat
 
 ## 🎨 Customization
 
@@ -189,9 +180,7 @@ Website sudah responsive untuk:
 - Jalankan `php setup_database.php` untuk setup database
 - Pastikan user MySQL memiliki akses ke database
 
-### Error Quick Message Responses
-- Jika response kosong, jalankan `php setup_database.php` untuk menambahkan data response
-- Pastikan tabel `quick_message_responses` sudah dibuat dan terisi
+
 
 ### Error WhatsApp API
 - Cek kredensial Fonnte di `.env`
