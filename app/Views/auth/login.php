@@ -19,7 +19,21 @@
             </p>
         </div>
         
+        <!-- Flash Messages -->
+        <?php if (session()->getFlashdata('error')): ?>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (session()->getFlashdata('success')): ?>
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
+        
         <form class="mt-8 space-y-6" action="/auth/login" method="POST">
+            <?= csrf_field() ?>
             <div class="rounded-md shadow-sm -space-y-px">
                 <div>
                     <label for="whatsapp" class="sr-only">Nomor WhatsApp</label>

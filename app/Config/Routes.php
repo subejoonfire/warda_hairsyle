@@ -9,6 +9,9 @@ use CodeIgniter\Router\RouteCollection;
 // Home routes
 $routes->get('/', 'Home::index');
 $routes->get('hairstyles', 'Home::hairstyles');
+$routes->get('test-login', function() {
+    return view('test_login');
+});
 
 // Auth routes
 $routes->group('auth', function($routes) {

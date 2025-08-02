@@ -34,34 +34,72 @@ class Auth extends BaseController
             $whatsapp = $this->request->getPost('whatsapp');
             $password = $this->request->getPost('password');
 
+            // Debug: Log the input
+            log_message('debug', 'Login attempt - WhatsApp: ' . $whatsapp);
+
             $user = $this->userModel->findByWhatsApp($whatsapp);
 
             if (!$user) {
+                log_message('debug', 'User not found for WhatsApp: ' . $whatsapp);
                 session()->setFlashdata('error', 'Nomor WhatsApp tidak terdaftar');
                 return redirect()->back()->withInput();
             }
 
+            log_message('debug', 'User found: ' . $user['name'] . ' (ID: ' . $user['id'] . ')');
+
             if (!password_verify($password, $user['password'])) {
+                log_message('debug', 'Password verification failed for user: ' . $user['name']);
                 session()->setFlashdata('error', 'Password salah');
                 return redirect()->back()->withInput();
             }
 
+            log_message('debug', 'Password verification successful for user: ' . $user['name']);
+
             if (!$user['is_verified']) {
+                log_message('debug', 'User not verified: ' . $user['name']);
                 session()->setFlashdata('error', 'Akun belum diverifikasi. Silakan verifikasi terlebih dahulu');
                 return redirect()->back()->withInput();
             }
 
-            session()->set([
+            // Set session data
+            $sessionData = [
                 'user_id' => $user['id'],
                 'user_name' => $user['name'],
                 'user_whatsapp' => $user['whatsapp'],
                 'user_role' => $user['role'],
-            ]);
+            ];
+            
+            // Force session start
+            if (!session()->isStarted()) {
+                session()->start();
+            }
+            
+            session()->set($sessionData);
+            
+            // Force session write
+            session()->regenerate();
+            
+            log_message('debug', 'Session data set: ' . json_encode($sessionData));
+            log_message('debug', 'Session ID: ' . session_id());
+            log_message('debug', 'Session started: ' . (session()->isStarted() ? 'YES' : 'NO'));
 
             if ($user['role'] === 'admin') {
-                return redirect()->to('/admin/dashboard');
+                log_message('debug', 'Redirecting admin to: /admin/dashboard');
+                // Return JSON response for testing
+                return $this->response->setJSON([
+                    'success' => true,
+                    'message' => 'Login berhasil',
+                    'user' => $sessionData,
+                    'redirect' => '/admin/dashboard'
+                ]);
             } else {
-                return redirect()->to('/dashboard');
+                log_message('debug', 'Redirecting customer to: /dashboard');
+                return $this->response->setJSON([
+                    'success' => true,
+                    'message' => 'Login berhasil',
+                    'user' => $sessionData,
+                    'redirect' => '/dashboard'
+                ]);
             }
         }
 
