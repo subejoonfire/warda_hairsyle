@@ -1,4 +1,4 @@
-<?= $this->extend('layout/main') ?>
+<?= $this->extend('layout/admin') ?>
 
 <?= $this->section('content') ?>
 <div class="py-4 sm:py-8">
