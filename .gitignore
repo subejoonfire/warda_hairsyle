@@ -87,6 +87,14 @@ phpunit
 vendor/
 
 #-------------------------
+# Database Files
+#-------------------------
+*.db
+*.sqlite
+*.sqlite3
+app/Database/*.db
+
+#-------------------------
 # IDE / Development Files
 #-------------------------
 

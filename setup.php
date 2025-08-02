@@ -14,7 +14,9 @@ $paths = new Config\Paths();
 // Set up database
 $db = \Config\Database::connect();
 
-echo "🚀 Memulai setup database...\n";
+echo "🚀 Memulai setup database MySQL...\n";
+echo "📋 Pastikan MySQL server sudah berjalan dan database sudah dibuat\n";
+echo "📋 Jika belum, jalankan: mysql -u root -p < setup_mysql.sql\n\n";
 
 // Run migrations
 echo "📦 Menjalankan migrations...\n";
@@ -44,10 +46,13 @@ try {
     exit(1);
 }
 
-echo "\n🎉 Setup selesai! Database telah siap digunakan.\n";
+echo "\n🎉 Setup selesai! Database MySQL telah siap digunakan.\n";
 echo "\n📋 Informasi login:\n";
 echo "Admin WhatsApp: 6281234567890\n";
 echo "Admin Password: admin123\n";
 echo "\n🔧 Jangan lupa untuk mengatur konfigurasi Fonnte di file .env\n";
 echo "   - fonnte.api_key = YOUR_FONNTE_API_KEY\n";
+echo "   - fonnte.device_id = YOUR_DEVICE_ID\n";
 echo "\n🌐 Jalankan server dengan: php spark serve\n";
+echo "\n📊 Database yang digunakan: MySQL\n";
+echo "📁 Database name: wardati_hairstyle_db\n";
