@@ -54,115 +54,11 @@ class Admin extends BaseController
         return view('admin/dashboard', $data);
     }
 
-    public function hairstyles()
-    {
-        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
-            return redirect()->to('/auth/login');
-        }
 
-        $data = [
-            'hairstyles' => $this->hairstyleModel->findAll(),
-            'admin_unread_chats' => $this->getAdminUnreadChats(),
-        ];
 
-        return view('admin/hairstyles', $data);
-    }
 
-    public function createHairstyle()
-    {
-        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
-            return redirect()->to('/auth/login');
-        }
 
-        if ($this->request->getMethod() === 'POST') {
-            $data = [
-                'name' => $this->request->getPost('name'),
-                'description' => $this->request->getPost('description'),
-                'price' => $this->request->getPost('price'),
-                'category' => $this->request->getPost('category'),
-                'is_active' => $this->request->getPost('is_active') ? true : false,
-            ];
 
-            // Handle image upload
-            $image = $this->request->getFile('image');
-            if ($image && $image->isValid() && !$image->hasMoved()) {
-                $newName = $image->getRandomName();
-                $image->move(ROOTPATH . 'public/uploads/hairstyles', $newName);
-                $data['image'] = 'uploads/hairstyles/' . $newName;
-            }
-
-            if ($this->hairstyleModel->insert($data)) {
-                session()->setFlashdata('success', 'Hairstyle berhasil ditambahkan');
-                return redirect()->to('/admin/hairstyles');
-            } else {
-                session()->setFlashdata('error', 'Gagal menambahkan hairstyle');
-                return redirect()->back()->withInput();
-            }
-        }
-
-        return view('admin/hairstyle_form', [
-            'admin_unread_chats' => $this->getAdminUnreadChats(),
-        ]);
-    }
-
-    public function editHairstyle($id)
-    {
-        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
-            return redirect()->to('/auth/login');
-        }
-
-        $hairstyle = $this->hairstyleModel->find($id);
-        if (!$hairstyle) {
-            session()->setFlashdata('error', 'Hairstyle tidak ditemukan');
-            return redirect()->to('/admin/hairstyles');
-        }
-
-        if ($this->request->getMethod() === 'POST') {
-            $data = [
-                'name' => $this->request->getPost('name'),
-                'description' => $this->request->getPost('description'),
-                'price' => $this->request->getPost('price'),
-                'category' => $this->request->getPost('category'),
-                'is_active' => $this->request->getPost('is_active') ? true : false,
-            ];
-
-            // Handle image upload
-            $image = $this->request->getFile('image');
-            if ($image && $image->isValid() && !$image->hasMoved()) {
-                $newName = $image->getRandomName();
-                $image->move(ROOTPATH . 'public/uploads/hairstyles', $newName);
-                $data['image'] = 'uploads/hairstyles/' . $newName;
-            }
-
-            if ($this->hairstyleModel->update($id, $data)) {
-                session()->setFlashdata('success', 'Hairstyle berhasil diperbarui');
-                return redirect()->to('/admin/hairstyles');
-            } else {
-                session()->setFlashdata('error', 'Gagal memperbarui hairstyle');
-                return redirect()->back()->withInput();
-            }
-        }
-
-        return view('admin/hairstyle_form', [
-            'hairstyle' => $hairstyle,
-            'admin_unread_chats' => $this->getAdminUnreadChats(),
-        ]);
-    }
-
-    public function deleteHairstyle($id)
-    {
-        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
-            return redirect()->to('/auth/login');
-        }
-
-        if ($this->hairstyleModel->delete($id)) {
-            session()->setFlashdata('success', 'Hairstyle berhasil dihapus');
-        } else {
-            session()->setFlashdata('error', 'Gagal menghapus hairstyle');
-        }
-
-        return redirect()->to('/admin/hairstyles');
-    }
 
     public function bookings()
     {
