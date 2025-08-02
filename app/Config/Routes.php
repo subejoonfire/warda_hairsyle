@@ -40,14 +40,6 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
 $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->get('dashboard', 'Admin::dashboard');
     
-    // Hairstyles management
-    $routes->get('hairstyles', 'Admin::hairstyles');
-    $routes->get('hairstyles/create', 'Admin::createHairstyle');
-    $routes->post('hairstyles/create', 'Admin::createHairstyle');
-    $routes->get('hairstyles/edit/(:num)', 'Admin::editHairstyle/$1');
-    $routes->post('hairstyles/edit/(:num)', 'Admin::editHairstyle/$1');
-    $routes->get('hairstyles/delete/(:num)', 'Admin::deleteHairstyle/$1');
-    
     // Bookings management
     $routes->get('bookings', 'Admin::bookings');
     $routes->get('bookings/(:num)', 'Admin::bookingDetail/$1');
@@ -73,7 +65,7 @@ $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->post('quick-messages/test-response', 'Admin\QuickMessageController::testResponse');
     $routes->get('quick-messages/response-sources', 'Admin\QuickMessageController::getResponseSources');
 
-    // Hairstyles management
+    // Hairstyles management (using HairstyleController)
     $routes->get('hairstyles', 'Admin\HairstyleController::index');
     $routes->get('hairstyles/create', 'Admin\HairstyleController::create');
     $routes->post('hairstyles/create', 'Admin\HairstyleController::create');
