@@ -1,135 +1,223 @@
 <?= $this->extend('layout/admin') ?>
 
 <?= $this->section('content') ?>
-<div class="container-fluid">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Tambah Quick Message</h1>
-        <a href="<?= base_url('admin/quick-messages') ?>" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
-            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Tambah Quick Message</h1>
+            <p class="text-gray-600">Buat response otomatis baru untuk customer chat</p>
+        </div>
+        <a href="<?= base_url('admin/quick-messages') ?>" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-200 flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Kembali
         </a>
     </div>
 
+    <!-- Flash Messages -->
     <?php if (session()->getFlashdata('errors')) : ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <ul class="mb-0">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <ul class="list-disc list-inside">
                 <?php foreach (session()->getFlashdata('errors') as $error) : ?>
                     <li><?= $error ?></li>
                 <?php endforeach; ?>
             </ul>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
     <?php endif; ?>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Form Quick Message</h6>
-        </div>
-        <div class="card-body">
-            <form action="<?= base_url('admin/quick-messages/create') ?>" method="POST">
-                <?= csrf_field() ?>
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="keyword">Keyword <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="keyword" name="keyword" 
-                                   value="<?= old('keyword') ?>" required>
-                            <small class="form-text text-muted">Kata kunci yang akan memicu response otomatis</small>
-                        </div>
+    <!-- Form -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <form action="<?= base_url('admin/quick-messages/create') ?>" method="POST" id="quickMessageForm">
+            <?= csrf_field() ?>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Basic Information -->
+                <div class="space-y-4">
+                    <div>
+                        <label for="keyword" class="block text-sm font-medium text-gray-700 mb-2">
+                            Keyword <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="keyword" name="keyword" 
+                               value="<?= old('keyword') ?>" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent"
+                               placeholder="Contoh: list hairstyle" required>
+                        <p class="text-xs text-gray-500 mt-1">Kata kunci yang akan memicu response otomatis</p>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="description">Deskripsi</label>
-                            <input type="text" class="form-control" id="description" name="description" 
-                                   value="<?= old('description') ?>">
-                            <small class="form-text text-muted">Deskripsi singkat tentang quick message ini</small>
-                        </div>
+
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                            Deskripsi
+                        </label>
+                        <input type="text" id="description" name="description" 
+                               value="<?= old('description') ?>" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent"
+                               placeholder="Deskripsi singkat tentang quick message ini">
+                        <p class="text-xs text-gray-500 mt-1">Deskripsi singkat untuk admin</p>
+                    </div>
+
+                    <div>
+                        <label for="sort_order" class="block text-sm font-medium text-gray-700 mb-2">
+                            Urutan
+                        </label>
+                        <input type="number" id="sort_order" name="sort_order" 
+                               value="<?= old('sort_order', 0) ?>" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent"
+                               placeholder="0">
+                        <p class="text-xs text-gray-500 mt-1">Urutan tampilan (0 = paling atas)</p>
+                    </div>
+
+                    <div>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="is_active" name="is_active" 
+                                   <?= old('is_active', true) ? 'checked' : '' ?> 
+                                   class="rounded border-gray-300 text-accent focus:ring-accent">
+                            <span class="ml-2 text-sm text-gray-700">Aktif</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1">Aktifkan quick message ini</p>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="response_type">Tipe Response <span class="text-danger">*</span></label>
-                            <select class="form-control" id="response_type" name="response_type" required>
-                                <option value="">Pilih tipe response</option>
-                                <option value="static" <?= old('response_type') === 'static' ? 'selected' : '' ?>>Static (Teks tetap)</option>
-                                <option value="dynamic" <?= old('response_type') === 'dynamic' ? 'selected' : '' ?>>Dynamic (Dari database)</option>
-                            </select>
-                            <small class="form-text text-muted">
-                                Static: Response teks tetap yang bisa diedit admin<br>
-                                Dynamic: Response yang diambil dari data database (seperti daftar hairstyle, harga, dll)
-                            </small>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" checked>
-                                <label class="custom-control-label" for="is_active">Aktif</label>
-                            </div>
-                            <small class="form-text text-muted">Quick message akan aktif setelah disimpan</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" id="static_content_group" style="display: none;">
-                    <label for="response_content">Content Response <span class="text-danger">*</span></label>
-                    <textarea class="form-control" id="response_content" name="response_content" rows="10" 
-                              placeholder="Masukkan content response..."><?= old('response_content') ?></textarea>
-                    <small class="form-text text-muted">
-                        Gunakan \n untuk baris baru. Contoh response yang baik:<br>
-                        Jam Buka Wardati Hairstyle\n\nSenin - Jumat:\n09:00 - 20:00 WIB\n\nUntuk booking, ketik: booking
-                    </small>
-                </div>
-
-                <div class="form-group" id="dynamic_content_info" style="display: none;">
-                    <div class="alert alert-info">
-                        <h6><i class="fas fa-info-circle"></i> Response Dynamic</h6>
-                        <p class="mb-0">
-                            Untuk response dynamic, content akan diambil secara otomatis dari database berdasarkan keyword yang dipilih.
-                            Keyword yang tersedia untuk dynamic response:
+                <!-- Response Configuration -->
+                <div class="space-y-4">
+                    <div>
+                        <label for="response_type" class="block text-sm font-medium text-gray-700 mb-2">
+                            Tipe Response <span class="text-red-500">*</span>
+                        </label>
+                        <select id="response_type" name="response_type" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent" required>
+                            <option value="">Pilih tipe response</option>
+                            <option value="static" <?= old('response_type') === 'static' ? 'selected' : '' ?>>Static (Teks tetap)</option>
+                            <option value="dynamic" <?= old('response_type') === 'dynamic' ? 'selected' : '' ?>>Dynamic (Dari database)</option>
+                            <option value="template" <?= old('response_type') === 'template' ? 'selected' : '' ?>>Template (Campuran)</option>
+                        </select>
+                        <p class="text-xs text-gray-500 mt-1">
+                            Static: Response teks tetap yang bisa diedit admin<br>
+                            Dynamic: Response yang diambil dari data database<br>
+                            Template: Response dengan template yang bisa menggunakan data dari database
                         </p>
-                        <ul class="mb-0 mt-2">
-                            <li><strong>list hairstyle</strong> - Menampilkan daftar hairstyle dari database</li>
-                            <li><strong>harga hairstyle</strong> - Menampilkan harga hairstyle dari database</li>
-                        </ul>
+                    </div>
+
+                    <div id="response_source_group" style="display: none;">
+                        <label for="response_source" class="block text-sm font-medium text-gray-700 mb-2">
+                            Source Data
+                        </label>
+                        <select id="response_source" name="response_source" 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent">
+                            <option value="">Pilih source data</option>
+                            <?php foreach ($response_sources as $key => $value) : ?>
+                                <option value="<?= $key ?>" <?= old('response_source') === $key ? 'selected' : '' ?>><?= $value ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <p class="text-xs text-gray-500 mt-1">Pilih sumber data untuk response</p>
+                    </div>
+
+                    <div id="response_template_group" style="display: none;">
+                        <label for="response_template" class="block text-sm font-medium text-gray-700 mb-2">
+                            Template Response
+                        </label>
+                        <textarea id="response_template" name="response_template" rows="8" 
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent"
+                                  placeholder="Masukkan template response..."><?= old('response_template') ?></textarea>
+                        <p class="text-xs text-gray-500 mt-1">
+                            Untuk template, gunakan placeholder seperti {hairstyle_list}, {price_list}, {category_list}<br>
+                            Gunakan \n untuk baris baru
+                        </p>
+                    </div>
+
+                    <div id="template_info" style="display: none;">
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                            <h4 class="text-sm font-medium text-blue-800 mb-2">Template Placeholders:</h4>
+                            <ul class="text-xs text-blue-700 space-y-1">
+                                <li><strong>{hairstyle_list}</strong> - Daftar hairstyle dengan harga</li>
+                                <li><strong>{price_list}</strong> - Daftar harga hairstyle</li>
+                                <li><strong>{category_list}</strong> - Daftar kategori hairstyle</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Simpan Quick Message
-                    </button>
-                    <a href="<?= base_url('admin/quick-messages') ?>" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Batal
-                    </a>
-                </div>
-            </form>
-        </div>
+            <!-- Preview Section -->
+            <div id="preview_section" class="mt-6 p-4 bg-gray-50 rounded-lg" style="display: none;">
+                <h3 class="text-lg font-medium text-gray-900 mb-3">Preview Response</h3>
+                <div id="preview_content" class="bg-white p-4 rounded border whitespace-pre-wrap text-sm"></div>
+                <button type="button" id="test_response" class="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    Test Response
+                </button>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
+                <a href="<?= base_url('admin/quick-messages') ?>" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400">
+                    Batal
+                </a>
+                <button type="submit" class="bg-accent text-white px-6 py-2 rounded-lg hover:bg-yellow-600">
+                    <i class="fas fa-save mr-2"></i>
+                    Simpan Quick Message
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
 <script>
 $(document).ready(function() {
-    // Show/hide content based on response type
+    // Show/hide fields based on response type
     $('#response_type').change(function() {
         const responseType = $(this).val();
         
+        // Hide all groups first
+        $('#response_source_group, #response_template_group, #template_info, #preview_section').hide();
+        
         if (responseType === 'static') {
-            $('#static_content_group').show();
-            $('#dynamic_content_info').hide();
-            $('#response_content').prop('required', true);
+            $('#response_template_group').show();
         } else if (responseType === 'dynamic') {
-            $('#static_content_group').hide();
-            $('#dynamic_content_info').show();
-            $('#response_content').prop('required', false);
+            $('#response_source_group').show();
+        } else if (responseType === 'template') {
+            $('#response_source_group, #response_template_group, #template_info').show();
+        }
+    });
+
+    // Test response button
+    $('#test_response').click(function() {
+        const responseType = $('#response_type').val();
+        const responseSource = $('#response_source').val();
+        const responseTemplate = $('#response_template').val();
+
+        if (!responseType) {
+            showNotification('Pilih tipe response terlebih dahulu', 'error');
+            return;
+        }
+
+        $.ajax({
+            url: '<?= base_url('admin/quick-messages/test-response') ?>',
+            type: 'POST',
+            data: {
+                response_type: responseType,
+                response_source: responseSource,
+                response_template: responseTemplate
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $('#preview_content').html(response.preview);
+                    $('#preview_section').show();
+                } else {
+                    showNotification('Gagal generate preview: ' + response.message, 'error');
+                }
+            },
+            error: function() {
+                showNotification('Terjadi kesalahan saat generate preview', 'error');
+            }
+        });
+    });
+
+    // Show preview section when template is filled
+    $('#response_template').on('input', function() {
+        if ($(this).val().trim()) {
+            $('#preview_section').show();
         } else {
-            $('#static_content_group').hide();
-            $('#dynamic_content_info').hide();
-            $('#response_content').prop('required', false);
+            $('#preview_section').hide();
         }
     });
 

@@ -353,26 +353,14 @@ class Home extends BaseController
 
     private function getAutoReplyFromDatabase($quickMessageId)
     {
-        $quickMessageResponseModel = new \App\Models\QuickMessageResponseModel();
-        $response = $quickMessageResponseModel->getResponseByQuickMessageId($quickMessageId);
+        $quickMessageModel = new \App\Models\QuickMessageModel();
+        $quickMessage = $quickMessageModel->find($quickMessageId);
         
-        if (!$response) {
+        if (!$quickMessage) {
             return $this->getDefaultResponse();
         }
         
-        if ($response['response_type'] === 'static') {
-            return $response['response_content'];
-        } else {
-            // For dynamic responses, generate based on keyword
-            $quickMessageModel = new \App\Models\QuickMessageModel();
-            $quickMessage = $quickMessageModel->find($quickMessageId);
-            
-            if ($quickMessage) {
-                return $this->generateDynamicResponse($quickMessage['keyword']);
-            }
-            
-            return $this->getDefaultResponse();
-        }
+        return $quickMessageModel->generateResponse($quickMessage);
     }
 
     private function getHairstyleListFromDatabase()

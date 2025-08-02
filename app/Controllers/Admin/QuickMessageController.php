@@ -4,17 +4,14 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\QuickMessageModel;
-use App\Models\QuickMessageResponseModel;
 
 class QuickMessageController extends BaseController
 {
     protected $quickMessageModel;
-    protected $quickMessageResponseModel;
 
     public function __construct()
     {
         $this->quickMessageModel = new QuickMessageModel();
-        $this->quickMessageResponseModel = new QuickMessageResponseModel();
     }
 
     public function index()
@@ -24,8 +21,9 @@ class QuickMessageController extends BaseController
         }
 
         $data = [
-            'quick_messages' => $this->quickMessageModel->getActiveQuickMessages(),
-            'responses' => $this->quickMessageResponseModel->getActiveResponses()
+            'title' => 'Kelola Quick Messages',
+            'quick_messages' => $this->quickMessageModel->getAllQuickMessages(),
+            'response_sources' => $this->quickMessageModel->getResponseSources()
         ];
 
         return view('admin/quick_messages/index', $data);
@@ -41,22 +39,14 @@ class QuickMessageController extends BaseController
             $data = [
                 'keyword' => $this->request->getPost('keyword'),
                 'description' => $this->request->getPost('description'),
+                'response_type' => $this->request->getPost('response_type'),
+                'response_source' => $this->request->getPost('response_source') ?: null,
+                'response_template' => $this->request->getPost('response_template') ?: null,
                 'is_active' => $this->request->getPost('is_active') ? 1 : 0,
+                'sort_order' => $this->request->getPost('sort_order') ?: 0,
             ];
 
             if ($this->quickMessageModel->insert($data)) {
-                $quickMessageId = $this->quickMessageModel->insertID();
-                
-                // Create response for this quick message
-                $responseData = [
-                    'quick_message_id' => $quickMessageId,
-                    'response_type' => $this->request->getPost('response_type'),
-                    'response_content' => $this->request->getPost('response_content'),
-                    'is_active' => 1,
-                ];
-
-                $this->quickMessageResponseModel->insert($responseData);
-
                 session()->setFlashdata('success', 'Quick message berhasil ditambahkan');
                 return redirect()->to('/admin/quick-messages');
             } else {
@@ -65,7 +55,12 @@ class QuickMessageController extends BaseController
             }
         }
 
-        return view('admin/quick_messages/create');
+        $data = [
+            'title' => 'Tambah Quick Message',
+            'response_sources' => $this->quickMessageModel->getResponseSources()
+        ];
+
+        return view('admin/quick_messages/create', $data);
     }
 
     public function edit($id)
@@ -75,7 +70,6 @@ class QuickMessageController extends BaseController
         }
 
         $quickMessage = $this->quickMessageModel->find($id);
-        $response = $this->quickMessageResponseModel->getResponseByQuickMessageId($id);
 
         if (!$quickMessage) {
             session()->setFlashdata('error', 'Quick message tidak ditemukan');
@@ -86,24 +80,14 @@ class QuickMessageController extends BaseController
             $data = [
                 'keyword' => $this->request->getPost('keyword'),
                 'description' => $this->request->getPost('description'),
+                'response_type' => $this->request->getPost('response_type'),
+                'response_source' => $this->request->getPost('response_source') ?: null,
+                'response_template' => $this->request->getPost('response_template') ?: null,
                 'is_active' => $this->request->getPost('is_active') ? 1 : 0,
+                'sort_order' => $this->request->getPost('sort_order') ?: 0,
             ];
 
             if ($this->quickMessageModel->update($id, $data)) {
-                // Update response
-                $responseData = [
-                    'response_type' => $this->request->getPost('response_type'),
-                    'response_content' => $this->request->getPost('response_content'),
-                    'is_active' => $this->request->getPost('response_active') ? 1 : 0,
-                ];
-
-                if ($response) {
-                    $this->quickMessageResponseModel->update($response['id'], $responseData);
-                } else {
-                    $responseData['quick_message_id'] = $id;
-                    $this->quickMessageResponseModel->insert($responseData);
-                }
-
                 session()->setFlashdata('success', 'Quick message berhasil diperbarui');
                 return redirect()->to('/admin/quick-messages');
             } else {
@@ -112,10 +96,13 @@ class QuickMessageController extends BaseController
             }
         }
 
-        return view('admin/quick_messages/edit', [
+        $data = [
+            'title' => 'Edit Quick Message',
             'quick_message' => $quickMessage,
-            'response' => $response
-        ]);
+            'response_sources' => $this->quickMessageModel->getResponseSources()
+        ];
+
+        return view('admin/quick_messages/edit', $data);
     }
 
     public function delete($id)
@@ -130,14 +117,7 @@ class QuickMessageController extends BaseController
             return redirect()->to('/admin/quick-messages');
         }
 
-        // Soft delete by setting is_active to false
-        if ($this->quickMessageModel->update($id, ['is_active' => 0])) {
-            // Also deactivate the response
-            $response = $this->quickMessageResponseModel->getResponseByQuickMessageId($id);
-            if ($response) {
-                $this->quickMessageResponseModel->update($response['id'], ['is_active' => 0]);
-            }
-
+        if ($this->quickMessageModel->delete($id)) {
             session()->setFlashdata('success', 'Quick message berhasil dihapus');
         } else {
             session()->setFlashdata('error', 'Gagal menghapus quick message');
@@ -177,20 +157,12 @@ class QuickMessageController extends BaseController
         }
 
         $quickMessage = $this->quickMessageModel->find($id);
-        $response = $this->quickMessageResponseModel->getResponseByQuickMessageId($id);
 
-        if (!$quickMessage || !$response) {
+        if (!$quickMessage) {
             return $this->response->setJSON(['success' => false, 'message' => 'Data tidak ditemukan']);
         }
 
-        $previewContent = '';
-        
-        if ($response['response_type'] === 'static') {
-            $previewContent = $response['response_content'];
-        } else {
-            // For dynamic responses, we need to generate content based on the keyword
-            $previewContent = $this->generateDynamicResponse($quickMessage['keyword']);
-        }
+        $previewContent = $this->quickMessageModel->generateResponse($quickMessage);
 
         return $this->response->setJSON([
             'success' => true,
@@ -198,64 +170,41 @@ class QuickMessageController extends BaseController
         ]);
     }
 
-    private function generateDynamicResponse($keyword)
+    public function testResponse()
     {
-        $keyword = strtolower(trim($keyword));
-        
-        switch ($keyword) {
-            case 'list hairstyle':
-                return $this->generateHairstyleList();
-            case 'harga hairstyle':
-                return $this->generateHairstylePrices();
-            default:
-                return 'Response dinamis untuk: ' . $keyword;
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return $this->response->setJSON(['success' => false, 'message' => 'Unauthorized']);
         }
+
+        $responseType = $this->request->getPost('response_type');
+        $responseSource = $this->request->getPost('response_source');
+        $responseTemplate = $this->request->getPost('response_template');
+
+        $testData = [
+            'response_type' => $responseType,
+            'response_source' => $responseSource,
+            'response_template' => $responseTemplate
+        ];
+
+        $previewContent = $this->quickMessageModel->generateResponse($testData);
+
+        return $this->response->setJSON([
+            'success' => true,
+            'preview' => $previewContent
+        ]);
     }
 
-    private function generateHairstyleList()
+    public function getResponseSources()
     {
-        $hairstyleModel = new \App\Models\HairstyleModel();
-        $hairstyles = $hairstyleModel->getActiveHairstyles();
-        
-        $response = "Daftar Hairstyle Wardati\n\n";
-        
-        if (empty($hairstyles)) {
-            $response .= "Tidak ada hairstyle yang tersedia saat ini\n\n";
-        } else {
-            $response .= "Hairstyle Tersedia:\n";
-            foreach ($hairstyles as $hairstyle) {
-                $response .= "- {$hairstyle['name']} - Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n";
-                $response .= "  {$hairstyle['description']}\n\n";
-            }
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return $this->response->setJSON(['success' => false, 'message' => 'Unauthorized']);
         }
-        
-        $response .= "Untuk melihat foto, ketik: foto hairstyle\n";
-        $response .= "Untuk melihat harga, ketik: harga hairstyle\n";
-        $response .= "Untuk booking, ketik: booking";
-        
-        return $response;
-    }
 
-    private function generateHairstylePrices()
-    {
-        $hairstyleModel = new \App\Models\HairstyleModel();
-        $hairstyles = $hairstyleModel->getActiveHairstyles();
-        
-        $response = "Harga Hairstyle Wardati\n\n";
-        
-        if (empty($hairstyles)) {
-            $response .= "Tidak ada hairstyle yang tersedia saat ini\n\n";
-        } else {
-            $response .= "Layanan Utama:\n";
-            foreach ($hairstyles as $hairstyle) {
-                $response .= "- {$hairstyle['name']}: Rp " . number_format($hairstyle['price'], 0, ',', '.') . "\n";
-            }
-            $response .= "\n";
-        }
-        
-        $response .= "Untuk booking, ketik: booking\n";
-        $response .= "Untuk melihat daftar lengkap, ketik: list hairstyle";
-        
-        return $response;
+        $sources = $this->quickMessageModel->getResponseSources();
+
+        return $this->response->setJSON([
+            'success' => true,
+            'sources' => $sources
+        ]);
     }
 }

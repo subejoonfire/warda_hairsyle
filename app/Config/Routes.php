@@ -70,4 +70,6 @@ $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->get('quick-messages/delete/(:num)', 'Admin\QuickMessageController::delete/$1');
     $routes->post('quick-messages/toggle-status/(:num)', 'Admin\QuickMessageController::toggleStatus/$1');
     $routes->get('quick-messages/preview/(:num)', 'Admin\QuickMessageController::preview/$1');
+    $routes->post('quick-messages/test-response', 'Admin\QuickMessageController::testResponse');
+    $routes->get('quick-messages/response-sources', 'Admin\QuickMessageController::getResponseSources');
 });
