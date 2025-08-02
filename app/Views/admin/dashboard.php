@@ -61,7 +61,7 @@
                     <i class="fas fa-cut text-sm sm:text-lg md:text-xl"></i>
                 </div>
                 <div class="ml-2 sm:ml-3 md:ml-4 min-w-0 flex-1">
-                    <p class="text-xs sm:text-sm font-medium text-gray-600 truncate">Hairstyles</p>
+                    <p class="text-xs sm:text-sm font-medium text-gray-600 truncate">Hair Models</p>
                     <p class="text-base sm:text-lg md:text-2xl font-bold text-gray-900">6</p>
                 </div>
             </div>
@@ -74,8 +74,8 @@
             <div class="bg-accent text-white w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 md:mb-4">
                 <i class="fas fa-plus text-lg sm:text-xl md:text-2xl"></i>
             </div>
-            <h3 class="text-base sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2">Tambah Hairstyle</h3>
-            <p class="text-xs sm:text-sm md:text-base text-gray-600">Tambah hairstyle baru ke katalog</p>
+                            <h3 class="text-base sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2">Tambah Hair Model</h3>
+                <p class="text-xs sm:text-sm md:text-base text-gray-600">Tambah hair model baru ke katalog</p>
         </a>
 
         <a href="/admin/bookings" class="bg-white p-3 sm:p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-center">
@@ -125,7 +125,7 @@
                                 Customer
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Hairstyle
+                                Hair Model
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Waktu
@@ -226,7 +226,7 @@
                         </div>
                         <div class="space-y-2">
                             <div class="flex justify-between">
-                                <span class="text-xs sm:text-sm text-gray-600">Hairstyle:</span>
+                                <span class="text-xs sm:text-sm text-gray-600">Hair Model:</span>
                                 <span class="text-xs sm:text-sm font-medium truncate ml-2"><?= $booking['hairstyle_name'] ?></span>
                             </div>
                             <div class="flex justify-between">
@@ -275,7 +275,7 @@
                                 Customer
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Hairstyle
+                                Hair Model
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Tanggal & Waktu
@@ -340,7 +340,7 @@
                         </div>
                         <div class="space-y-2">
                             <div class="flex justify-between">
-                                <span class="text-xs sm:text-sm text-gray-600">Hairstyle:</span>
+                                <span class="text-xs sm:text-sm text-gray-600">Hair Model:</span>
                                 <span class="text-xs sm:text-sm font-medium truncate ml-2"><?= $booking['hairstyle_name'] ?></span>
                             </div>
                             <div class="flex justify-between">

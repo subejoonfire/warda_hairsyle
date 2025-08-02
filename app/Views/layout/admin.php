@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Admin Dashboard - Wardati Hairstyle' ?></title>
+    <title><?= $title ?? 'Admin Dashboard - Warda_hairstyle' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -87,7 +87,7 @@
                     </a>
                     <a href="/admin/hairstyles" class="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-secondary rounded-lg transition duration-200 <?= current_url() == base_url('admin/hairstyles') ? 'bg-secondary text-white' : '' ?>">
                         <i class="fas fa-cut mr-3"></i>
-                        <span>Hairstyles</span>
+                        <span>Hair Models</span>
                     </a>
                     <a href="/admin/bookings" class="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-secondary rounded-lg transition duration-200 <?= current_url() == base_url('admin/bookings') ? 'bg-secondary text-white' : '' ?>">
                         <i class="fas fa-calendar-alt mr-3"></i>

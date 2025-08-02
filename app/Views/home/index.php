@@ -6,14 +6,14 @@
 <section class="bg-gradient-to-r from-primary to-secondary text-white py-20">
     <div class="text-center">
         <h1 class="text-4xl md:text-6xl font-bold mb-6">
-            Wardati Hairstyle
+            Warda_hairstyle
         </h1>
         <p class="text-xl md:text-2xl mb-8 text-gray-200">
             Dapatkan tampilan rambut terbaik dengan layanan profesional kami
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/hairstyles" class="bg-accent text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-yellow-600 transition duration-300 text-center">
-                Lihat Hairstyles
+                Lihat Hair Models
             </a>
             <?php if (!session()->get('user_id')): ?>
                 <a href="/auth/register" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-white hover:text-primary transition duration-300 text-center">
@@ -61,8 +61,8 @@
 <!-- Featured Hairstyles -->
 <section class="py-16 bg-gray-100">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-800 mb-4">Hairstyles Populer</h2>
-        <p class="text-gray-600 text-lg">Pilihan hairstyle terbaik yang sering dipilih customer</p>
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Hair Models Populer</h2>
+        <p class="text-gray-600 text-lg">Pilihan hair model terbaik yang sering dipilih customer</p>
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -97,7 +97,7 @@
     
     <div class="text-center mt-8">
         <a href="/hairstyles" class="bg-accent text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-yellow-600 transition duration-300">
-            Lihat Semua Hairstyles
+            Lihat Semua Hair Models
         </a>
     </div>
 </section>
@@ -105,7 +105,7 @@
 <!-- Categories Section -->
 <section class="py-16">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold text-gray-800 mb-4">Kategori Hairstyle</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Kategori Hair Model</h2>
         <p class="text-gray-600 text-lg">Pilih kategori yang sesuai dengan preferensi Anda</p>
     </div>
     
@@ -132,7 +132,7 @@
 <!-- Why Choose Us -->
 <section class="py-16 bg-primary text-white">
     <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold mb-4">Mengapa Memilih Wardati Hairstyle?</h2>
+        <h2 class="text-3xl font-bold mb-4">Mengapa Memilih Warda_hairstyle?</h2>
         <p class="text-gray-300 text-lg">Keunggulan yang membuat kami berbeda</p>
     </div>
     

@@ -5,13 +5,13 @@
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="mb-4 sm:mb-6 md:mb-8">
         <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2">Booking Layanan</h1>
-        <p class="text-xs sm:text-sm md:text-base text-gray-600">Pilih hairstyle dan jadwal yang sesuai untuk Anda</p>
+        <p class="text-xs sm:text-sm md:text-base text-gray-600">Pilih hair model dan jadwal yang sesuai untuk Anda</p>
     </div>
 
     <form action="/booking" method="POST" class="space-y-4 sm:space-y-6 md:space-y-8">
         <!-- Hairstyle Selection -->
         <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
-            <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Pilih Hairstyle</h2>
+            <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Pilih Hair Model</h2>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 <?php foreach ($hairstyles as $hairstyle): ?>
@@ -78,7 +78,7 @@
         <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
             <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Tipe Layanan</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                 <div class="border-2 rounded-lg p-3 sm:p-4 cursor-pointer hover:border-accent transition-colors service-option border-accent bg-yellow-50" data-type="salon">
                     <div class="flex items-center">
                         <input type="radio" name="service_type" value="salon" checked class="mr-3">
@@ -86,6 +86,28 @@
                             <h3 class="font-semibold text-gray-800 text-sm sm:text-base">Salon</h3>
                             <p class="text-xs sm:text-sm text-gray-600">Datang ke tempat kami</p>
                             <p class="text-xs sm:text-sm text-gray-500">Biaya tambahan: Rp 0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-2 rounded-lg p-3 sm:p-4 cursor-pointer hover:border-accent transition-colors service-option border-gray-200" data-type="cornrow">
+                    <div class="flex items-center">
+                        <input type="radio" name="service_type" value="cornrow" class="mr-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 text-sm sm:text-base">Cornrow</h3>
+                            <p class="text-xs sm:text-sm text-gray-600">Layanan cornrow profesional</p>
+                            <p class="text-xs sm:text-sm text-gray-500">Biaya tambahan: Rp 15.000</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-2 rounded-lg p-3 sm:p-4 cursor-pointer hover:border-accent transition-colors service-option border-gray-200" data-type="boxbraid">
+                    <div class="flex items-center">
+                        <input type="radio" name="service_type" value="boxbraid" class="mr-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 text-sm sm:text-base">Box Braid</h3>
+                            <p class="text-xs sm:text-sm text-gray-600">Layanan box braid profesional</p>
+                            <p class="text-xs sm:text-sm text-gray-500">Biaya tambahan: Rp 20.000</p>
                         </div>
                     </div>
                 </div>
@@ -137,11 +159,11 @@
             
             <div class="space-y-2 sm:space-y-3">
                 <div class="flex justify-between">
-                    <span class="text-xs sm:text-sm text-gray-600">Harga Hairstyle:</span>
+                    <span class="text-xs sm:text-sm text-gray-600">Harga Hair Model:</span>
                     <span id="hairstyle-price" class="text-xs sm:text-sm">Rp 0</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-xs sm:text-sm text-gray-600">Biaya Home Service:</span>
+                    <span class="text-xs sm:text-sm text-gray-600">Biaya Layanan:</span>
                     <span id="home-service-fee" class="text-xs sm:text-sm">Rp 0</span>
                 </div>
                 <hr class="border-gray-200">
@@ -225,20 +247,32 @@ function updatePrice() {
     const selectedService = document.querySelector('input[name="service_type"]:checked');
     
     let hairstylePrice = 0;
-    let homeServiceFee = 0;
+    let serviceFee = 0;
     
     if (selectedHairstyle) {
         hairstylePrice = parseInt(selectedHairstyle.dataset.price);
     }
     
-    if (selectedService && selectedService.value === 'home') {
-        homeServiceFee = 25000;
+    if (selectedService) {
+        switch(selectedService.value) {
+            case 'cornrow':
+                serviceFee = 15000;
+                break;
+            case 'boxbraid':
+                serviceFee = 20000;
+                break;
+            case 'home':
+                serviceFee = 25000;
+                break;
+            default:
+                serviceFee = 0;
+        }
     }
     
-    const total = hairstylePrice + homeServiceFee;
+    const total = hairstylePrice + serviceFee;
     
     document.getElementById('hairstyle-price').textContent = `Rp ${hairstylePrice.toLocaleString('id-ID')}`;
-    document.getElementById('home-service-fee').textContent = `Rp ${homeServiceFee.toLocaleString('id-ID')}`;
+    document.getElementById('home-service-fee').textContent = `Rp ${serviceFee.toLocaleString('id-ID')}`;
     document.getElementById('total-price').textContent = `Rp ${total.toLocaleString('id-ID')}`;
 }
 

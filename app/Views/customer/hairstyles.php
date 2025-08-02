@@ -6,8 +6,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="text-center mb-6 sm:mb-8">
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Katalog Hairstyle</h1>
-            <p class="text-gray-600 text-sm sm:text-base">Pilih hairstyle yang sesuai dengan preferensi Anda</p>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">Katalog Hair Model</h1>
+        <p class="text-gray-600 text-sm sm:text-base">Pilih hair model yang sesuai dengan preferensi Anda</p>
         </div>
 
         <!-- Search and Filter -->
@@ -16,10 +16,10 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                     <!-- Search -->
                     <div>
-                        <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Cari Hairstyle</label>
-                        <input type="text" name="search" id="search" value="<?= $search ?? '' ?>" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
-                               placeholder="Cari nama hairstyle...">
+                                        <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Cari Hair Model</label>
+                <input type="text" name="search" id="search" value="<?= $search ?? '' ?>"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                       placeholder="Cari nama hair model...">
                     </div>
 
                     <!-- Category Filter -->
@@ -71,7 +71,7 @@
                     <?php if (!empty($search)): ?>untuk "<?= $search ?>"<?php endif; ?>
                     <?php if (!empty($selected_category)): ?>dalam kategori "<?= $categoryNames[$selected_category] ?? ucfirst($selected_category) ?>"<?php endif; ?>
                 <?php else: ?>
-                    Semua hairstyle (<?= count($hairstyles) ?>)
+                    Semua hair model (<?= count($hairstyles) ?>)
                 <?php endif; ?>
             </p>
         </div>
@@ -82,10 +82,10 @@
                 <div class="text-gray-400 text-4xl sm:text-6xl mb-4">
                     <i class="fas fa-cut"></i>
                 </div>
-                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-2">Tidak ada hairstyle ditemukan</h3>
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-2">Tidak ada hair model ditemukan</h3>
                 <p class="text-gray-500 text-sm">Coba ubah filter pencarian Anda</p>
                 <a href="/hairstyles" class="inline-block mt-4 bg-primary text-white px-4 sm:px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300 text-sm sm:text-base">
-                    Lihat Semua Hairstyle
+                    Lihat Semua Hair Model
                 </a>
             </div>
         <?php else: ?>

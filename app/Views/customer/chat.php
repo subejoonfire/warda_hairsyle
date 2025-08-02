@@ -79,10 +79,10 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
             <button type="button" class="quick-message-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-quick-message-id="1">
-                list hairstyle
+                list hair model
             </button>
             <button type="button" class="quick-message-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-quick-message-id="2">
-                harga hairstyle
+                                  harga hair model
             </button>
             <button type="button" class="quick-message-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-quick-message-id="3">
                 jam buka
