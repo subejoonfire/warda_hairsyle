@@ -230,6 +230,9 @@ class Home extends BaseController
             $autoReplyService = new \App\Services\AutoReplyService();
             $autoReply = $autoReplyService->generateAutoReply($message);
             
+            // Debug: Log the auto-reply
+            log_message('debug', 'Home::sendMessage - Auto-reply generated: ' . $autoReply);
+            
             // Send auto-reply as admin message
             $adminId = 1; // Default admin ID
             $this->chatModel->sendAdminMessage($userId, $adminId, $autoReply);
