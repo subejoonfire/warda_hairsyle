@@ -1,68 +1,218 @@
-# CodeIgniter 4 Application Starter
+# 🪒 Barbershop Website
 
-## What is CodeIgniter?
+Website barbershop lengkap dengan sistem booking, chat, dan integrasi WhatsApp menggunakan CodeIgniter 4 dan Tailwind CSS.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## ✨ Fitur Utama
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+### 🏠 Landing Page
+- Showcase hairstyles dengan gambar dan harga
+- Kategori hairstyle (Classic, Modern, Fade, Short)
+- Informasi layanan dan keunggulan
+- Call-to-action untuk registrasi
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+### 👤 Sistem Autentikasi
+- Registrasi dengan verifikasi WhatsApp via Fonnte
+- Login menggunakan nomor WhatsApp
+- Verifikasi kode 6 digit melalui WhatsApp
+- Role-based access (Customer & Admin)
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### 🎯 Customer Dashboard
+- Riwayat booking dengan status
+- Statistik penggunaan layanan
+- Quick actions untuk booking dan chat
+- Profile management
 
-## Installation & updates
+### 📅 Sistem Booking
+- Pilihan hairstyle dengan preview
+- Pemilihan tanggal dan waktu
+- Opsi layanan (Salon atau Home Service)
+- Kalkulasi harga otomatis
+- Notifikasi WhatsApp untuk konfirmasi
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+### 💬 Chat System
+- Real-time chat dengan admin
+- Quick messages untuk pertanyaan umum
+- Notifikasi WhatsApp untuk admin
+- Auto-refresh setiap 5 detik
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+### 👨‍💼 Admin Panel
+- Dashboard dengan statistik lengkap
+- Manajemen hairstyles (CRUD)
+- Kelola booking dengan status updates
+- Chat management dengan customer
+- Notifikasi WhatsApp otomatis
 
-## Setup
+### 📱 Integrasi WhatsApp
+- Verifikasi akun via WhatsApp
+- Notifikasi booking baru
+- Update status booking
+- Chat notifications
+- Menggunakan API Fonnte
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## 🛠️ Teknologi yang Digunakan
 
-## Important Change with index.php
+- **Backend**: CodeIgniter 4
+- **Frontend**: Tailwind CSS
+- **Database**: MySQL
+- **WhatsApp API**: Fonnte
+- **Icons**: Font Awesome
+- **JavaScript**: Vanilla JS
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## 📋 Persyaratan Sistem
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+- PHP 8.0 atau lebih tinggi
+- MySQL 5.7 atau lebih tinggi
+- Composer
+- Web server (Apache/Nginx)
+- Akun Fonnte untuk WhatsApp API
 
-**Please** read the user guide for a better explanation of how CI4 works!
+## 🚀 Instalasi
 
-## Repository Management
+### 1. Clone Repository
+```bash
+git clone <repository-url>
+cd barbershop-website
+```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+### 2. Install Dependencies
+```bash
+composer install
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 3. Setup Environment
+```bash
+cp .env.example .env
+```
 
-## Server Requirements
+Edit file `.env` dan sesuaikan konfigurasi:
+```env
+# Database
+database.default.hostname = localhost
+database.default.database = barbershop_db
+database.default.username = root
+database.default.password = 
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+# Fonnte WhatsApp API
+fonnte.api_key = "YOUR_FONNTE_API_KEY"
+fonnte.device_id = "YOUR_DEVICE_ID"
+fonnte.base_url = "https://api.fonnte.com/send"
+```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+### 4. Setup Database
+```bash
+# Buat database MySQL
+mysql -u root -p
+CREATE DATABASE barbershop_db;
+exit;
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+# Jalankan setup script
+php setup.php
+```
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+### 5. Setup Upload Directory
+```bash
+mkdir -p public/uploads/hairstyles
+chmod 755 public/uploads/hairstyles
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+### 6. Jalankan Server
+```bash
+php spark serve
+```
+
+Website akan berjalan di `http://localhost:8080`
+
+## 🔧 Konfigurasi Fonnte
+
+1. Daftar akun di [Fonnte](https://fonnte.com)
+2. Dapatkan API Key dan Device ID
+3. Update file `.env` dengan kredensial Fonnte
+4. Pastikan device Fonnte sudah terhubung
+
+## 👤 Akun Default
+
+### Admin
+- **WhatsApp**: 6281234567890
+- **Password**: admin123
+
+### Customer
+- Daftar melalui halaman registrasi
+- Verifikasi via WhatsApp
+
+## 📁 Struktur Database
+
+### Tables
+- `users` - Data customer dan admin
+- `hairstyles` - Katalog hairstyle
+- `bookings` - Data booking customer
+- `chats` - Riwayat chat customer-admin
+
+## 🎨 Customization
+
+### Styling
+- Edit file `app/Views/layout/main.php` untuk mengubah tema
+- Gunakan Tailwind CSS classes untuk styling
+- Warna utama: Primary (#1f2937), Accent (#f59e0b)
+
+### Hairstyles
+- Tambah hairstyle melalui admin panel
+- Upload gambar ke `public/uploads/hairstyles/`
+- Kategori: classic, modern, fade, short
+
+### WhatsApp Messages
+- Edit template pesan di `app/Services/WhatsAppService.php`
+- Customize format pesan sesuai kebutuhan
+
+## 🔒 Security Features
+
+- Password hashing dengan bcrypt
+- Session management
+- CSRF protection
+- Input validation
+- Role-based access control
+- WhatsApp verification
+
+## 📱 Responsive Design
+
+Website sudah responsive untuk:
+- Desktop (1024px+)
+- Tablet (768px - 1023px)
+- Mobile (< 768px)
+
+## 🚨 Troubleshooting
+
+### Error Database Connection
+- Pastikan MySQL berjalan
+- Cek konfigurasi database di `.env`
+- Pastikan database `barbershop_db` sudah dibuat
+
+### Error WhatsApp API
+- Cek kredensial Fonnte di `.env`
+- Pastikan device Fonnte terhubung
+- Cek balance Fonnte account
+
+### Error Upload Image
+- Pastikan folder `public/uploads/hairstyles/` ada
+- Cek permission folder (755)
+- Pastikan file size tidak melebihi limit
+
+## 📞 Support
+
+Untuk bantuan dan pertanyaan:
+- Email: support@barbershop.com
+- WhatsApp: +62 812-3456-7890
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- CodeIgniter 4 Framework
+- Tailwind CSS
+- Fonnte WhatsApp API
+- Font Awesome Icons
+
+---
+
+**Happy Coding! 🚀**
