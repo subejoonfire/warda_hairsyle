@@ -37,6 +37,13 @@
         .notification.hide {
             transform: translateX(100%);
         }
+        .nav-link.active {
+            background-color: rgba(156, 163, 175, 0.2);
+            color: white;
+        }
+        .nav-link:hover {
+            background-color: rgba(156, 163, 175, 0.3);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -46,42 +53,51 @@
     <!-- Admin Layout -->
     <div class="min-h-screen bg-gray-50">
         <!-- Top Navigation -->
-        <nav class="bg-primary text-white shadow-lg">
+        <nav class="bg-gradient-to-r from-primary to-secondary text-white shadow-lg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <!-- Logo and Brand -->
                     <div class="flex items-center">
-                        <i class="fas fa-cut text-accent text-2xl mr-3"></i>
-                        <span class="text-white font-bold text-xl">Wardati Admin</span>
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-cut text-accent text-2xl mr-3"></i>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="ml-4 flex items-baseline space-x-4">
+                                <span class="text-white font-bold text-xl">Wardati Admin</span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Navigation Links -->
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <a href="/admin/dashboard" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                            <a href="/admin/dashboard" class="nav-link <?= strpos(current_url(), '/admin/dashboard') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200">
                                 <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
                             </a>
-                            <a href="/admin/hairstyles" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                            <a href="/admin/hairstyles" class="nav-link <?= strpos(current_url(), '/admin/hairstyles') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200">
                                 <i class="fas fa-cut mr-2"></i>Hairstyles
                             </a>
-                            <a href="/admin/bookings" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                            <a href="/admin/bookings" class="nav-link <?= strpos(current_url(), '/admin/bookings') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200">
                                 <i class="fas fa-calendar-alt mr-2"></i>Bookings
                             </a>
-                            <a href="/admin/customers" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                            <a href="/admin/customers" class="nav-link <?= strpos(current_url(), '/admin/customers') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200">
                                 <i class="fas fa-users mr-2"></i>Customers
                             </a>
-                            <a href="/admin/chats" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                            <a href="/admin/chats" class="nav-link <?= strpos(current_url(), '/admin/chats') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200">
                                 <i class="fas fa-comments mr-2"></i>Chats
                             </a>
-                            <a href="/admin/quick-messages" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                            <a href="/admin/quick-messages" class="nav-link <?= strpos(current_url(), '/admin/quick-messages') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200">
                                 <i class="fas fa-reply-all mr-2"></i>Quick Messages
+                            </a>
+                            <a href="/admin/admins" class="nav-link <?= strpos(current_url(), '/admin/admins') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium transition duration-200">
+                                <i class="fas fa-user-shield mr-2"></i>Admin Management
                             </a>
                         </div>
                     </div>
 
                     <!-- User Menu -->
                     <div class="flex items-center space-x-4">
-                        <div class="text-sm text-gray-300">
+                        <div class="hidden md:block text-sm text-gray-300">
                             <i class="fas fa-clock mr-1"></i>
                             <span id="currentTime"></span>
                         </div>
@@ -89,19 +105,21 @@
                             <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
                                 <i class="fas fa-user text-white"></i>
                             </div>
-                            <div class="ml-3">
+                            <div class="hidden md:block ml-3">
                                 <p class="text-sm font-medium text-white"><?= session()->get('user_name') ?></p>
                                 <p class="text-xs text-gray-400">Admin</p>
                             </div>
                         </div>
-                        <a href="/auth/logout" class="text-gray-300 hover:text-white text-sm transition duration-200">
-                            <i class="fas fa-sign-out-alt mr-1"></i>Logout
-                        </a>
+                        <div class="hidden md:block">
+                            <a href="/auth/logout" class="text-gray-300 hover:text-white text-sm transition duration-200">
+                                <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Mobile menu button -->
                     <div class="md:hidden">
-                        <button id="mobileMenuButton" class="text-gray-300 hover:text-white">
+                        <button id="mobileMenuButton" class="text-gray-300 hover:text-white focus:outline-none focus:text-white">
                             <i class="fas fa-bars text-xl"></i>
                         </button>
                     </div>
@@ -111,24 +129,41 @@
             <!-- Mobile menu -->
             <div id="mobileMenu" class="md:hidden hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
-                    <a href="/admin/dashboard" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <a href="/admin/dashboard" class="nav-link <?= strpos(current_url(), '/admin/dashboard') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
                         <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
                     </a>
-                    <a href="/admin/hairstyles" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <a href="/admin/hairstyles" class="nav-link <?= strpos(current_url(), '/admin/hairstyles') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
                         <i class="fas fa-cut mr-2"></i>Hairstyles
                     </a>
-                    <a href="/admin/bookings" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <a href="/admin/bookings" class="nav-link <?= strpos(current_url(), '/admin/bookings') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
                         <i class="fas fa-calendar-alt mr-2"></i>Bookings
                     </a>
-                    <a href="/admin/customers" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <a href="/admin/customers" class="nav-link <?= strpos(current_url(), '/admin/customers') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
                         <i class="fas fa-users mr-2"></i>Customers
                     </a>
-                    <a href="/admin/chats" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <a href="/admin/chats" class="nav-link <?= strpos(current_url(), '/admin/chats') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
                         <i class="fas fa-comments mr-2"></i>Chats
                     </a>
-                    <a href="/admin/quick-messages" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                    <a href="/admin/quick-messages" class="nav-link <?= strpos(current_url(), '/admin/quick-messages') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
                         <i class="fas fa-reply-all mr-2"></i>Quick Messages
                     </a>
+                    <a href="/admin/admins" class="nav-link <?= strpos(current_url(), '/admin/admins') !== false ? 'active' : '' ?> text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
+                        <i class="fas fa-user-shield mr-2"></i>Admin Management
+                    </a>
+                    <div class="border-t border-gray-700 pt-4">
+                        <div class="flex items-center px-3 py-2">
+                            <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white"><?= session()->get('user_name') ?></p>
+                                <p class="text-xs text-gray-400">Admin</p>
+                            </div>
+                        </div>
+                        <a href="/auth/logout" class="text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>

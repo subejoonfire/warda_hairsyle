@@ -80,4 +80,14 @@ $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->get('hairstyles/categories/edit/(:num)', 'Admin\HairstyleController::editCategory/$1');
     $routes->post('hairstyles/categories/edit/(:num)', 'Admin\HairstyleController::editCategory/$1');
     $routes->get('hairstyles/categories/delete/(:num)', 'Admin\HairstyleController::deleteCategory/$1');
+    
+    // Admin Management
+    $routes->get('admins', 'Admin\AdminController::index');
+    $routes->get('admins/create', 'Admin\AdminController::create');
+    $routes->post('admins/store', 'Admin\AdminController::store');
+    $routes->get('admins/edit/(:num)', 'Admin\AdminController::edit/$1');
+    $routes->post('admins/update/(:num)', 'Admin\AdminController::update/$1');
+    $routes->post('admins/delete/(:num)', 'Admin\AdminController::delete/$1');
+    $routes->post('admins/toggle-status/(:num)', 'Admin\AdminController::toggleStatus/$1');
+    $routes->get('admins/view/(:num)', 'Admin\AdminController::view/$1');
 });
