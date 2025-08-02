@@ -60,4 +60,14 @@ $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->get('chats', 'Admin::chats');
     $routes->post('send-admin-message', 'Admin::sendAdminMessage');
     $routes->get('get-customer-chats/(:num)', 'Admin::getCustomerChats/$1');
+    
+    // Quick Messages management
+    $routes->get('quick-messages', 'Admin\QuickMessageController::index');
+    $routes->get('quick-messages/create', 'Admin\QuickMessageController::create');
+    $routes->post('quick-messages/create', 'Admin\QuickMessageController::create');
+    $routes->get('quick-messages/edit/(:num)', 'Admin\QuickMessageController::edit/$1');
+    $routes->post('quick-messages/edit/(:num)', 'Admin\QuickMessageController::edit/$1');
+    $routes->get('quick-messages/delete/(:num)', 'Admin\QuickMessageController::delete/$1');
+    $routes->post('quick-messages/toggle-status/(:num)', 'Admin\QuickMessageController::toggleStatus/$1');
+    $routes->get('quick-messages/preview/(:num)', 'Admin\QuickMessageController::preview/$1');
 });

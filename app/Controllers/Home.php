@@ -352,26 +352,25 @@ class Home extends BaseController
 
     private function getAutoReplyFromDatabase($quickMessageId)
     {
-        // Get response based on quick message ID
-        switch ($quickMessageId) {
-            case 1: // list hairstyle
-                return $this->getHairstyleListFromDatabase();
-            case 2: // harga hairstyle
-                return $this->getHairstylePricesFromDatabase();
-            case 3: // jam buka
-                return $this->getOpeningHours();
-            case 4: // lokasi
-                return $this->getLocation();
-            case 5: // layanan
-                return $this->getServices();
-            case 6: // kontak
-                return $this->getContactInfo();
-            case 7: // booking
-                return $this->getBookingInfo();
-            case 8: // menu
-                return $this->getMainMenu();
-            default:
-                return $this->getDefaultResponse();
+        $quickMessageResponseModel = new \App\Models\QuickMessageResponseModel();
+        $response = $quickMessageResponseModel->getResponseByQuickMessageId($quickMessageId);
+        
+        if (!$response) {
+            return $this->getDefaultResponse();
+        }
+        
+        if ($response['response_type'] === 'static') {
+            return $response['response_content'];
+        } else {
+            // For dynamic responses, generate based on keyword
+            $quickMessageModel = new \App\Models\QuickMessageModel();
+            $quickMessage = $quickMessageModel->find($quickMessageId);
+            
+            if ($quickMessage) {
+                return $this->generateDynamicResponse($quickMessage['keyword']);
+            }
+            
+            return $this->getDefaultResponse();
         }
     }
 
@@ -679,6 +678,20 @@ class Home extends BaseController
                "- TikTok: @wardati_hairstyle\n\n" .
                "Untuk melihat harga, ketik: harga hairstyle\n" .
                "Untuk booking, ketik: booking";
+    }
+
+    private function generateDynamicResponse($keyword)
+    {
+        $keyword = strtolower(trim($keyword));
+        
+        switch ($keyword) {
+            case 'list hairstyle':
+                return $this->getHairstyleListFromDatabase();
+            case 'harga hairstyle':
+                return $this->getHairstylePricesFromDatabase();
+            default:
+                return $this->getDefaultResponse();
+        }
     }
 
     private function getDefaultResponse()
