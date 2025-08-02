@@ -338,23 +338,9 @@ class Home extends BaseController
             // Generate auto-reply based on quick message ID
             $autoReply = $this->getAutoReplyFromDatabase($quickMessageId);
             
-            // Debug: Log the auto-reply
-            log_message('debug', 'Quick message ID: ' . $quickMessageId);
-            log_message('debug', 'Auto-reply generated: ' . $autoReply);
-            
             // Send auto-reply as admin message
             $adminId = 1; // Default admin ID
-            
-            // Debug: Log before sending admin message
-            log_message('debug', 'About to send admin message:');
-            log_message('debug', 'User ID: ' . $userId);
-            log_message('debug', 'Admin ID: ' . $adminId);
-            log_message('debug', 'Message: ' . $autoReply);
-            
-            $result = $this->chatModel->sendAdminMessage($userId, $adminId, $autoReply);
-            
-            // Debug: Log the result
-            log_message('debug', 'sendAdminMessage result: ' . ($result ? 'success' : 'failed'));
+            $this->chatModel->sendAdminMessage($userId, $adminId, $autoReply);
 
             return $this->response->setJSON(['success' => true, 'message' => 'Quick message sent successfully']);
         } else {
@@ -364,47 +350,26 @@ class Home extends BaseController
 
     private function getAutoReplyFromDatabase($quickMessageId)
     {
-        // Debug: Log the quick message ID
-        log_message('debug', 'Getting auto-reply for quick message ID: ' . $quickMessageId);
-        
         // Get response based on quick message ID
         switch ($quickMessageId) {
             case 1: // list hairstyle
-                $response = $this->getHairstyleListFromDatabase();
-                log_message('debug', 'Case 1 - Hairstyle list response: ' . $response);
-                return $response;
+                return $this->getHairstyleListFromDatabase();
             case 2: // harga hairstyle
-                $response = $this->getHairstylePricesFromDatabase();
-                log_message('debug', 'Case 2 - Hairstyle prices response: ' . $response);
-                return $response;
+                return $this->getHairstylePricesFromDatabase();
             case 3: // jam buka
-                $response = $this->getOpeningHours();
-                log_message('debug', 'Case 3 - Opening hours response: ' . $response);
-                return $response;
+                return $this->getOpeningHours();
             case 4: // lokasi
-                $response = $this->getLocation();
-                log_message('debug', 'Case 4 - Location response: ' . $response);
-                return $response;
+                return $this->getLocation();
             case 5: // layanan
-                $response = $this->getServices();
-                log_message('debug', 'Case 5 - Services response: ' . $response);
-                return $response;
+                return $this->getServices();
             case 6: // kontak
-                $response = $this->getContactInfo();
-                log_message('debug', 'Case 6 - Contact response: ' . $response);
-                return $response;
+                return $this->getContactInfo();
             case 7: // booking
-                $response = $this->getBookingInfo();
-                log_message('debug', 'Case 7 - Booking response: ' . $response);
-                return $response;
+                return $this->getBookingInfo();
             case 8: // menu
-                $response = $this->getMainMenu();
-                log_message('debug', 'Case 8 - Menu response: ' . $response);
-                return $response;
+                return $this->getMainMenu();
             default:
-                $response = $this->getDefaultResponse();
-                log_message('debug', 'Default response: ' . $response);
-                return $response;
+                return $this->getDefaultResponse();
         }
     }
 
@@ -573,21 +538,18 @@ class Home extends BaseController
 
     private function getOpeningHours()
     {
-        $response = "🕐 *Jam Buka Wardati Hairstyle*\n\n" .
-                   "📅 *Senin - Jumat:*\n" .
-                   "   09:00 - 20:00 WIB\n\n" .
-                   "📅 *Sabtu - Minggu:*\n" .
-                   "   08:00 - 21:00 WIB\n\n" .
-                   "📅 *Hari Libur Nasional:*\n" .
-                   "   10:00 - 18:00 WIB\n\n" .
-                   "💡 *Catatan:*\n" .
-                   "• Booking terakhir 2 jam sebelum tutup\n" .
-                   "• Home service tersedia 24 jam dengan booking minimal 1 hari sebelumnya\n" .
-                   "• Untuk booking mendesak, hubungi langsung\n\n" .
-                   "Untuk booking, ketik: *booking*";
-        
-        log_message('debug', 'getOpeningHours - Generated response: ' . $response);
-        return $response;
+        return "🕐 *Jam Buka Wardati Hairstyle*\n\n" .
+               "📅 *Senin - Jumat:*\n" .
+               "   09:00 - 20:00 WIB\n\n" .
+               "📅 *Sabtu - Minggu:*\n" .
+               "   08:00 - 21:00 WIB\n\n" .
+               "📅 *Hari Libur Nasional:*\n" .
+               "   10:00 - 18:00 WIB\n\n" .
+               "💡 *Catatan:*\n" .
+               "• Booking terakhir 2 jam sebelum tutup\n" .
+               "• Home service tersedia 24 jam dengan booking minimal 1 hari sebelumnya\n" .
+               "• Untuk booking mendesak, hubungi langsung\n\n" .
+               "Untuk booking, ketik: *booking*";
     }
 
     private function getLocation()

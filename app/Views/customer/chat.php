@@ -78,30 +78,30 @@
             </span>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
-            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="1" data-text="list hairstyle">
+            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="1">
                 list hairstyle
-            </button>
-            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="2" data-text="harga hairstyle">
+            </a>
+            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="2">
                 harga hairstyle
-            </button>
-            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="3" data-text="jam buka">
+            </a>
+            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="3">
                 jam buka
-            </button>
-            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="4" data-text="lokasi">
+            </a>
+            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="4">
                 lokasi
-            </button>
-            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="5" data-text="layanan">
+            </a>
+            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="5">
                 layanan
-            </button>
-            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="6" data-text="kontak">
+            </a>
+            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="6">
                 kontak
-            </button>
-            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="7" data-text="booking">
+            </a>
+            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="7">
                 booking
-            </button>
-            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="8" data-text="menu">
+            </a>
+            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="8">
                 menu
-            </button>
+            </a>
         </div>
     </div>
 </div>
@@ -172,14 +172,17 @@ function addMessage(message, senderType) {
 }
 
 // Quick messages
-document.querySelectorAll('.quick-message-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        const quickMessageId = this.dataset.id;
-        const messageText = this.dataset.text;
+document.querySelectorAll('.quick-message-link').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
         
-        // Disable button and show loading
-        this.disabled = true;
+        const quickMessageId = this.dataset.id;
+        const messageText = this.textContent.trim();
+        
+        // Show loading state
+        const originalText = this.textContent;
         this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Mengirim...';
+        this.style.pointerEvents = 'none';
         
         // Add message to chat immediately
         addMessage(messageText, 'customer');
@@ -194,9 +197,9 @@ document.querySelectorAll('.quick-message-btn').forEach(button => {
         })
         .then(response => response.json())
         .then(data => {
-            // Re-enable button
-            this.disabled = false;
-            this.textContent = messageText;
+            // Restore link
+            this.textContent = originalText;
+            this.style.pointerEvents = 'auto';
             
             if (!data.success) {
                 showNotification('Gagal mengirim pesan: ' + data.message, 'error');
@@ -206,9 +209,9 @@ document.querySelectorAll('.quick-message-btn').forEach(button => {
             console.error('Error:', error);
             showNotification('Terjadi kesalahan saat mengirim pesan', 'error');
             
-            // Re-enable button
-            this.disabled = false;
-            this.textContent = messageText;
+            // Restore link
+            this.textContent = originalText;
+            this.style.pointerEvents = 'auto';
         });
     });
 });
@@ -235,28 +238,21 @@ function checkNewMessages() {
     });
 }
 
-// Check for new messages when user is active
-let isUserActive = true;
-let lastActivity = Date.now();
+// Manual refresh button
+function refreshChat() {
+    checkNewMessages();
+}
 
-// Track user activity
-document.addEventListener('mousemove', () => {
-    isUserActive = true;
-    lastActivity = Date.now();
-});
-
-document.addEventListener('keypress', () => {
-    isUserActive = true;
-    lastActivity = Date.now();
-});
-
-// Check for new messages only when user is active
-setInterval(() => {
-    const now = Date.now();
-    if (isUserActive && (now - lastActivity) < 30000) { // 30 seconds
-        checkNewMessages();
-    }
-}, 5000); // Check every 5 seconds
+// Add refresh button to chat header
+const chatHeader = document.querySelector('.chat-header');
+if (chatHeader) {
+    const refreshBtn = document.createElement('button');
+    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+    refreshBtn.className = 'text-gray-500 hover:text-gray-700 transition-colors';
+    refreshBtn.title = 'Refresh Chat';
+    refreshBtn.onclick = refreshChat;
+    chatHeader.appendChild(refreshBtn);
+}
 
 // Initial scroll to bottom
 scrollToBottom();
