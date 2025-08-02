@@ -78,29 +78,29 @@
             </span>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "list hairstyle"
+            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="1" data-text="list hairstyle">
+                list hairstyle
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "harga hairstyle"
+            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="2" data-text="harga hairstyle">
+                harga hairstyle
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "jam buka"
+            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="3" data-text="jam buka">
+                jam buka
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "lokasi"
+            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="4" data-text="lokasi">
+                lokasi
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "layanan"
+            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="5" data-text="layanan">
+                layanan
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "kontak"
+            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="6" data-text="kontak">
+                kontak
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "booking"
+            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="7" data-text="booking">
+                booking
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "menu"
+            <button class="quick-message-btn bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300" data-id="8" data-text="menu">
+                menu
             </button>
         </div>
     </div>
@@ -172,30 +172,31 @@ function addMessage(message, senderType) {
 }
 
 // Quick messages
-document.querySelectorAll('.quick-message').forEach(button => {
+document.querySelectorAll('.quick-message-btn').forEach(button => {
     button.addEventListener('click', function() {
-        const message = this.textContent.replace(/"/g, '');
+        const quickMessageId = this.dataset.id;
+        const messageText = this.dataset.text;
         
         // Disable button and show loading
         this.disabled = true;
         this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Mengirim...';
         
         // Add message to chat immediately
-        addMessage(message, 'customer');
+        addMessage(messageText, 'customer');
         
         // Send to server
-        fetch('/send-message', {
+        fetch('/send-quick-message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: 'message=' + encodeURIComponent(message)
+            body: 'quick_message_id=' + quickMessageId
         })
         .then(response => response.json())
         .then(data => {
             // Re-enable button
             this.disabled = false;
-            this.textContent = message;
+            this.textContent = messageText;
             
             if (!data.success) {
                 showNotification('Gagal mengirim pesan: ' + data.message, 'error');
@@ -207,7 +208,7 @@ document.querySelectorAll('.quick-message').forEach(button => {
             
             // Re-enable button
             this.disabled = false;
-            this.textContent = message;
+            this.textContent = messageText;
         });
     });
 });

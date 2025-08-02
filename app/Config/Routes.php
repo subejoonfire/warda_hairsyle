@@ -32,6 +32,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->post('profile', 'Home::profile');
     $routes->get('chat', 'Home::chat');
     $routes->post('send-message', 'Home::sendMessage');
+    $routes->post('send-quick-message', 'Home::sendQuickMessage');
     $routes->get('get-chats', 'Home::getChats');
 });
 

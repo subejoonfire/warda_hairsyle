@@ -310,6 +310,74 @@ class Home extends BaseController
         return $this->response->setJSON(['success' => true, 'chats' => $chats]);
     }
 
+    public function sendQuickMessage()
+    {
+        if (!session()->get('user_id') || session()->get('user_role') !== 'customer') {
+            return $this->response->setJSON(['success' => false, 'message' => 'Unauthorized']);
+        }
+
+        $quickMessageId = $this->request->getPost('quick_message_id');
+        if (empty($quickMessageId)) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Quick message ID tidak boleh kosong']);
+        }
+
+        $userId = session()->get('user_id');
+        
+        // Get quick message text based on ID
+        $quickMessageText = $this->getQuickMessageText($quickMessageId);
+        if (!$quickMessageText) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Quick message tidak ditemukan']);
+        }
+
+        // Send customer message
+        $chatId = $this->chatModel->sendCustomerMessage($userId, $quickMessageText);
+
+        if ($chatId) {
+            // Generate auto-reply based on quick message ID
+            $autoReply = $this->getAutoReplyByQuickMessageId($quickMessageId);
+            
+            // Send auto-reply as admin message
+            $adminId = 1; // Default admin ID
+            $this->chatModel->sendAdminMessage($userId, $adminId, $autoReply);
+
+            return $this->response->setJSON(['success' => true, 'message' => 'Quick message sent successfully']);
+        } else {
+            return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengirim quick message']);
+        }
+    }
+
+    private function getQuickMessageText($id)
+    {
+        $quickMessages = [
+            1 => 'list hairstyle',
+            2 => 'harga hairstyle',
+            3 => 'jam buka',
+            4 => 'lokasi',
+            5 => 'layanan',
+            6 => 'kontak',
+            7 => 'booking',
+            8 => 'menu'
+        ];
+
+        return $quickMessages[$id] ?? null;
+    }
+
+    private function getAutoReplyByQuickMessageId($id)
+    {
+        $responses = [
+            1 => $this->getHairstyleList(),
+            2 => $this->getHairstylePrices(),
+            3 => $this->getOpeningHours(),
+            4 => $this->getLocation(),
+            5 => $this->getServices(),
+            6 => $this->getContactInfo(),
+            7 => $this->getBookingInfo(),
+            8 => $this->getMainMenu()
+        ];
+
+        return $responses[$id] ?? $this->getDefaultResponse();
+    }
+
     private function generateAutoReply($message)
     {
         $message = strtolower(trim($message));
