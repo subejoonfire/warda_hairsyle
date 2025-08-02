@@ -26,7 +26,13 @@
                         <i class="fas fa-comments text-3xl sm:text-4xl"></i>
                     </div>
                     <h3 class="text-base sm:text-lg font-semibold text-gray-600 mb-2">Belum ada pesan</h3>
-                    <p class="text-xs sm:text-sm text-gray-500">Mulai percakapan dengan admin untuk konsultasi atau tanya jawab</p>
+                    <p class="text-xs sm:text-sm text-gray-500 mb-4">Mulai percakapan dengan admin untuk konsultasi atau tanya jawab</p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <p class="text-xs text-blue-700">
+                            <i class="fas fa-lightbulb mr-1"></i>
+                            <strong>Tips:</strong> Gunakan tombol pesan cepat di bawah untuk mendapatkan respon instan dari sistem
+                        </p>
+                    </div>
                 </div>
             <?php else: ?>
                 <?php foreach ($chats as $chat): ?>
@@ -65,19 +71,36 @@
 
     <!-- Quick Messages -->
     <div class="mt-4 sm:mt-6 bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
-        <h3 class="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Pesan Cepat</h3>
+        <div class="flex items-center justify-between mb-3 sm:mb-4">
+            <h3 class="text-base sm:text-lg font-semibold">Pesan Cepat</h3>
+            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                <i class="fas fa-bolt mr-1"></i>Respon Instan
+            </span>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "Saya ingin konsultasi tentang hairstyle yang cocok"
+            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
+                "list hairstyle"
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "Berapa lama waktu yang dibutuhkan untuk cukur rambut?"
+            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
+                "harga hairstyle"
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "Apakah tersedia layanan home service?"
+            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
+                "jam buka"
             </button>
-            <button class="quick-message bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
-                "Saya ingin mengubah jadwal booking"
+            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
+                "lokasi"
+            </button>
+            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
+                "layanan"
+            </button>
+            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
+                "kontak"
+            </button>
+            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
+                "booking"
+            </button>
+            <button class="quick-message bg-gray-100 hover:bg-gray-200 disabled:bg-gray-300 disabled:cursor-not-allowed text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300">
+                "menu"
             </button>
         </div>
     </div>
@@ -131,9 +154,15 @@ function addMessage(message, senderType) {
     
     const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     
+    // Format message for better display
+    let formattedMessage = message
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
+        .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic text
+        .replace(/\n/g, '<br>'); // Line breaks
+    
     messageDiv.innerHTML = `
         <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${senderType === 'customer' ? 'bg-accent text-white' : 'bg-gray-100 text-gray-800'}">
-            <div class="text-xs sm:text-sm">${message.replace(/\n/g, '<br>')}</div>
+            <div class="text-xs sm:text-sm">${formattedMessage}</div>
             <div class="text-xs mt-1 ${senderType === 'customer' ? 'text-yellow-100' : 'text-gray-500'}">${time}</div>
         </div>
     `;
@@ -146,12 +175,44 @@ function addMessage(message, senderType) {
 document.querySelectorAll('.quick-message').forEach(button => {
     button.addEventListener('click', function() {
         const message = this.textContent.replace(/"/g, '');
-        messageInput.value = message;
-        messageInput.focus();
+        
+        // Disable button and show loading
+        this.disabled = true;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Mengirim...';
+        
+        // Add message to chat immediately
+        addMessage(message, 'customer');
+        
+        // Send to server
+        fetch('/send-message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'message=' + encodeURIComponent(message)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Re-enable button
+            this.disabled = false;
+            this.textContent = message;
+            
+            if (!data.success) {
+                showNotification('Gagal mengirim pesan: ' + data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Terjadi kesalahan saat mengirim pesan', 'error');
+            
+            // Re-enable button
+            this.disabled = false;
+            this.textContent = message;
+        });
     });
 });
 
-// Auto-refresh chat every 5 seconds
+// Auto-refresh chat every 3 seconds
 setInterval(function() {
     fetch('/get-chats')
     .then(response => response.json())
@@ -171,7 +232,7 @@ setInterval(function() {
     .catch(error => {
         console.error('Error refreshing chat:', error);
     });
-}, 5000);
+}, 3000);
 
 // Initial scroll to bottom
 scrollToBottom();

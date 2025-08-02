@@ -26,7 +26,26 @@ class AutoReplyService
             return $quickMessage['response'];
         }
         
-        // Fallback to hardcoded responses
+        // Check for exact matches first
+        $exactMatches = [
+            'list hairstyle' => 'getHairstyleList',
+            'harga hairstyle' => 'getHairstylePrices',
+            'jam buka' => 'getOpeningHours',
+            'lokasi' => 'getLocation',
+            'layanan' => 'getServices',
+            'kontak' => 'getContactInfo',
+            'booking' => 'getBookingInfo',
+            'menu' => 'getMainMenu',
+            'foto hairstyle' => 'getHairstylePhotos'
+        ];
+        
+        foreach ($exactMatches as $keyword => $method) {
+            if ($message === $keyword) {
+                return $this->$method();
+            }
+        }
+        
+        // Fallback to partial matches
         // List hairstyle
         if (strpos($message, 'list') !== false && strpos($message, 'hairstyle') !== false) {
             return $this->getHairstyleList();
@@ -317,7 +336,10 @@ class AutoReplyService
         $response .= "• *layanan* - Jenis layanan\n";
         $response .= "• *kontak* - Informasi kontak\n";
         $response .= "• *menu* - Menu bantuan lengkap\n\n";
-        $response .= "Untuk pertanyaan khusus, admin akan merespon dalam waktu singkat.";
+        $response .= "💡 *Tips:*\n";
+        $response .= "• Gunakan tombol pesan cepat di bawah untuk respon instan\n";
+        $response .= "• Untuk pertanyaan khusus, admin akan merespon dalam waktu singkat\n";
+        $response .= "• Booking bisa dilakukan melalui website atau WhatsApp";
         
         return $response;
     }
