@@ -23,6 +23,7 @@
     <style>
         .sidebar {
             transition: transform 0.3s ease-in-out;
+            height: 100vh;
         }
         .sidebar.collapsed {
             transform: translateX(-100%);
@@ -50,6 +51,7 @@
                 position: fixed;
                 z-index: 50;
                 transform: translateX(-100%);
+                height: 100vh;
             }
             .sidebar.show {
                 transform: translateX(0);
@@ -69,7 +71,7 @@
         <!-- Mobile overlay -->
         <div id="mobileOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
         <!-- Sidebar -->
-        <div id="sidebar" class="sidebar bg-primary text-white w-64 min-h-screen shadow-lg">
+        <div id="sidebar" class="sidebar bg-primary text-white w-64 min-h-screen shadow-lg flex flex-col">
             <!-- Logo and Brand -->
             <div class="flex items-center justify-center h-16 bg-secondary">
                 <i class="fas fa-cut text-accent text-2xl mr-3"></i>
@@ -77,7 +79,7 @@
             </div>
 
             <!-- Sidebar Navigation -->
-            <nav class="mt-8">
+            <nav class="flex-1 mt-8">
                 <div class="px-4 space-y-2">
                     <a href="/admin/dashboard" class="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-secondary rounded-lg transition duration-200 <?= current_url() == base_url('admin/dashboard') ? 'bg-secondary text-white' : '' ?>">
                         <i class="fas fa-tachometer-alt mr-3"></i>
@@ -107,17 +109,19 @@
             </nav>
 
             <!-- User Info at Bottom -->
-            <div class="absolute bottom-0 w-full p-4 border-t border-gray-600">
-                <div class="flex items-center">
-                    <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
-                        <i class="fas fa-user text-white"></i>
+            <div class="p-4 border-t border-gray-600 bg-secondary">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-white"><?= session()->get('user_name') ?></p>
+                            <p class="text-xs text-gray-400">Admin</p>
+                        </div>
                     </div>
-                    <div class="ml-3 flex-1">
-                        <p class="text-sm font-medium text-white"><?= session()->get('user_name') ?></p>
-                        <p class="text-xs text-gray-400">Admin</p>
-                    </div>
-                    <a href="/auth/logout" class="text-gray-300 hover:text-white text-sm transition duration-200">
-                        <i class="fas fa-sign-out-alt"></i>
+                    <a href="/auth/logout" class="text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-700 transition duration-200" title="Logout">
+                        <i class="fas fa-sign-out-alt text-lg"></i>
                     </a>
                 </div>
             </div>
@@ -139,6 +143,9 @@
                             <i class="fas fa-clock mr-1"></i>
                             <span id="currentTime"></span>
                         </div>
+                        <a href="/auth/logout" class="text-gray-500 hover:text-red-600 p-2 rounded-lg hover:bg-gray-100 transition duration-200" title="Logout">
+                            <i class="fas fa-sign-out-alt text-lg"></i>
+                        </a>
                     </div>
                 </div>
             </header>
