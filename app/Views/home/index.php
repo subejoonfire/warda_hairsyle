@@ -11,12 +11,12 @@
         <p class="text-xl md:text-2xl mb-8 text-gray-200">
             Dapatkan tampilan rambut terbaik dengan layanan profesional kami
         </p>
-        <div class="space-x-4">
-            <a href="/hairstyles" class="bg-accent text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-yellow-600 transition duration-300">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/hairstyles" class="bg-accent text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-yellow-600 transition duration-300 text-center">
                 Lihat Hairstyles
             </a>
             <?php if (!session()->get('user_id')): ?>
-                <a href="/auth/register" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-white hover:text-primary transition duration-300">
+                <a href="/auth/register" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-white hover:text-primary transition duration-300 text-center">
                     Daftar Sekarang
                 </a>
             <?php endif; ?>
