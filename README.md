@@ -88,7 +88,7 @@ Edit file `.env` dan sesuaikan konfigurasi database MySQL:
 ```env
 # Database Configuration
 database.default.hostname = localhost
-database.default.database = wardati_hairstyle_db
+database.default.database = wardati_hairstyle
 database.default.username = root
 database.default.password = your_mysql_password
 
@@ -100,18 +100,13 @@ fonnte.device_id = "YOUR_DEVICE_ID"
 
 ### 4. Setup Database
 ```bash
-# Buat database MySQL
-mysql -u root -p
-CREATE DATABASE wardati_hairstyle_db;
-CREATE DATABASE wardati_hairstyle_test;
-exit;
-
-# Jalankan setup script
-php setup.php
+php setup_database.php
 ```
 
-**Catatan**: 
-- Pastikan MySQL server sudah berjalan dan kredensial database di file `.env` sudah benar
+Script ini akan:
+- Membuat database `wardati_hairstyle` jika belum ada
+- Membuat tabel `quick_message_responses` 
+- Menambahkan data response untuk quick messages
 
 ### 5. Setup Upload Directory
 ```bash
@@ -150,6 +145,8 @@ Website akan berjalan di `http://localhost:8080`
 - `hairstyles` - Katalog hairstyle
 - `bookings` - Data booking customer
 - `chats` - Riwayat chat customer-admin
+- `quick_messages` - Pesan cepat untuk chat
+- `quick_message_responses` - Response untuk pesan cepat
 
 ## 🎨 Customization
 
@@ -188,8 +185,13 @@ Website sudah responsive untuk:
 ### Error Database Connection
 - Pastikan MySQL server berjalan
 - Cek kredensial database di file `.env`
-- Pastikan database `wardati_hairstyle_db` sudah dibuat
+- Pastikan database `wardati_hairstyle` sudah dibuat
+- Jalankan `php setup_database.php` untuk setup database
 - Pastikan user MySQL memiliki akses ke database
+
+### Error Quick Message Responses
+- Jika response kosong, jalankan `php setup_database.php` untuk menambahkan data response
+- Pastikan tabel `quick_message_responses` sudah dibuat dan terisi
 
 ### Error WhatsApp API
 - Cek kredensial Fonnte di `.env`
