@@ -310,15 +310,14 @@ class Home extends BaseController
         return $this->response->setJSON(['success' => true, 'chats' => $chats]);
     }
 
-    public function sendQuickMessage()
+    public function sendQuickMessage($quickMessageId = null)
     {
         if (!session()->get('user_id') || session()->get('user_role') !== 'customer') {
-            return $this->response->setJSON(['success' => false, 'message' => 'Unauthorized']);
+            return redirect()->to('/auth/login');
         }
 
-        $quickMessageId = $this->request->getPost('quick_message_id');
         if (empty($quickMessageId)) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Quick message ID tidak boleh kosong']);
+            return redirect()->to('/chat');
         }
 
         $userId = session()->get('user_id');
@@ -328,7 +327,8 @@ class Home extends BaseController
         $quickMessage = $quickMessageModel->find($quickMessageId);
         
         if (!$quickMessage) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Quick message tidak ditemukan']);
+            session()->setFlashdata('error', 'Quick message tidak ditemukan');
+            return redirect()->to('/chat');
         }
 
         // Send customer message
@@ -342,10 +342,12 @@ class Home extends BaseController
             $adminId = 1; // Default admin ID
             $this->chatModel->sendAdminMessage($userId, $adminId, $autoReply);
 
-            return $this->response->setJSON(['success' => true, 'message' => 'Quick message sent successfully']);
+            session()->setFlashdata('success', 'Pesan cepat berhasil dikirim');
         } else {
-            return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengirim quick message']);
+            session()->setFlashdata('error', 'Gagal mengirim pesan cepat');
         }
+
+        return redirect()->to('/chat');
     }
 
     private function getAutoReplyFromDatabase($quickMessageId)

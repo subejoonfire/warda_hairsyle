@@ -78,28 +78,28 @@
             </span>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
-            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="1">
+            <a href="/send-quick-message/1" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
                 list hairstyle
             </a>
-            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="2">
+            <a href="/send-quick-message/2" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
                 harga hairstyle
             </a>
-            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="3">
+            <a href="/send-quick-message/3" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
                 jam buka
             </a>
-            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="4">
+            <a href="/send-quick-message/4" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
                 lokasi
             </a>
-            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="5">
+            <a href="/send-quick-message/5" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
                 layanan
             </a>
-            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="6">
+            <a href="/send-quick-message/6" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
                 kontak
             </a>
-            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="7">
+            <a href="/send-quick-message/7" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
                 booking
             </a>
-            <a href="#" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center" data-id="8">
+            <a href="/send-quick-message/8" class="quick-message-link bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition duration-300 block text-center">
                 menu
             </a>
         </div>
@@ -171,50 +171,7 @@ function addMessage(message, senderType) {
     scrollToBottom();
 }
 
-// Quick messages
-document.querySelectorAll('.quick-message-link').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const quickMessageId = this.dataset.id;
-        const messageText = this.textContent.trim();
-        
-        // Show loading state
-        const originalText = this.textContent;
-        this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Mengirim...';
-        this.style.pointerEvents = 'none';
-        
-        // Add message to chat immediately
-        addMessage(messageText, 'customer');
-        
-        // Send to server
-        fetch('/send-quick-message', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'quick_message_id=' + quickMessageId
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Restore link
-            this.textContent = originalText;
-            this.style.pointerEvents = 'auto';
-            
-            if (!data.success) {
-                showNotification('Gagal mengirim pesan: ' + data.message, 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showNotification('Terjadi kesalahan saat mengirim pesan', 'error');
-            
-            // Restore link
-            this.textContent = originalText;
-            this.style.pointerEvents = 'auto';
-        });
-    });
-});
+// Quick messages - direct links, no JavaScript needed
 
 // Function to check for new messages
 function checkNewMessages() {
