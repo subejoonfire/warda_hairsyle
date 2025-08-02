@@ -4,102 +4,102 @@
 
 <div class="space-y-8">
     <!-- Welcome Section -->
-    <div class="bg-gradient-to-r from-primary to-secondary text-white rounded-lg p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-3xl font-bold mb-2">Dashboard Admin</h1>
-                <p class="text-gray-200">Kelola layanan, booking, dan customer</p>
+    <div class="bg-gradient-to-r from-primary to-secondary text-white rounded-lg p-4 md:p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="mb-4 md:mb-0">
+                <h1 class="text-2xl md:text-3xl font-bold mb-2">Dashboard Admin</h1>
+                <p class="text-sm md:text-base text-gray-200">Kelola layanan, booking, dan customer</p>
             </div>
-            <div class="text-right">
+            <div class="text-left md:text-right">
                 <p class="text-sm text-gray-300">Admin</p>
-                <p class="font-semibold"><?= session()->get('user_name') ?></p>
+                <p class="font-semibold text-sm md:text-base"><?= session()->get('user_name') ?></p>
             </div>
         </div>
     </div>
 
     <!-- Statistics Cards -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="bg-white p-4 md:p-6 rounded-lg shadow-lg">
             <div class="flex items-center">
-                <div class="bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                    <i class="fas fa-users text-xl"></i>
+                <div class="bg-blue-500 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+                    <i class="fas fa-users text-lg md:text-xl"></i>
                 </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">Total Customer</p>
-                    <p class="text-2xl font-bold text-gray-900"><?= $total_customers ?></p>
+                <div class="ml-3 md:ml-4">
+                    <p class="text-xs md:text-sm font-medium text-gray-600">Total Customer</p>
+                    <p class="text-lg md:text-2xl font-bold text-gray-900"><?= $total_customers ?></p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="bg-white p-4 md:p-6 rounded-lg shadow-lg">
             <div class="flex items-center">
-                <div class="bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                    <i class="fas fa-calendar-check text-xl"></i>
+                <div class="bg-green-500 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+                    <i class="fas fa-calendar-check text-lg md:text-xl"></i>
                 </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">Total Booking</p>
-                    <p class="text-2xl font-bold text-gray-900"><?= $total_bookings ?></p>
+                <div class="ml-3 md:ml-4">
+                    <p class="text-xs md:text-sm font-medium text-gray-600">Total Booking</p>
+                    <p class="text-lg md:text-2xl font-bold text-gray-900"><?= $total_bookings ?></p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="bg-white p-4 md:p-6 rounded-lg shadow-lg">
             <div class="flex items-center">
-                <div class="bg-yellow-500 text-white w-12 h-12 rounded-full flex items-center justify-center">
-                    <i class="fas fa-clock text-xl"></i>
+                <div class="bg-yellow-500 text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+                    <i class="fas fa-clock text-lg md:text-xl"></i>
                 </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">Menunggu Konfirmasi</p>
-                    <p class="text-2xl font-bold text-gray-900"><?= $pending_bookings ?></p>
+                <div class="ml-3 md:ml-4">
+                    <p class="text-xs md:text-sm font-medium text-gray-600">Menunggu Konfirmasi</p>
+                    <p class="text-lg md:text-2xl font-bold text-gray-900"><?= $pending_bookings ?></p>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="bg-white p-4 md:p-6 rounded-lg shadow-lg">
             <div class="flex items-center">
-                <div class="bg-accent text-white w-12 h-12 rounded-full flex items-center justify-center">
-                    <i class="fas fa-cut text-xl"></i>
+                <div class="bg-accent text-white w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+                    <i class="fas fa-cut text-lg md:text-xl"></i>
                 </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">Hairstyles Aktif</p>
-                    <p class="text-2xl font-bold text-gray-900">6</p>
+                <div class="ml-3 md:ml-4">
+                    <p class="text-xs md:text-sm font-medium text-gray-600">Hairstyles Aktif</p>
+                    <p class="text-lg md:text-2xl font-bold text-gray-900">6</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Quick Actions -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <a href="/admin/hairstyles/create" class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-center">
-            <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-plus text-2xl"></i>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <a href="/admin/hairstyles/create" class="bg-white p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-center">
+            <div class="bg-accent text-white w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <i class="fas fa-plus text-xl md:text-2xl"></i>
             </div>
-            <h3 class="text-xl font-semibold mb-2">Tambah Hairstyle</h3>
-            <p class="text-gray-600">Tambah hairstyle baru ke katalog</p>
+            <h3 class="text-lg md:text-xl font-semibold mb-2">Tambah Hairstyle</h3>
+            <p class="text-sm md:text-base text-gray-600">Tambah hairstyle baru ke katalog</p>
         </a>
 
-        <a href="/admin/bookings" class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-center">
-            <div class="bg-primary text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-calendar-alt text-2xl"></i>
+        <a href="/admin/bookings" class="bg-white p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-center">
+            <div class="bg-primary text-white w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <i class="fas fa-calendar-alt text-xl md:text-2xl"></i>
             </div>
-            <h3 class="text-xl font-semibold mb-2">Kelola Booking</h3>
-            <p class="text-gray-600">Lihat dan kelola semua booking</p>
+            <h3 class="text-lg md:text-xl font-semibold mb-2">Kelola Booking</h3>
+            <p class="text-sm md:text-base text-gray-600">Lihat dan kelola semua booking</p>
         </a>
 
-        <a href="/admin/chats" class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-center">
-            <div class="bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-comments text-2xl"></i>
+        <a href="/admin/chats" class="bg-white p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300 text-center">
+            <div class="bg-green-500 text-white w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <i class="fas fa-comments text-xl md:text-2xl"></i>
             </div>
-            <h3 class="text-xl font-semibold mb-2">Chat Customer</h3>
-            <p class="text-gray-600">Balas pesan dari customer</p>
+            <h3 class="text-lg md:text-xl font-semibold mb-2">Chat Customer</h3>
+            <p class="text-sm md:text-base text-gray-600">Balas pesan dari customer</p>
         </a>
     </div>
 
     <!-- Today's Bookings -->
     <div class="bg-white rounded-lg shadow-lg">
-        <div class="p-6 border-b border-gray-200">
-            <div class="flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-gray-800">Booking Hari Ini</h2>
+        <div class="p-4 md:p-6 border-b border-gray-200">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-0">Booking Hari Ini</h2>
                 <div class="text-sm text-gray-500">
                     <i class="fas fa-clock mr-1"></i>
                     Waktu Makassar: <?= date('d/m/Y H:i', strtotime($current_time)) ?> WITA
@@ -116,7 +116,8 @@
                 <p class="text-gray-500">Belum ada customer yang booking untuk hari ini</p>
             </div>
         <?php else: ?>
-            <div class="overflow-x-auto">
+            <!-- Desktop Table -->
+            <div class="hidden md:block overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -194,6 +195,58 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Cards -->
+            <div class="md:hidden space-y-4 p-4">
+                <?php foreach ($today_bookings as $booking): ?>
+                    <?php
+                    $statusColors = [
+                        'pending' => 'bg-yellow-100 text-yellow-800',
+                        'confirmed' => 'bg-blue-100 text-blue-800',
+                        'completed' => 'bg-green-100 text-green-800',
+                        'cancelled' => 'bg-red-100 text-red-800'
+                    ];
+                    $statusText = [
+                        'pending' => 'Menunggu',
+                        'confirmed' => 'Dikonfirmasi',
+                        'completed' => 'Selesai',
+                        'cancelled' => 'Dibatalkan'
+                    ];
+                    ?>
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-semibold text-gray-900"><?= $booking['customer_name'] ?></h3>
+                                <p class="text-sm text-gray-500"><?= $booking['customer_whatsapp'] ?></p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <?= $statusColors[$booking['status']] ?>">
+                                <?= $statusText[$booking['status']] ?>
+                            </span>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-sm text-gray-600">Hairstyle:</span>
+                                <span class="text-sm font-medium"><?= $booking['hairstyle_name'] ?></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-sm text-gray-600">Waktu:</span>
+                                <span class="text-sm font-medium"><?= $booking['booking_time'] ?></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-sm text-gray-600">Layanan:</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <?= $booking['service_type'] === 'home' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' ?>">
+                                    <?= $booking['service_type'] === 'home' ? 'Home Service' : 'Salon' ?>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-3 border-t border-gray-200">
+                            <a href="/admin/bookings/<?= $booking['id'] ?>" class="text-accent hover:text-yellow-600 text-sm font-medium">
+                                Lihat Detail
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         <?php endif; ?>
     </div>
@@ -284,9 +337,9 @@
 
     <!-- Recent Chats -->
     <div class="bg-white rounded-lg shadow-lg">
-        <div class="p-6 border-b border-gray-200">
-            <div class="flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-gray-800">Chat Terbaru</h2>
+        <div class="p-4 md:p-6 border-b border-gray-200">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+                <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-0">Chat Terbaru</h2>
                 <a href="/admin/chats" class="text-accent hover:text-yellow-600 text-sm">
                     Lihat Semua <i class="fas fa-arrow-right ml-1"></i>
                 </a>
@@ -302,7 +355,8 @@
                 <p class="text-gray-500">Customer belum mengirim pesan</p>
             </div>
         <?php else: ?>
-            <div class="overflow-x-auto">
+            <!-- Desktop Table -->
+            <div class="hidden md:block overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -350,6 +404,33 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Cards -->
+            <div class="md:hidden space-y-4 p-4">
+                <?php foreach (array_slice($recent_chats, 0, 5) as $chat): ?>
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-semibold text-gray-900"><?= $chat['customer_name'] ?></h3>
+                                <p class="text-sm text-gray-500"><?= $chat['customer_whatsapp'] ?></p>
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                <?= date('d/m/Y H:i', strtotime($chat['created_at'])) ?>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-sm text-gray-700">
+                                <?= htmlspecialchars(substr($chat['message'], 0, 100)) ?><?= strlen($chat['message']) > 100 ? '...' : '' ?>
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-gray-200">
+                            <a href="/admin/chats?customer=<?= $chat['user_id'] ?>" class="text-accent hover:text-yellow-600 text-sm font-medium">
+                                Balas Chat
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         <?php endif; ?>
     </div>

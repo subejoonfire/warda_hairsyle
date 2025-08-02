@@ -75,11 +75,12 @@ class ChatModel extends Model
 
     public function getRecentChatsForAdmin()
     {
+        // Simple approach: just get the latest 10 customer messages
         return $this->select('chats.*, users.name as customer_name, users.whatsapp as customer_whatsapp')
                    ->join('users', 'users.id = chats.user_id')
                    ->where('chats.sender_type', 'customer')
                    ->orderBy('chats.created_at', 'DESC')
-                   ->groupBy('chats.user_id')
+                   ->limit(10)
                    ->findAll();
     }
 
