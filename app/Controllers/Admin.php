@@ -6,6 +6,8 @@ use App\Models\UserModel;
 use App\Models\HairstyleModel;
 use App\Models\BookingModel;
 use App\Models\ChatModel;
+use App\Models\HomeContentModel;
+use App\Models\FooterContentModel;
 use App\Services\WhatsAppService;
 
 class Admin extends BaseController
@@ -14,6 +16,8 @@ class Admin extends BaseController
     protected $hairstyleModel;
     protected $bookingModel;
     protected $chatModel;
+    protected $homeContentModel;
+    protected $footerContentModel;
     protected $whatsappService;
 
     public function __construct()
@@ -22,6 +26,8 @@ class Admin extends BaseController
         $this->hairstyleModel = new HairstyleModel();
         $this->bookingModel = new BookingModel();
         $this->chatModel = new ChatModel();
+        $this->homeContentModel = new HomeContentModel();
+        $this->footerContentModel = new FooterContentModel();
         $this->whatsappService = new WhatsAppService();
     }
 
@@ -266,5 +272,203 @@ class Admin extends BaseController
 
         $chats = $this->chatModel->getUserChats($userId);
         return $this->response->setJSON(['success' => true, 'chats' => $chats]);
+    }
+
+    // Content Management Methods
+    public function homeContent()
+    {
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        $data = [
+            'home_content' => $this->homeContentModel->getActiveContent(),
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
+        ];
+
+        return view('admin/home_content', $data);
+    }
+
+    public function footerContent()
+    {
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        $data = [
+            'footer_content' => $this->footerContentModel->getActiveContent(),
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
+        ];
+
+        return view('admin/footer_content', $data);
+    }
+
+    public function editHomeContent($id = null)
+    {
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        if ($this->request->getMethod() === 'POST') {
+            $data = [
+                'title' => $this->request->getPost('title'),
+                'description' => $this->request->getPost('description'),
+                'icon' => $this->request->getPost('icon'),
+                'order_position' => $this->request->getPost('order_position'),
+                'is_active' => $this->request->getPost('is_active') ? 1 : 0,
+            ];
+
+            if ($id) {
+                // Update existing content
+                if ($this->homeContentModel->update($id, $data)) {
+                    session()->setFlashdata('success', 'Konten berhasil diperbarui');
+                } else {
+                    session()->setFlashdata('error', 'Gagal memperbarui konten');
+                }
+            } else {
+                // Create new content
+                $data['section'] = $this->request->getPost('section');
+                if ($this->homeContentModel->insert($data)) {
+                    session()->setFlashdata('success', 'Konten berhasil ditambahkan');
+                } else {
+                    session()->setFlashdata('error', 'Gagal menambahkan konten');
+                }
+            }
+
+            return redirect()->to('/admin/home-content');
+        }
+
+        $content = $id ? $this->homeContentModel->find($id) : null;
+        $data = [
+            'content' => $content,
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
+        ];
+
+        return view('admin/edit_home_content', $data);
+    }
+
+    public function editFooterContent($id = null)
+    {
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        if ($this->request->getMethod() === 'POST') {
+            $data = [
+                'title' => $this->request->getPost('title'),
+                'content' => $this->request->getPost('content'),
+                'icon' => $this->request->getPost('icon'),
+                'order_position' => $this->request->getPost('order_position'),
+                'is_active' => $this->request->getPost('is_active') ? 1 : 0,
+            ];
+
+            if ($id) {
+                // Update existing content
+                if ($this->footerContentModel->update($id, $data)) {
+                    session()->setFlashdata('success', 'Konten footer berhasil diperbarui');
+                } else {
+                    session()->setFlashdata('error', 'Gagal memperbarui konten footer');
+                }
+            } else {
+                // Create new content
+                $data['section'] = $this->request->getPost('section');
+                if ($this->footerContentModel->insert($data)) {
+                    session()->setFlashdata('success', 'Konten footer berhasil ditambahkan');
+                } else {
+                    session()->setFlashdata('error', 'Gagal menambahkan konten footer');
+                }
+            }
+
+            return redirect()->to('/admin/footer-content');
+        }
+
+        $content = $id ? $this->footerContentModel->find($id) : null;
+        $data = [
+            'content' => $content,
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
+        ];
+
+        return view('admin/edit_footer_content', $data);
+    }
+
+    public function deleteHomeContent($id)
+    {
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        if ($this->homeContentModel->delete($id)) {
+            session()->setFlashdata('success', 'Konten berhasil dihapus');
+        } else {
+            session()->setFlashdata('error', 'Gagal menghapus konten');
+        }
+
+        return redirect()->to('/admin/home-content');
+    }
+
+    public function deleteFooterContent($id)
+    {
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        if ($this->footerContentModel->delete($id)) {
+            session()->setFlashdata('success', 'Konten footer berhasil dihapus');
+        } else {
+            session()->setFlashdata('error', 'Gagal menghapus konten footer');
+        }
+
+        return redirect()->to('/admin/footer-content');
+    }
+
+    // Price Confirmation Methods
+    public function priceConfirmation()
+    {
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        $data = [
+            'pending_bookings' => $this->bookingModel->getPendingPriceBookings(),
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
+        ];
+
+        return view('admin/price_confirmation', $data);
+    }
+
+    public function confirmPrice($bookingId)
+    {
+        if (!session()->get('user_id') || session()->get('user_role') !== 'admin') {
+            return redirect()->to('/auth/login');
+        }
+
+        if ($this->request->getMethod() === 'POST') {
+            $confirmedPrice = $this->request->getPost('confirmed_price');
+            $action = $this->request->getPost('action');
+
+            if ($action === 'confirm') {
+                if ($this->bookingModel->updatePriceConfirmation($bookingId, $confirmedPrice, 'confirmed')) {
+                    session()->setFlashdata('success', 'Harga berhasil dikonfirmasi');
+                } else {
+                    session()->setFlashdata('error', 'Gagal mengkonfirmasi harga');
+                }
+            } elseif ($action === 'reject') {
+                if ($this->bookingModel->updatePriceConfirmation($bookingId, null, 'rejected')) {
+                    session()->setFlashdata('success', 'Harga ditolak');
+                } else {
+                    session()->setFlashdata('error', 'Gagal menolak harga');
+                }
+            }
+
+            return redirect()->to('/admin/price-confirmation');
+        }
+
+        $booking = $this->bookingModel->getBookingWithDetails($bookingId);
+        $data = [
+            'booking' => $booking,
+            'admin_unread_chats' => $this->getAdminUnreadChats(),
+        ];
+
+        return view('admin/confirm_price', $data);
     }
 }

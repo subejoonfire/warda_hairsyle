@@ -206,25 +206,87 @@
     <footer class="bg-primary text-white py-8 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- About Section -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Warda_hairstyle</h3>
-                    <p class="text-gray-300 text-sm">Layanan cukur rambut terbaik dengan kualitas profesional dan harga terjangkau.</p>
+                    <?php if (isset($footer_content['about']) && !empty($footer_content['about'])): ?>
+                        <?php foreach ($footer_content['about'] as $about): ?>
+                            <h3 class="text-lg font-semibold mb-4"><?= $about['title'] ?></h3>
+                            <p class="text-gray-300 text-sm"><?= $about['content'] ?></p>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <h3 class="text-lg font-semibold mb-4">Warda_hairstyle</h3>
+                        <p class="text-gray-300 text-sm">Layanan cukur rambut terbaik dengan kualitas profesional dan harga terjangkau.</p>
+                    <?php endif; ?>
                 </div>
+                
+                <!-- Services Section -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Layanan</h3>
-                    <ul class="text-gray-300 space-y-2 text-sm">
-                        <li><i class="fas fa-cut mr-2"></i>Cukur Rambut</li>
-                        <li><i class="fas fa-home mr-2"></i>Home Service</li>
-                        <li><i class="fas fa-comments mr-2"></i>Konsultasi Style</li>
-                    </ul>
+                    <?php if (isset($footer_content['services']) && !empty($footer_content['services'])): ?>
+                        <?php 
+                        $serviceTitle = '';
+                        $serviceItems = [];
+                        foreach ($footer_content['services'] as $service): 
+                            if (!empty($service['title'])) {
+                                $serviceTitle = $service['title'];
+                            } else {
+                                $serviceItems[] = $service;
+                            }
+                        endforeach;
+                        ?>
+                        <h3 class="text-lg font-semibold mb-4"><?= $serviceTitle ?: 'Layanan' ?></h3>
+                        <ul class="text-gray-300 space-y-2 text-sm">
+                            <?php foreach ($serviceItems as $item): ?>
+                                <li>
+                                    <?php if ($item['icon']): ?>
+                                        <i class="<?= $item['icon'] ?> mr-2"></i>
+                                    <?php endif; ?>
+                                    <?= $item['content'] ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <h3 class="text-lg font-semibold mb-4">Layanan</h3>
+                        <ul class="text-gray-300 space-y-2 text-sm">
+                            <li><i class="fas fa-cut mr-2"></i>Cukur Rambut</li>
+                            <li><i class="fas fa-home mr-2"></i>Home Service</li>
+                            <li><i class="fas fa-comments mr-2"></i>Konsultasi Style</li>
+                        </ul>
+                    <?php endif; ?>
                 </div>
+                
+                <!-- Contact Section -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Kontak</h3>
-                    <div class="text-gray-300 space-y-2 text-sm">
-                        <p><i class="fab fa-whatsapp mr-2"></i>+62 812-3456-7890</p>
-                        <p><i class="fas fa-map-marker-alt mr-2"></i>Jl. Contoh No. 123</p>
-                        <p><i class="fas fa-clock mr-2"></i>08:00 - 20:00</p>
-                    </div>
+                    <?php if (isset($footer_content['contact']) && !empty($footer_content['contact'])): ?>
+                        <?php 
+                        $contactTitle = '';
+                        $contactItems = [];
+                        foreach ($footer_content['contact'] as $contact): 
+                            if (!empty($contact['title'])) {
+                                $contactTitle = $contact['title'];
+                            } else {
+                                $contactItems[] = $contact;
+                            }
+                        endforeach;
+                        ?>
+                        <h3 class="text-lg font-semibold mb-4"><?= $contactTitle ?: 'Kontak' ?></h3>
+                        <div class="text-gray-300 space-y-2 text-sm">
+                            <?php foreach ($contactItems as $item): ?>
+                                <p>
+                                    <?php if ($item['icon']): ?>
+                                        <i class="<?= $item['icon'] ?> mr-2"></i>
+                                    <?php endif; ?>
+                                    <?= $item['content'] ?>
+                                </p>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <h3 class="text-lg font-semibold mb-4">Kontak</h3>
+                        <div class="text-gray-300 space-y-2 text-sm">
+                            <p><i class="fab fa-whatsapp mr-2"></i>+62 812-3456-7890</p>
+                            <p><i class="fas fa-map-marker-alt mr-2"></i>Jl. Contoh No. 123</p>
+                            <p><i class="fas fa-clock mr-2"></i>08:00 - 20:00</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">

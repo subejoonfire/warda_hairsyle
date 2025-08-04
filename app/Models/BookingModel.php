@@ -14,7 +14,8 @@ class BookingModel extends Model
     protected $protectFields = true;
     protected $allowedFields = [
         'user_id', 'hairstyle_id', 'booking_date', 'booking_time', 
-        'service_type', 'address', 'total_price', 'status', 'notes'
+        'service_type', 'address', 'total_price', 'status', 'notes',
+        'customer_photo', 'price_confirmed', 'price_status'
     ];
 
     // Dates
@@ -29,7 +30,7 @@ class BookingModel extends Model
         'hairstyle_id' => 'required|integer',
         'booking_date' => 'required|valid_date',
         'booking_time' => 'required',
-        'service_type' => 'required|in_list[home,salon]',
+        'service_type' => 'required|in_list[home,salon,cornrow,boxbraid]',
         'total_price' => 'required|numeric|greater_than[0]',
     ];
 
@@ -51,7 +52,7 @@ class BookingModel extends Model
         ],
         'service_type' => [
             'required' => 'Tipe layanan harus diisi',
-            'in_list' => 'Tipe layanan harus home atau salon',
+            'in_list' => 'Tipe layanan harus home, salon, cornrow, atau boxbraid',
         ],
         'total_price' => [
             'required' => 'Total harga harus diisi',
@@ -118,5 +119,23 @@ class BookingModel extends Model
     public function updateStatus($bookingId, $status)
     {
         return $this->update($bookingId, ['status' => $status]);
+    }
+
+    public function updatePriceConfirmation($bookingId, $confirmedPrice, $priceStatus = 'confirmed')
+    {
+        return $this->update($bookingId, [
+            'price_confirmed' => $confirmedPrice,
+            'price_status' => $priceStatus
+        ]);
+    }
+
+    public function getPendingPriceBookings()
+    {
+        return $this->select('bookings.*, hairstyles.name as hairstyle_name, users.name as customer_name, users.whatsapp as customer_whatsapp')
+                   ->join('hairstyles', 'hairstyles.id = bookings.hairstyle_id')
+                   ->join('users', 'users.id = bookings.user_id')
+                   ->where('bookings.price_status', 'pending')
+                   ->orderBy('bookings.created_at', 'ASC')
+                   ->findAll();
     }
 }

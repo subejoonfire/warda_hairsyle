@@ -8,7 +8,7 @@
         <p class="text-xs sm:text-sm md:text-base text-gray-600">Pilih hair model dan jadwal yang sesuai untuk Anda</p>
     </div>
 
-    <form action="/booking" method="POST" class="space-y-4 sm:space-y-6 md:space-y-8">
+    <form action="/booking" method="POST" enctype="multipart/form-data" class="space-y-4 sm:space-y-6 md:space-y-8">
         <!-- Hairstyle Selection -->
         <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
             <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Pilih Hair Model</h2>
@@ -139,6 +139,29 @@
             </div>
         </div>
 
+        <!-- Photo Upload Section for Boxbraid and Cornrow -->
+        <div id="photo-upload-section" class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6 hidden">
+            <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Upload Foto Rambut</h2>
+            <p class="text-sm text-gray-600 mb-4">Silakan upload foto rambut Anda saat ini untuk membantu kami memberikan layanan terbaik.</p>
+            
+            <div>
+                <label for="customer_photo" class="block text-sm font-medium text-gray-700 mb-2">
+                    Foto Rambut *
+                </label>
+                <input type="file" id="customer_photo" name="customer_photo" accept="image/*"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-accent focus:border-accent text-sm">
+                <p class="text-xs text-gray-500 mt-1">Format yang didukung: JPG, PNG, GIF. Maksimal 5MB.</p>
+                
+                <!-- Preview Image -->
+                <div id="photo-preview" class="mt-4 hidden">
+                    <img id="preview-img" src="" alt="Preview" class="max-w-xs h-48 object-cover rounded-lg border">
+                    <button type="button" id="remove-photo" class="mt-2 text-red-600 text-sm hover:text-red-800">
+                        <i class="fas fa-trash mr-1"></i>Hapus Foto
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Notes -->
         <div class="bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-6">
             <h2 class="text-base sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4">Catatan Tambahan</h2>
@@ -168,8 +191,22 @@
                 </div>
                 <hr class="border-gray-200">
                 <div class="flex justify-between font-semibold text-base sm:text-lg">
-                    <span>Total:</span>
+                    <span>Total Estimasi:</span>
                     <span id="total-price" class="text-accent">Rp 0</span>
+                </div>
+            </div>
+            
+            <!-- Dynamic Pricing Notice -->
+            <div id="dynamic-pricing-notice" class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg hidden">
+                <div class="flex items-start">
+                    <i class="fas fa-info-circle text-yellow-600 mt-1 mr-2"></i>
+                    <div>
+                        <h4 class="text-sm font-semibold text-yellow-800">Harga Menunggu Konfirmasi</h4>
+                        <p class="text-xs text-yellow-700 mt-1">
+                            Untuk layanan <span id="selected-service-name"></span>, harga final akan dikonfirmasi oleh admin setelah melihat foto rambut Anda. 
+                            Harga di atas hanya estimasi awal.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -237,6 +274,23 @@ document.querySelectorAll('.service-option').forEach(option => {
             addressInput.required = false;
         }
         
+        // Show/hide photo upload section for boxbraid and cornrow
+        const photoSection = document.getElementById('photo-upload-section');
+        const photoInput = document.getElementById('customer_photo');
+        const dynamicPricingNotice = document.getElementById('dynamic-pricing-notice');
+        const selectedServiceName = document.getElementById('selected-service-name');
+        
+        if (serviceType === 'boxbraid' || serviceType === 'cornrow') {
+            photoSection.classList.remove('hidden');
+            photoInput.required = true;
+            dynamicPricingNotice.classList.remove('hidden');
+            selectedServiceName.textContent = serviceType === 'boxbraid' ? 'Box Braid' : 'Cornrow';
+        } else {
+            photoSection.classList.add('hidden');
+            photoInput.required = false;
+            dynamicPricingNotice.classList.add('hidden');
+        }
+        
         // Update price
         updatePrice();
     });
@@ -278,6 +332,39 @@ function updatePrice() {
 
 // Initialize price on page load
 updatePrice();
+
+// Photo upload preview
+document.getElementById('customer_photo').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        // Check file size (5MB max)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Ukuran file terlalu besar. Maksimal 5MB.');
+            this.value = '';
+            return;
+        }
+        
+        // Check file type
+        if (!file.type.match('image.*')) {
+            alert('File harus berupa gambar.');
+            this.value = '';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('preview-img').src = e.target.result;
+            document.getElementById('photo-preview').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Remove photo
+document.getElementById('remove-photo').addEventListener('click', function() {
+    document.getElementById('customer_photo').value = '';
+    document.getElementById('photo-preview').classList.add('hidden');
+});
 </script>
 
 <style>

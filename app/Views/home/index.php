@@ -32,29 +32,15 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-            <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-cut text-2xl"></i>
+        <?php foreach ($home_content['services'] as $service): ?>
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="<?= $service['icon'] ?> text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2"><?= $service['title'] ?></h3>
+                <p class="text-gray-600"><?= $service['description'] ?></p>
             </div>
-            <h3 class="text-xl font-semibold mb-2">Cornrow</h3>
-            <p class="text-gray-600">Layanan cukur rambut dengan berbagai style modern dan klasik</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-            <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-home text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Home Service</h3>
-            <p class="text-gray-600">Layanan cukur rambut di rumah Anda dengan kenyamanan maksimal</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-            <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-cut text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Boxbraid</h3>
-            <p class="text-gray-600">Konsultasi style rambut sesuai dengan bentuk wajah Anda</p>
-        </div>
+        <?php endforeach; ?>
     </div>
 </section>
 
@@ -137,37 +123,15 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="text-center">
-            <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-star text-2xl"></i>
+        <?php foreach ($home_content['why_choose_us'] as $feature): ?>
+            <div class="text-center">
+                <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="<?= $feature['icon'] ?> text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2"><?= $feature['title'] ?></h3>
+                <p class="text-gray-300"><?= $feature['description'] ?></p>
             </div>
-            <h3 class="text-xl font-semibold mb-2">Kualitas Terbaik</h3>
-            <p class="text-gray-300">Menggunakan alat dan teknik terbaik untuk hasil maksimal</p>
-        </div>
-
-        <div class="text-center">
-            <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-clock text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Tepat Waktu</h3>
-            <p class="text-gray-300">Layanan cepat dan tepat waktu sesuai janji</p>
-        </div>
-
-        <div class="text-center">
-            <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-user-tie text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Barber Profesional</h3>
-            <p class="text-gray-300">Tim barber berpengalaman dan terlatih</p>
-        </div>
-
-        <div class="text-center">
-            <div class="bg-accent text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-heart text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Kepuasan Customer</h3>
-            <p class="text-gray-300">Prioritas utama adalah kepuasan customer</p>
-        </div>
+        <?php endforeach; ?>
     </div>
 </section>
 

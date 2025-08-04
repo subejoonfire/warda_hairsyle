@@ -90,4 +90,24 @@ $routes->group('admin', ['filter' => 'admin'], function($routes) {
     $routes->post('admins/delete/(:num)', 'Admin\AdminController::delete/$1');
     $routes->post('admins/toggle-status/(:num)', 'Admin\AdminController::toggleStatus/$1');
     $routes->get('admins/view/(:num)', 'Admin\AdminController::view/$1');
+    
+    // Content Management
+    $routes->get('home-content', 'Admin::homeContent');
+    $routes->get('home-content/edit', 'Admin::editHomeContent');
+    $routes->post('home-content/edit', 'Admin::editHomeContent');
+    $routes->get('home-content/edit/(:num)', 'Admin::editHomeContent/$1');
+    $routes->post('home-content/edit/(:num)', 'Admin::editHomeContent/$1');
+    $routes->get('home-content/delete/(:num)', 'Admin::deleteHomeContent/$1');
+    
+    $routes->get('footer-content', 'Admin::footerContent');
+    $routes->get('footer-content/edit', 'Admin::editFooterContent');
+    $routes->post('footer-content/edit', 'Admin::editFooterContent');
+    $routes->get('footer-content/edit/(:num)', 'Admin::editFooterContent/$1');
+    $routes->post('footer-content/edit/(:num)', 'Admin::editFooterContent/$1');
+    $routes->get('footer-content/delete/(:num)', 'Admin::deleteFooterContent/$1');
+    
+    // Price Confirmation
+    $routes->get('price-confirmation', 'Admin::priceConfirmation');
+    $routes->get('price-confirmation/(:num)', 'Admin::confirmPrice/$1');
+    $routes->post('price-confirmation/(:num)', 'Admin::confirmPrice/$1');
 });

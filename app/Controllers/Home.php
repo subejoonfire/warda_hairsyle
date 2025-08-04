@@ -5,18 +5,24 @@ namespace App\Controllers;
 use App\Models\HairstyleModel;
 use App\Models\BookingModel;
 use App\Models\ChatModel;
+use App\Models\HomeContentModel;
+use App\Models\FooterContentModel;
 
 class Home extends BaseController
 {
     protected $hairstyleModel;
     protected $bookingModel;
     protected $chatModel;
+    protected $homeContentModel;
+    protected $footerContentModel;
 
     public function __construct()
     {
         $this->hairstyleModel = new HairstyleModel();
         $this->bookingModel = new BookingModel();
         $this->chatModel = new ChatModel();
+        $this->homeContentModel = new HomeContentModel();
+        $this->footerContentModel = new FooterContentModel();
     }
 
     public function index()
@@ -24,6 +30,15 @@ class Home extends BaseController
         $data = [
             'hairstyles' => $this->hairstyleModel->getActiveHairstyles(),
             'categories' => $this->hairstyleModel->getCategories(),
+            'home_content' => [
+                'why_choose_us' => $this->homeContentModel->getBySection('why_choose_us'),
+                'services' => $this->homeContentModel->getBySection('services'),
+            ],
+            'footer_content' => [
+                'about' => $this->footerContentModel->getBySection('about'),
+                'services' => $this->footerContentModel->getBySection('services'),
+                'contact' => $this->footerContentModel->getBySection('contact'),
+            ],
         ];
         return view('home/index', $data);
     }
@@ -118,6 +133,45 @@ class Home extends BaseController
         $totalPrice = $hairstyle['price'];
         if ($serviceType === 'home') {
             $totalPrice += 25000; // Additional fee for home service
+        } elseif ($serviceType === 'cornrow') {
+            $totalPrice += 15000; // Additional fee for cornrow service
+        } elseif ($serviceType === 'boxbraid') {
+            $totalPrice += 20000; // Additional fee for boxbraid service
+        }
+
+        // Handle photo upload for boxbraid and cornrow
+        $customerPhoto = null;
+        if (($serviceType === 'boxbraid' || $serviceType === 'cornrow') && $this->request->getFile('customer_photo')) {
+            $file = $this->request->getFile('customer_photo');
+            if ($file->isValid() && !$file->hasMoved()) {
+                // Validate file
+                if ($file->getSize() > 5 * 1024 * 1024) { // 5MB max
+                    session()->setFlashdata('error', 'Ukuran file foto terlalu besar. Maksimal 5MB.');
+                    return redirect()->back()->withInput();
+                }
+                
+                if (!in_array($file->getMimeType(), ['image/jpeg', 'image/png', 'image/gif'])) {
+                    session()->setFlashdata('error', 'Format file tidak didukung. Gunakan JPG, PNG, atau GIF.');
+                    return redirect()->back()->withInput();
+                }
+                
+                // Generate unique filename
+                $newName = $file->getRandomName();
+                
+                // Create upload directory if not exists
+                $uploadPath = WRITEPATH . 'uploads/customer_photos/';
+                if (!is_dir($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
+                }
+                
+                // Move file
+                if ($file->move($uploadPath, $newName)) {
+                    $customerPhoto = 'writable/uploads/customer_photos/' . $newName;
+                } else {
+                    session()->setFlashdata('error', 'Gagal mengupload foto.');
+                    return redirect()->back()->withInput();
+                }
+            }
         }
 
         $data = [
@@ -129,6 +183,9 @@ class Home extends BaseController
             'address' => $serviceType === 'home' ? $address : null,
             'total_price' => $totalPrice,
             'notes' => $notes,
+            'customer_photo' => $customerPhoto,
+            'price_status' => ($serviceType === 'boxbraid' || $serviceType === 'cornrow') ? 'pending' : 'confirmed',
+            'price_confirmed' => ($serviceType === 'boxbraid' || $serviceType === 'cornrow') ? null : $totalPrice,
             'status' => 'pending',
         ];
 

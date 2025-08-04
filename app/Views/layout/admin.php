@@ -115,6 +115,23 @@
                         <i class="fas fa-reply-all mr-3"></i>
                         <span>Quick Messages</span>
                     </a>
+                    
+                    <!-- Content Management Section -->
+                    <div class="mt-6 mb-2">
+                        <h3 class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Content Management</h3>
+                    </div>
+                    <a href="/admin/home-content" class="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-secondary rounded-lg transition duration-200 <?= strpos(current_url(), 'home-content') ? 'bg-secondary text-white' : '' ?>">
+                        <i class="fas fa-home mr-3"></i>
+                        <span>Home Content</span>
+                    </a>
+                    <a href="/admin/footer-content" class="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-secondary rounded-lg transition duration-200 <?= strpos(current_url(), 'footer-content') ? 'bg-secondary text-white' : '' ?>">
+                        <i class="fas fa-th-large mr-3"></i>
+                        <span>Footer Content</span>
+                    </a>
+                    <a href="/admin/price-confirmation" class="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-secondary rounded-lg transition duration-200 <?= strpos(current_url(), 'price-confirmation') ? 'bg-secondary text-white' : '' ?>">
+                        <i class="fas fa-dollar-sign mr-3"></i>
+                        <span>Price Confirmation</span>
+                    </a>
                 </div>
             </nav>
 
