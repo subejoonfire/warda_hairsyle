@@ -27,6 +27,23 @@ class Home extends BaseController
 
     public function index()
     {
+        // Load footer content for this view
+        $footerContent = [
+            'about' => [],
+            'services' => [],
+            'contact' => []
+        ];
+        
+        try {
+            $footerContent = [
+                'about' => $this->footerContentModel->getBySection('about'),
+                'services' => $this->footerContentModel->getBySection('services'),
+                'contact' => $this->footerContentModel->getBySection('contact'),
+            ];
+        } catch (\Exception $e) {
+            // If tables don't exist yet, use empty data
+        }
+
         $data = [
             'hairstyles' => $this->hairstyleModel->getActiveHairstyles(),
             'categories' => $this->hairstyleModel->getCategories(),
@@ -34,11 +51,7 @@ class Home extends BaseController
                 'why_choose_us' => $this->homeContentModel->getBySection('why_choose_us'),
                 'services' => $this->homeContentModel->getBySection('services'),
             ],
-            'footer_content' => [
-                'about' => $this->footerContentModel->getBySection('about'),
-                'services' => $this->footerContentModel->getBySection('services'),
-                'contact' => $this->footerContentModel->getBySection('contact'),
-            ],
+            'footer_content' => $footerContent,
         ];
         return view('home/index', $data);
     }
